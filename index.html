@@ -28,12 +28,11 @@
     --muted:#71888e;
     --bg:#eef9fb;
     --white:#ffffff;
-    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-bg: rgba(255, 255, 255, 0.85);
     --glass-border: rgba(255, 255, 255, 0.9);
     --shadow: 0 8px 32px 0 rgba(7, 136, 168, 0.15);
 }
 
-/* STRICT ZERO SCROLLBAR LAYOUT */
 html, body {
     width: 100vw;
     height: 100vh;
@@ -75,7 +74,7 @@ button {
     100% { background-position: 0% 50%; }
 }
 
-/* SCREENS */
+/* SCREENS - MOBILE OPTIMIZED LAYOUT */
 .landing, .game-screen {
     position: relative;
     z-index: 1;
@@ -85,23 +84,22 @@ button {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    overflow: hidden;
-    padding: clamp(8px, 2vh, 16px);
+    overflow-y: auto;
+    padding: 10px 12px;
 }
 
 /* GLASSMORPHISM HEADER */
 .header {
     width: 100%;
-    max-width: 900px;
+    max-width: 600px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 8px 12px;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 16px;
+    border-radius: 14px;
     backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     box-shadow: var(--shadow);
     flex-shrink: 0;
 }
@@ -109,52 +107,49 @@ button {
 .brand {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .logo {
-    width: clamp(32px, 5vh, 44px);
-    height: clamp(32px, 5vh, 44px);
-    border-radius: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
     background: linear-gradient(145deg,#08a7c5,#05677e);
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: clamp(16px, 3vh, 22px);
-    box-shadow: 0 4px 12px rgba(7,136,168,.25);
+    font-size: 18px;
 }
 
 .brand-text h1 {
     color: var(--primary-dark);
-    font-size: clamp(10px, 1.8vh, 14px);
+    font-size: 11px;
     font-weight: 900;
+    line-height: 1.1;
 }
 
 .brand-text p {
     color: #789096;
-    font-size: clamp(8px, 1.2vh, 10px);
+    font-size: 9px;
 }
 
 .header-controls {
     display: flex;
-    gap: 6px;
+    gap: 4px;
 }
 
 .icon-btn, .lang-btn {
     border: 1px solid #bcdfe6;
     background: rgba(255,255,255,0.9);
     color: var(--primary-dark);
-    padding: 6px 10px;
-    border-radius: 10px;
+    padding: 5px 8px;
+    border-radius: 8px;
     font-weight: 800;
-    font-size: clamp(10px, 1.5vh, 12px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 11px;
 }
 
-/* HERO SECTION */
+/* HERO SECTION FIXES FOR MOBILE */
 .hero {
     text-align: center;
     display: flex;
@@ -162,28 +157,26 @@ button {
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 800px;
-    flex: 1;
-    min-height: 0;
+    max-width: 600px;
+    margin: 6px 0;
 }
 
 .hero-badge {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
     background: var(--primary-light);
     color: #05738b;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: clamp(9px, 1.4vh, 11px);
+    padding: 3px 10px;
+    border-radius: 16px;
+    font-size: 10px;
     font-weight: 800;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     border: 1px solid #cceff4;
 }
 
 .hero h2 {
-    font-size: clamp(18px, 3.5vh, 32px);
-    line-height: 1.1;
+    font-size: 18px;
+    line-height: 1.2;
     font-weight: 900;
 }
 
@@ -192,17 +185,15 @@ button {
 }
 
 .hero p {
-    max-width: 500px;
     color: #6e858b;
-    font-size: clamp(10px, 1.6vh, 13px);
-    margin-top: 4px;
-    line-height: 1.3;
+    font-size: 11px;
+    margin-top: 2px;
 }
 
 /* CIRCULAR SHOWCASE */
 .color-vision-showcase {
-    width: min(28vh, 170px);
-    height: min(28vh, 170px);
+    width: 90px;
+    height: 90px;
     margin: 6px auto;
     position: relative;
     display: flex;
@@ -216,27 +207,25 @@ button {
     inset: 0;
     border-radius: 50%;
     background: conic-gradient(#ff3b30, #ff9500, #ffd60a, #34c759, #12b8d4, #007aff, #af52de, #ff3b30);
-    padding: 6px;
-    box-shadow: 0 10px 25px rgba(7,136,168,.15);
+    padding: 4px;
     animation: rotateVision 16s linear infinite;
 }
 
 .color-orbit-inner {
     position: absolute;
-    inset: 12px;
+    inset: 8px;
     border-radius: 50%;
     background: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     z-index: 3;
 }
 
 .eye-symbol {
-    width: min(10vh, 50px);
-    height: min(6vh, 30px);
-    border: 3px solid var(--primary);
+    width: 32px;
+    height: 20px;
+    border: 2px solid var(--primary);
     border-radius: 50% / 65%;
     display: flex;
     align-items: center;
@@ -245,8 +234,8 @@ button {
 
 .eye-symbol:before {
     content: "";
-    width: 14px;
-    height: 14px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: radial-gradient(circle, #12343b 0 38%, #0788a8 39%);
 }
@@ -256,25 +245,24 @@ button {
     to { transform: rotate(360deg); }
 }
 
-/* GLASS FORM */
+/* FORM STYLING */
 .register {
-    width: min(92%, 420px);
-    padding: clamp(10px, 2vh, 16px);
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 20px;
+    border-radius: 16px;
     box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
-    gap: clamp(6px, 1.2vh, 10px);
-    flex-shrink: 0;
+    gap: 8px;
 }
 
 .field label {
     display: block;
-    font-size: clamp(9px, 1.3vh, 11px);
+    font-size: 10px;
     font-weight: 800;
     color: #617b81;
     margin-bottom: 2px;
@@ -282,33 +270,32 @@ button {
 
 .field input {
     width: 100%;
-    height: clamp(34px, 4.5vh, 42px);
+    height: 36px;
     border: 1px solid #cfe4e8;
-    border-radius: 10px;
-    padding: 0 12px;
-    font-size: clamp(12px, 1.8vh, 14px);
+    border-radius: 8px;
+    padding: 0 10px;
+    font-size: 13px;
     outline: none;
     background: rgba(255,255,255,0.9);
 }
 
 .primary-btn, .secondary-btn, .whatsapp-btn {
     width: 100%;
-    height: clamp(36px, 5vh, 44px);
-    border-radius: 12px;
+    height: 38px;
+    border-radius: 10px;
     font-weight: 900;
-    font-size: clamp(12px, 1.8vh, 14px);
+    font-size: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    transition: transform .1s;
     text-decoration: none;
 }
 
 .primary-btn {
     background: linear-gradient(135deg, #0788a8, #05677e);
     color: #fff;
-    box-shadow: 0 6px 16px rgba(7,136,168,.25);
+    box-shadow: 0 4px 12px rgba(7,136,168,.25);
 }
 
 .secondary-btn {
@@ -320,29 +307,27 @@ button {
 .whatsapp-btn {
     background: #25D366;
     color: #fff;
-    box-shadow: 0 6px 16px rgba(37,211,102,.25);
 }
 
 .btn-group {
     display: flex;
-    gap: 8px;
+    gap: 6px;
 }
 
 .footer {
-    font-size: clamp(8px, 1.2vh, 10px);
+    font-size: 9px;
     color: #8aa0a5;
     text-align: center;
-    flex-shrink: 0;
+    margin-top: 4px;
 }
 
 /* GAME SCREEN */
 .game-header {
     width: 100%;
-    max-width: 700px;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     gap: 6px;
-    flex-shrink: 0;
 }
 
 .game-top {
@@ -354,23 +339,23 @@ button {
 .player-mini {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .player-avatar {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background: var(--primary);
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .player-mini-text strong {
-    font-size: 12px;
+    font-size: 11px;
     display: block;
 }
 
@@ -379,24 +364,18 @@ button {
     font-size: 9px;
 }
 
-.top-controls {
-    display: flex;
-    gap: 6px;
-}
-
 .stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
+    gap: 4px;
 }
 
 .stat {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    backdrop-filter: blur(8px);
-    border-radius: 10px;
+    border-radius: 8px;
     text-align: center;
-    padding: 4px;
+    padding: 3px;
 }
 
 .stat span {
@@ -407,15 +386,15 @@ button {
 }
 
 .stat strong {
-    font-size: clamp(12px, 2vh, 16px);
+    font-size: 13px;
     color: var(--primary-dark);
 }
 
 .timer-bg {
     width: 100%;
-    height: 6px;
+    height: 5px;
     background: #e2eef0;
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
 }
 
@@ -433,56 +412,46 @@ button {
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 0;
 }
 
 .board {
-    width: min(78vw, 52vh);
-    height: min(78vw, 52vh);
-    max-width: 440px;
-    max-height: 440px;
+    width: min(75vw, 42vh);
+    height: min(75vw, 42vh);
+    max-width: 360px;
+    max-height: 360px;
     display: grid;
-    gap: 6px;
-    padding: 8px;
+    gap: 5px;
+    padding: 6px;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    backdrop-filter: blur(12px);
-    border-radius: 18px;
+    border-radius: 14px;
     box-shadow: var(--shadow);
 }
 
 .color-cell {
-    border-radius: 8px;
+    border-radius: 6px;
     width: 100%;
     height: 100%;
-    transition: transform 0.08s;
-}
-
-.color-cell:active {
-    transform: scale(0.92);
 }
 
 .lives {
-    margin-top: 6px;
-    font-size: clamp(14px, 2vh, 18px);
-    letter-spacing: 4px;
-    flex-shrink: 0;
+    margin-top: 4px;
+    font-size: 14px;
+    letter-spacing: 2px;
 }
 
-/* EYE TIP BAR */
 .eye-tip-box {
     width: 100%;
-    max-width: 700px;
+    max-width: 500px;
     background: rgba(255, 255, 255, 0.85);
     border: 1px solid #d0e8ed;
-    border-radius: 10px;
-    padding: 6px 12px;
+    border-radius: 8px;
+    padding: 5px;
     text-align: center;
-    font-size: clamp(9px, 1.3vh, 11px);
+    font-size: 10px;
     color: #05677e;
     font-weight: 700;
-    margin-top: 6px;
-    flex-shrink: 0;
+    margin-top: 4px;
 }
 
 /* MODALS */
@@ -491,54 +460,49 @@ button {
     inset: 0;
     z-index: 100;
     background: rgba(0, 35, 43, 0.65);
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 16px;
+    padding: 12px;
 }
 
 .modal {
-    width: min(90vw, 420px);
-    max-height: 88vh;
+    width: min(92vw, 380px);
+    max-height: 85vh;
     background: #fff;
-    border-radius: 20px;
-    padding: 18px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    border-radius: 16px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     overflow-y: auto;
 }
 
-.modal-header {
+.modal-header h2 {
+    font-size: 16px;
     text-align: center;
 }
 
-.modal-header h2 {
-    font-size: 18px;
-    color: var(--dark);
-}
-
 .modal-header p {
-    font-size: 11px;
+    font-size: 10px;
     color: #789096;
+    text-align: center;
 }
 
 .result-score {
     color: var(--primary);
     text-align: center;
-    font-size: 40px;
+    font-size: 32px;
     font-weight: 900;
 }
 
 .vision-status-badge {
     text-align: center;
-    padding: 6px 12px;
-    border-radius: 12px;
+    padding: 4px 8px;
+    border-radius: 8px;
     font-weight: 900;
-    font-size: 13px;
-    margin: 2px 0 6px 0;
+    font-size: 11px;
 }
 
 .status-excellent { background: #e3fcef; color: #00875a; }
@@ -547,60 +511,34 @@ button {
 
 .result-info {
     background: #f2fafc;
-    border-radius: 12px;
-    padding: 10px;
+    border-radius: 8px;
+    padding: 8px;
 }
 
 .result-row {
     display: flex;
     justify-content: space-between;
-    padding: 6px 0;
+    padding: 4px 0;
     border-bottom: 1px solid #dcecef;
-    font-size: 12px;
-}
-
-.result-row:last-child {
-    border-bottom: 0;
+    font-size: 11px;
 }
 
 .score-list {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
 }
 
 .score-row {
     display: grid;
-    grid-template-columns: 24px 1fr auto;
+    grid-template-columns: 20px 1fr auto;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: #f8fcfd;
     border: 1px solid #e4eff1;
-    border-radius: 10px;
-    padding: 6px 10px;
-    font-size: 12px;
-}
-
-@media (max-height: 500px) and (orientation: landscape) {
-    .landing {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-    }
-    .header { width: 100%; }
-    .hero { width: 45%; }
-    .register { width: 45%; }
-    .color-vision-showcase { display: none; }
-    
-    .game-screen {
-        flex-direction: row;
-        align-items: center;
-    }
-    .game-header { width: 35%; }
-    .game-body { width: 60%; }
-    .board { width: min(62vw, 62vh); height: min(62vw, 62vh); }
-    .eye-tip-box { display: none; }
+    border-radius: 8px;
+    padding: 5px 8px;
+    font-size: 11px;
 }
 </style>
 </head>
@@ -687,7 +625,7 @@ button {
                     <small id="gamePlayerAge">Age: 0</small>
                 </div>
             </div>
-            <div class="top-controls">
+            <div class="header-controls">
                 <button class="icon-btn" onclick="toggleMute()" id="gameSoundBtn">🔊</button>
                 <button class="icon-btn" onclick="togglePause()"><span id="pauseBtn">⏸️</span></button>
             </div>
@@ -719,7 +657,7 @@ button {
 <!-- PAUSE MODAL -->
 <div id="pauseScreen" class="modal-bg hidden">
     <div class="modal" style="text-align:center;">
-        <div style="font-size:40px;">⏸️</div>
+        <div style="font-size:30px;">⏸️</div>
         <h2 id="pauseTitle">GAME PAUSED</h2>
         <button class="primary-btn" onclick="togglePause()"><span id="resumeText">RESUME</span></button>
         <button class="secondary-btn" onclick="goHome()"><span id="homeText">HOME</span></button>
@@ -730,14 +668,13 @@ button {
 <div id="gameOver" class="modal-bg hidden">
     <div class="modal">
         <div class="modal-header">
-            <div style="font-size:40px;">🏆</div>
+            <div style="font-size:30px;text-align:center;">🏆</div>
             <h2 id="gameOverTitle">GAME OVER</h2>
             <p>Global Eye Hospital Melattur</p>
         </div>
         
         <div id="finalScore" class="result-score">0</div>
         
-        <!-- EYE CHECK STATUS BADGE -->
         <div id="visionBadge" class="vision-status-badge status-good">
             Eagle Eye Vision
         </div>
@@ -748,7 +685,6 @@ button {
             <div class="result-row"><span id="resultBestLabel">Best</span><strong id="finalBest">0</strong></div>
         </div>
 
-        <!-- WHATSAPP BOOKING BUTTON -->
         <a id="whatsappBtn" class="whatsapp-btn" href="#" target="_blank">
             💬 <span id="whatsappText">BOOK EYE CHECKUP</span>
         </a>
@@ -762,10 +698,12 @@ button {
 <div id="leaderboardModal" class="modal-bg hidden">
     <div class="modal">
         <div class="modal-header">
-            <h2>🏆 TOP SCORES</h2>
+            <h2>🏆 TOP 10 LEADERBOARD</h2>
             <p>Global Eye Hospital Melattur</p>
         </div>
-        <div id="scoreList" class="score-list"></div>
+        <div id="scoreList" class="score-list">
+            <div style="text-align:center; padding:10px; font-size:12px; color:#666;">Loading scores...</div>
+        </div>
         <button class="secondary-btn" onclick="closeLeaderboard()">✕ <span id="closeScoreText">CLOSE</span></button>
     </div>
 </div>
@@ -789,8 +727,9 @@ button {
 
 <script>
 /* =========================================================
-   GAME ENGINE & LOGIC
+   CONFIG & GOOGLE SHEET URL
 ========================================================= */
+const GOOGLE_SHEET_URL = "YOUR_GOOGLE_SHEET_WEB_APP_URL"; // PASTE YOUR URL HERE
 
 let currentLang = 'en';
 let level = 1;
@@ -804,7 +743,6 @@ let isMuted = false;
 let targetIndex = 0;
 let player = { name: '', age: '', mobile: '' };
 
-// EYE HEALTH TIPS
 const eyeTipsEn = [
     "💡 Practice the 20-20-20 rule: Every 20 minutes, look 20 feet away for 20 seconds.",
     "💡 Blinking frequently helps keep your eyes moist and reduces fatigue.",
@@ -819,7 +757,6 @@ const eyeTipsMl = [
     "💡 ഗ്ലോബൽ ഐ ഹോസ്പിറ്റൽ മേലാറ്റൂരിൽ കൃത്യമായ ഇടവേളകളിൽ കണ്ണ് പരിശോധിക്കുക."
 ];
 
-// AUDIO SYNTHESIZER
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 let audioCtx = null;
 
@@ -861,9 +798,7 @@ function playSound(type) {
 }
 
 function triggerVibration() {
-    if ("vibrate" in navigator) {
-        navigator.vibrate(120);
-    }
+    if ("vibrate" in navigator) navigator.vibrate(120);
 }
 
 function toggleMute() {
@@ -873,7 +808,6 @@ function toggleMute() {
     document.getElementById('gameSoundBtn').innerText = icon;
 }
 
-// LANGUAGE DATA
 const translations = {
     en: {
         langBtn: "മലയാളം",
@@ -1020,7 +954,7 @@ function loadLevel() {
     if (level > 25) gridSize = 6;
     if (level > 38) gridSize = 7;
 
-    maxTime = Math.max(15, 60 - Math.floor(level * 0.8));
+    maxTime = Math.max(12, 60 - Math.floor(level * 0.8));
     timeLeft = maxTime;
     startTimer();
 
@@ -1065,9 +999,7 @@ function handleCellClick(isTarget) {
         triggerVibration();
         lives--;
         updateStats();
-        if (lives <= 0) {
-            endGame(false);
-        }
+        if (lives <= 0) endGame(false);
     }
 }
 
@@ -1108,14 +1040,13 @@ function endGame(completed) {
     clearInterval(timer);
     playSound('win');
 
-    saveScore(player.name, score, level);
+    saveScoreToSheet(player.name, player.age, player.mobile, score, level);
 
     document.getElementById('finalPlayer').innerText = player.name;
     document.getElementById('finalLevel').innerText = level;
     document.getElementById('finalScore').innerText = score;
     document.getElementById('finalBest').innerText = getBestScore();
 
-    // EYE CHECK STATUS
     const badge = document.getElementById('visionBadge');
     if (score >= 35) {
         badge.className = "vision-status-badge status-excellent";
@@ -1128,12 +1059,10 @@ function endGame(completed) {
         badge.innerText = currentLang === 'en' ? "🩺 Eye Checkup Recommended" : "🩺 ഐ ചെക്കപ്പ് ചെയ്യുന്നത് ഉചിതമാണ്";
     }
 
-    // WHATSAPP LINK GENERATOR WITH GLOBAL EYE HOSPITAL MELATTUR PHONE NUMBER
     const phone = "919947554477";
     const msg = encodeURIComponent(`Hello Global Eye Hospital Melattur, I played the Color Vision Challenge!\nName: ${player.name}\nScore: ${score}\nLevel: ${level}\nI would like to book an eye checkup.`);
     document.getElementById('whatsappBtn').href = `https://wa.me/${phone}?text=${msg}`;
 
-    // CONFETTI ANIMATION
     if (typeof confetti === 'function') {
         confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
     }
@@ -1155,33 +1084,67 @@ function goHome() {
     document.getElementById('landing').classList.remove('hidden');
 }
 
-function saveScore(name, score, lvl) {
+// SAVE TO GOOGLE SHEET & LOCAL STORAGE
+function saveScoreToSheet(name, age, mobile, score, lvl) {
+    // Local storage update
     const scores = JSON.parse(localStorage.getItem('color_vision_scores') || '[]');
     scores.push({ name, score, level: lvl, date: new Date().toLocaleDateString() });
     scores.sort((a, b) => b.score - a.score);
     localStorage.setItem('color_vision_scores', JSON.stringify(scores.slice(0, 10)));
+
+    // Send data to Google Sheet
+    if (GOOGLE_SHEET_URL && GOOGLE_SHEET_URL !== "https://script.google.com/macros/s/AKfycbwc8srJDCDeB5yibBCU2QhWsiLmPNuAqWGb-erGgcrEIXhCYD8ZAzXouOAKnpQJnmQqaQ/exec") {
+        fetch(GOOGLE_SHEET_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, age, mobile, score, level: lvl })
+        }).catch(err => console.log('Sheet Save Error:', err));
+    }
 }
 
+// FETCH TOP 10 FROM GOOGLE SHEET
 function openLeaderboard() {
-    const scores = JSON.parse(localStorage.getItem('color_vision_scores') || '[]');
+    document.getElementById('leaderboardModal').classList.remove('hidden');
+    const container = document.getElementById('scoreList');
+    container.innerHTML = '<div style="text-align:center; padding:10px; font-size:12px; color:#666;">Loading Top 10...</div>';
+
+    if (GOOGLE_SHEET_URL && GOOGLE_SHEET_URL !== "YOUR_GOOGLE_SHEET_WEB_APP_URL") {
+        fetch(GOOGLE_SHEET_URL)
+            .then(res => res.json())
+            .then(data => {
+                displayLeaderboard(data);
+            })
+            .catch(() => {
+                // Fallback to local storage if network fails
+                const localData = JSON.parse(localStorage.getItem('color_vision_scores') || '[]');
+                displayLeaderboard(localData);
+            });
+    } else {
+        const localData = JSON.parse(localStorage.getItem('color_vision_scores') || '[]');
+        displayLeaderboard(localData);
+    }
+}
+
+function displayLeaderboard(data) {
     const container = document.getElementById('scoreList');
     container.innerHTML = '';
 
-    if (scores.length === 0) {
-        container.innerHTML = '<div style="text-align:center;color:#819398;padding:20px;">No scores yet!</div>';
-    } else {
-        scores.forEach((s, idx) => {
-            const row = document.createElement('div');
-            row.className = 'score-row';
-            row.innerHTML = `
-                <div><strong>#${idx + 1}</strong></div>
-                <div><strong>${s.name}</strong> <small>(Lvl ${s.level} • ${s.date})</small></div>
-                <div><strong style="color:var(--primary);">${s.score} pts</strong></div>
-            `;
-            container.appendChild(row);
-        });
+    if (!data || data.length === 0) {
+        container.innerHTML = '<div style="text-align:center;color:#819398;padding:15px;">No scores recorded yet!</div>';
+        return;
     }
-    document.getElementById('leaderboardModal').classList.remove('hidden');
+
+    data.slice(0, 10).forEach((s, idx) => {
+        const row = document.createElement('div');
+        row.className = 'score-row';
+        row.innerHTML = `
+            <div><strong>#${idx + 1}</strong></div>
+            <div><strong>${s.name}</strong> <small>(Lvl ${s.level})</small></div>
+            <div><strong style="color:var(--primary);">${s.score} pts</strong></div>
+        `;
+        container.appendChild(row);
+    });
 }
 
 function closeLeaderboard() {
