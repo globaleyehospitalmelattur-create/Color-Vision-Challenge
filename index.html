@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Vision Challenge</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .game-container {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+    }
+    h2 { margin-top: 0; color: #1a73e8; }
+    
+    .stats-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      font-weight: bold;
+      background: #e8f0fe;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .btn-action {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: opacity 0.2s;
+    }
+    .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
+    #hint-btn { background-color: #fbbc04; color: #000; }
+    
+    .grid {
+      display: grid;
+      gap: 8px;
+      margin: 0 auto 20px auto;
+      width: 300px;
+      height: 300px;
+    }
+    .tile {
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .tile:active { transform: scale(0.95); }
+    .tile.hint-active {
+      border: 4px solid #ff0000;
+      animation: pulse 0.5s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.05); }
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+    
+    input[type="text"], input[type="tel"] {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .btn-main {
+      width: 100%;
+      padding: 12px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .btn-main:hover { background-color: #1557b0; }
+
+    .btn-whatsapp {
+      background-color: #25d366;
+      color: white;
+      text-decoration: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+    }
+
+    .btn-hospital-wa {
+      background-color: #075e54;
+      color: white;
+      text-decoration: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .btn-call {
+      background-color: #e91e63;
+      color: white;
+      text-decoration: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="game-container">
+  
+  <!-- Registration Screen -->
+  <div id="start-screen" class="screen active">
+    <h2>Color Vision Challenge</h2>
+    <p>നിങ്ങളുടെ പേരും ഫോൺ നമ്പറും നൽകി ഗെയിം ആരംഭിക്കുക</p>
+    <input type="text" id="player-name" placeholder="പേര് (Name)" required>
+    <input type="tel" id="player-phone" placeholder="ഫോൺ നമ്പർ (Phone)" required>
+    <button class="btn-main" onclick="startGame()">Start Game</button>
+  </div>
+
+  <!-- Game Play Screen -->
+  <div id="game-screen" class="screen">
+    <div class="stats-bar">
+      <span>Score: <span id="score-val">0</span></span>
+      <span>Time: <span id="time-val">15</span>s</span>
+    </div>
+
+    <div class="action-buttons">
+      <button id="hint-btn" class="btn-action" onclick="useHint()">💡 Hint (<span id="hint-count">2</span>)</button>
+    </div>
+
+    <div id="grid-container" class="grid"></div>
+  </div>
+
+  <!-- Game Over Screen -->
+  <div id="end-screen" class="screen">
+    <h2>Game Over!</h2>
+    <p>നിങ്ങളുടെ സ്കോർ: <b id="final-score">0</b></p>
+    <p id="save-status" style="font-size: 12px; color: #666;"></p>
+    
+    <!-- Hospital Booking Options -->
+    <a id="hospital-wa-btn" class="btn-hospital-wa" href="#" target="_blank">
+      🏥 Book Eye Checkup on WhatsApp
+    </a>
+
+    <a id="call-hospital-btn" class="btn-call" href="tel:+919619610807">
+      📞 Call Hospital Directly
+    </a>
+
+    <!-- Social Share -->
+    <button class="btn-whatsapp" onclick="shareOnWhatsApp()">
+      📲 Share Score with Friends
+    </button>
+    
+    <button class="btn-main" onclick="resetGame()">Play Again</button>
+  </div>
+
+</div>
+
+<script>
+  // ==========================================
+  // CONFIGURATION
+  // ==========================================
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzAq-GKLTT8u6q9Gy3zo-QOGKSO0g3__hb_GHhdqAhjfevP5W8VBQdMViJn8Ci8tAvtwg/exec";
+  const HOSPITAL_WHATSAPP_NUMBER = "919619610807"; 
+  const HOSPITAL_PHONE_NUMBER = "+919619610807";    
+
+  let score = 0;
+  let timeLeft = 15;
+  let timer = null;
+  let gridSize = 2;
+  let targetIndex = 0;
+  let hintsLeft = 2;
+  
+  let playerName = "";
+  let playerPhone = "";
+
+  function startGame() {
+    playerName = document.getElementById("player-name").value.trim();
+    playerPhone = document.getElementById("player-phone").value.trim();
+
+    if (!playerName || !playerPhone) {
+      alert("ദയവായി പേരും ഫോൺ നമ്പറും നൽകുക!");
+      return;
+    }
+
+    score = 0;
+    timeLeft = 15;
+    gridSize = 2;
+    hintsLeft = 2;
+
+    document.getElementById("score-val").innerText = score;
+    document.getElementById("time-val").innerText = timeLeft;
+    document.getElementById("hint-count").innerText = hintsLeft;
+    document.getElementById("hint-btn").disabled = false;
+
+    showScreen("game-screen");
+    nextLevel();
+    
+    clearInterval(timer);
+    timer = setInterval(() => {
+      timeLeft--;
+      document.getElementById("time-val").innerText = timeLeft;
+      if (timeLeft <= 0) {
+        endGame();
+      }
+    }, 1000);
+  }
+
+  function nextLevel() {
+    const grid = document.getElementById("grid-container");
+    grid.innerHTML = "";
+    grid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+
+    const totalTiles = gridSize * gridSize;
+    targetIndex = Math.floor(Math.random() * totalTiles);
+
+    const baseHue = Math.floor(Math.random() * 360);
+    const baseSat = 70;
+    const baseLight = 50;
+    
+    const diff = Math.max(12 - Math.floor(score / 3), 3);
+
+    const baseColor = `hsl(${baseHue}, ${baseSat}%, ${baseLight}%)`;
+    const targetColor = `hsl(${baseHue}, ${baseSat}%, ${baseLight + diff}%)`;
+
+    for (let i = 0; i < totalTiles; i++) {
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      tile.style.backgroundColor = (i === targetIndex) ? targetColor : baseColor;
+
+      tile.onclick = () => {
+        if (i === targetIndex) {
+          score++;
+          document.getElementById("score-val").innerText = score;
+
+          if (score % 5 === 0) {
+            timeLeft += 2;
+            document.getElementById("time-val").innerText = timeLeft;
+          }
+
+          if (score >= 3 && gridSize === 2) gridSize = 3;
+          if (score >= 8 && gridSize === 3) gridSize = 4;
+          if (score >= 15 && gridSize === 4) gridSize = 5;
+
+          nextLevel();
+        } else {
+          timeLeft = Math.max(0, timeLeft - 2);
+          document.getElementById("time-val").innerText = timeLeft;
+        }
+      };
+
+      grid.appendChild(tile);
+    }
+  }
+
+  function useHint() {
+    if (hintsLeft > 0) {
+      hintsLeft--;
+      document.getElementById("hint-count").innerText = hintsLeft;
+      if (hintsLeft === 0) {
+        document.getElementById("hint-btn").disabled = true;
+      }
+
+      const tiles = document.querySelectorAll(".tile");
+      if (tiles[targetIndex]) {
+        tiles[targetIndex].classList.add("hint-active");
+        setTimeout(() => {
+          tiles[targetIndex].classList.remove("hint-active");
+        }, 1500);
+      }
+    }
+  }
+
+  function endGame() {
+    clearInterval(timer);
+    document.getElementById("final-score").innerText = score;
+    showScreen("end-screen");
+
+    saveToGoogleSheet(playerName, playerPhone, score);
+
+    let bookingMsg = `Hello Hospital, ഞാൻ Color Vision Challenge കളിച്ച് *${score}* സ്കോർ നേടി.\n\nപേര്: ${playerName}\nഫോൺ: ${playerPhone}\n\nഎനിക്ക് ഒരു ഐ ചെക്കപ്പ് / അപ്പോയിന്റ്മെന്റ് ബുക്ക് ചെയ്യണം.`;
+    
+    document.getElementById("hospital-wa-btn").href = `https://api.whatsapp.com/send?phone=${HOSPITAL_WHATSAPP_NUMBER}&text=${encodeURIComponent(bookingMsg)}`;
+    document.getElementById("call-hospital-btn").href = `tel:${HOSPITAL_PHONE_NUMBER}`;
+  }
+
+  function saveToGoogleSheet(name, phone, userScore) {
+    if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE") {
+      document.getElementById("save-status").innerText = "Data save warning: Script URL set ചെയ്തിട്ടില്ല.";
+      return;
+    }
+
+    document.getElementById("save-status").innerText = "Saving your score...";
+
+    const formData = new FormData();
+    formData.append("Name", name);
+    formData.append("Phone", phone);
+    formData.append("Score", userScore);
+
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      body: formData
+    })
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("save-status").innerText = "Score saved successfully! ✅";
+    })
+    .catch(err => {
+      document.getElementById("save-status").innerText = "Error saving score ❌";
+    });
+  }
+
+  function shareOnWhatsApp() {
+    let gameUrl = window.location.href;
+    let message = `👁️ *Color Vision Challenge!*\n\nഞാൻ ഗെയിമിൽ *${score}* സ്കോർ നേടി! 🔥\nനിങ്ങൾക്ക് എന്നെ തോൽപ്പിക്കാൻ സാധിക്കുമോ?\n\nഇപ്പോൾ തന്നെ കളിച്ച് നോക്കൂ:\n${gameUrl}`;
+    let whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  }
+
+  function resetGame() {
+    showScreen("start-screen");
+  }
+
+  function showScreen(screenId) {
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    document.getElementById(screenId).classList.add("active");
+  }
+</script>
+
+</body>
+</html>
