@@ -1,382 +1,1200 @@
 <!DOCTYPE html>
-<html lang="ml">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Color Vision Challenge</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0788a8">
+
+<title>Global Eye Hospital Melattur - Color Vision Challenge</title>
+
+<!-- Canvas Confetti Library -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+:root{
+    --primary:#0788a8;
+    --primary-dark:#05677e;
+    --primary-light:#e8f9fc;
+    --cyan:#12b8d4;
+    --dark:#12343b;
+    --muted:#71888e;
+    --bg:#eef9fb;
+    --white:#ffffff;
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(255, 255, 255, 0.9);
+    --shadow: 0 8px 32px 0 rgba(7, 136, 168, 0.15);
+}
+
+/* STRICT ZERO SCROLLBAR LAYOUT */
+html, body {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden !important;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    position: fixed;
+}
+
+button, input {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* BACKGROUND GRADIENT ANIMATION */
+.bg-animated {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(-45deg, #e6f7fa, #ffffff, #d9f2f7, #edfaff);
+    background-size: 400% 400%;
+    animation: gradientBG 12s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* SCREENS */
+.landing, .game-screen {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    padding: clamp(8px, 2vh, 16px);
+}
+
+/* GLASSMORPHISM HEADER */
+.header {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: var(--shadow);
+    flex-shrink: 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    width: clamp(32px, 5vh, 44px);
+    height: clamp(32px, 5vh, 44px);
+    border-radius: 12px;
+    background: linear-gradient(145deg,#08a7c5,#05677e);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(16px, 3vh, 22px);
+    box-shadow: 0 4px 12px rgba(7,136,168,.25);
+}
+
+.brand-text h1 {
+    color: var(--primary-dark);
+    font-size: clamp(10px, 1.8vh, 14px);
+    font-weight: 900;
+}
+
+.brand-text p {
+    color: #789096;
+    font-size: clamp(8px, 1.2vh, 10px);
+}
+
+.header-controls {
+    display: flex;
+    gap: 6px;
+}
+
+.icon-btn, .lang-btn {
+    border: 1px solid #bcdfe6;
+    background: rgba(255,255,255,0.9);
+    color: var(--primary-dark);
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: clamp(10px, 1.5vh, 12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* HERO SECTION */
+.hero {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    flex: 1;
+    min-height: 0;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--primary-light);
+    color: #05738b;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: clamp(9px, 1.4vh, 11px);
+    font-weight: 800;
+    margin-bottom: 6px;
+    border: 1px solid #cceff4;
+}
+
+.hero h2 {
+    font-size: clamp(18px, 3.5vh, 32px);
+    line-height: 1.1;
+    font-weight: 900;
+}
+
+.hero h2 span {
+    color: var(--primary);
+}
+
+.hero p {
+    max-width: 500px;
+    color: #6e858b;
+    font-size: clamp(10px, 1.6vh, 13px);
+    margin-top: 4px;
+    line-height: 1.3;
+}
+
+/* CIRCULAR SHOWCASE */
+.color-vision-showcase {
+    width: min(28vh, 170px);
+    height: min(28vh, 170px);
+    margin: 6px auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.color-orbit {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(#ff3b30, #ff9500, #ffd60a, #34c759, #12b8d4, #007aff, #af52de, #ff3b30);
+    padding: 6px;
+    box-shadow: 0 10px 25px rgba(7,136,168,.15);
+    animation: rotateVision 16s linear infinite;
+}
+
+.color-orbit-inner {
+    position: absolute;
+    inset: 12px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 3;
+}
+
+.eye-symbol {
+    width: min(10vh, 50px);
+    height: min(6vh, 30px);
+    border: 3px solid var(--primary);
+    border-radius: 50% / 65%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eye-symbol:before {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #12343b 0 38%, #0788a8 39%);
+}
+
+@keyframes rotateVision {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* GLASS FORM */
+.register {
+    width: min(92%, 420px);
+    padding: clamp(10px, 2vh, 16px);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(6px, 1.2vh, 10px);
+    flex-shrink: 0;
+}
+
+.field label {
+    display: block;
+    font-size: clamp(9px, 1.3vh, 11px);
+    font-weight: 800;
+    color: #617b81;
+    margin-bottom: 2px;
+}
+
+.field input {
+    width: 100%;
+    height: clamp(34px, 4.5vh, 42px);
+    border: 1px solid #cfe4e8;
+    border-radius: 10px;
+    padding: 0 12px;
+    font-size: clamp(12px, 1.8vh, 14px);
+    outline: none;
+    background: rgba(255,255,255,0.9);
+}
+
+.primary-btn, .secondary-btn, .whatsapp-btn {
+    width: 100%;
+    height: clamp(36px, 5vh, 44px);
+    border-radius: 12px;
+    font-weight: 900;
+    font-size: clamp(12px, 1.8vh, 14px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: transform .1s;
+    text-decoration: none;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, #0788a8, #05677e);
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(7,136,168,.25);
+}
+
+.secondary-btn {
+    background: rgba(255,255,255,0.95);
+    border: 1px solid #cbe4e9;
+    color: #05677e;
+}
+
+.whatsapp-btn {
+    background: #25D366;
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(37,211,102,.25);
+}
+
+.btn-group {
+    display: flex;
+    gap: 8px;
+}
+
+.footer {
+    font-size: clamp(8px, 1.2vh, 10px);
+    color: #8aa0a5;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* GAME SCREEN */
+.game-header {
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.game-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.player-mini {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.player-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.player-mini-text strong {
+    font-size: 12px;
+    display: block;
+}
+
+.player-mini-text small {
+    color: #829398;
+    font-size: 9px;
+}
+
+.top-controls {
+    display: flex;
+    gap: 6px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+}
+
+.stat {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(8px);
+    border-radius: 10px;
+    text-align: center;
+    padding: 4px;
+}
+
+.stat span {
+    display: block;
+    color: #81959a;
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.stat strong {
+    font-size: clamp(12px, 2vh, 16px);
+    color: var(--primary-dark);
+}
+
+.timer-bg {
+    width: 100%;
+    height: 6px;
+    background: #e2eef0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.timer-bar {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #12b8d4, #0788a8);
+    transition: width 0.2s linear;
+}
+
+.game-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 0;
+}
+
+.board {
+    width: min(78vw, 52vh);
+    height: min(78vw, 52vh);
+    max-width: 440px;
+    max-height: 440px;
+    display: grid;
+    gap: 6px;
+    padding: 8px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+}
+
+.color-cell {
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.08s;
+}
+
+.color-cell:active {
+    transform: scale(0.92);
+}
+
+.lives {
+    margin-top: 6px;
+    font-size: clamp(14px, 2vh, 18px);
+    letter-spacing: 4px;
+    flex-shrink: 0;
+}
+
+/* EYE TIP BAR */
+.eye-tip-box {
+    width: 100%;
+    max-width: 700px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid #d0e8ed;
+    border-radius: 10px;
+    padding: 6px 12px;
+    text-align: center;
+    font-size: clamp(9px, 1.3vh, 11px);
+    color: #05677e;
+    font-weight: 700;
+    margin-top: 6px;
+    flex-shrink: 0;
+}
+
+/* MODALS */
+.modal-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(0, 35, 43, 0.65);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+
+.modal {
+    width: min(90vw, 420px);
+    max-height: 88vh;
+    background: #fff;
+    border-radius: 20px;
+    padding: 18px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.modal-header {
+    text-align: center;
+}
+
+.modal-header h2 {
+    font-size: 18px;
+    color: var(--dark);
+}
+
+.modal-header p {
+    font-size: 11px;
+    color: #789096;
+}
+
+.result-score {
+    color: var(--primary);
+    text-align: center;
+    font-size: 40px;
+    font-weight: 900;
+}
+
+.vision-status-badge {
+    text-align: center;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-weight: 900;
+    font-size: 13px;
+    margin: 2px 0 6px 0;
+}
+
+.status-excellent { background: #e3fcef; color: #00875a; }
+.status-good { background: #e6fcff; color: #007a8c; }
+.status-check { background: #fffae6; color: #b7791f; }
+
+.result-info {
+    background: #f2fafc;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #dcecef;
+    font-size: 12px;
+}
+
+.result-row:last-child {
+    border-bottom: 0;
+}
+
+.score-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.score-row {
+    display: grid;
+    grid-template-columns: 24px 1fr auto;
+    align-items: center;
+    gap: 8px;
+    background: #f8fcfd;
+    border: 1px solid #e4eff1;
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .landing {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
     }
-    body {
-      background-color: #f0f2f5;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .game-container {
-      background: white;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 450px;
-      text-align: center;
-    }
-    h2 { margin-top: 0; color: #1a73e8; }
+    .header { width: 100%; }
+    .hero { width: 45%; }
+    .register { width: 45%; }
+    .color-vision-showcase { display: none; }
     
-    .stats-bar {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 15px;
-      font-weight: bold;
-      background: #e8f0fe;
-      padding: 10px;
-      border-radius: 8px;
+    .game-screen {
+        flex-direction: row;
+        align-items: center;
     }
-
-    .action-buttons {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    
-    .btn-action {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: opacity 0.2s;
-    }
-    .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
-    #hint-btn { background-color: #fbbc04; color: #000; }
-    
-    .grid {
-      display: grid;
-      gap: 8px;
-      margin: 0 auto 20px auto;
-      width: 300px;
-      height: 300px;
-    }
-    .tile {
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.1s;
-    }
-    .tile:active { transform: scale(0.95); }
-    .tile.hint-active {
-      border: 4px solid #ff0000;
-      animation: pulse 0.5s infinite alternate;
-    }
-
-    @keyframes pulse {
-      from { transform: scale(1); }
-      to { transform: scale(1.05); }
-    }
-
-    .screen { display: none; }
-    .screen.active { display: block; }
-    
-    input[type="text"], input[type="tel"] {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    .btn-main {
-      width: 100%;
-      padding: 12px;
-      background-color: #1a73e8;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .btn-main:hover { background-color: #1557b0; }
-
-    .btn-whatsapp {
-      background-color: #25d366;
-      color: white;
-      text-decoration: none;
-      padding: 12px;
-      width: 100%;
-      border-radius: 6px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: none;
-    }
-
-    .btn-hospital-wa {
-      background-color: #075e54;
-      color: white;
-      text-decoration: none;
-      padding: 12px;
-      width: 100%;
-      border-radius: 6px;
-      font-size: 15px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .btn-call {
-      background-color: #e91e63;
-      color: white;
-      text-decoration: none;
-      padding: 12px;
-      width: 100%;
-      border-radius: 6px;
-      font-size: 15px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 10px;
-    }
-  </style>
+    .game-header { width: 35%; }
+    .game-body { width: 60%; }
+    .board { width: min(62vw, 62vh); height: min(62vw, 62vh); }
+    .eye-tip-box { display: none; }
+}
+</style>
 </head>
+
 <body>
 
-<div class="game-container">
-  
-  <!-- Registration Screen -->
-  <div id="start-screen" class="screen active">
-    <h2>Color Vision Challenge</h2>
-    <p>നിങ്ങളുടെ പേരും ഫോൺ നമ്പറും നൽകി ഗെയിം ആരംഭിക്കുക</p>
-    <input type="text" id="player-name" placeholder="പേര് (Name)" required>
-    <input type="tel" id="player-phone" placeholder="ഫോൺ നമ്പർ (Phone)" required>
-    <button class="btn-main" onclick="startGame()">Start Game</button>
-  </div>
+<div class="bg-animated"></div>
 
-  <!-- Game Play Screen -->
-  <div id="game-screen" class="screen">
-    <div class="stats-bar">
-      <span>Score: <span id="score-val">0</span></span>
-      <span>Time: <span id="time-val">15</span>s</span>
+<!-- LANDING PAGE -->
+<section id="landing" class="landing">
+
+    <header class="header">
+        <div class="brand">
+            <div class="logo">👁️</div>
+            <div class="brand-text">
+                <h1>GLOBAL EYE HOSPITAL MELATTUR</h1>
+                <p>Color Vision Challenge</p>
+            </div>
+        </div>
+        <div class="header-controls">
+            <button class="icon-btn" onclick="toggleMute()" id="soundToggleBtn">🔊</button>
+            <button class="lang-btn" onclick="toggleLanguage()">
+                <span id="langBtn">മലയാളം</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="hero-badge" id="heroBadge">🎯 50 LEVEL COLOR CHALLENGE</div>
+        <h2 id="heroTitle">FIND THE <span>DIFFERENT</span> COLOR</h2>
+        <p id="heroDescription">Find the different color tile before time runs out!</p>
+
+        <div class="color-vision-showcase">
+            <div class="color-orbit"></div>
+            <div class="color-orbit-inner">
+                <div class="eye-symbol"></div>
+            </div>
+        </div>
     </div>
 
-    <div class="action-buttons">
-      <button id="hint-btn" class="btn-action" onclick="useHint()">💡 Hint (<span id="hint-count">2</span>)</button>
+    <div class="register">
+        <div class="field">
+            <label id="nameLabel">Name</label>
+            <input id="playerName" type="text" maxlength="20" placeholder="Enter name">
+        </div>
+        <div class="field">
+            <label id="ageLabel">Age</label>
+            <input id="playerAge" type="number" min="1" max="120" placeholder="Enter age">
+        </div>
+        <div class="field">
+            <label id="mobileLabel">Mobile Number</label>
+            <input id="playerMobile" type="tel" maxlength="15" placeholder="Enter mobile">
+        </div>
+
+        <button class="primary-btn" onclick="validateAndStart()">
+            <span id="startText">🚀 START GAME</span>
+        </button>
+
+        <div class="btn-group">
+            <button class="secondary-btn" onclick="openLeaderboard()">
+                🏆 <span id="topScoreText">LEADERBOARD</span>
+            </button>
+            <button class="secondary-btn" onclick="openHowToPlay()">
+                ❓ <span id="howText">HOW TO PLAY</span>
+            </button>
+        </div>
     </div>
 
-    <div id="grid-container" class="grid"></div>
-  </div>
+    <div class="footer">
+        © Global Eye Hospital Melattur
+    </div>
 
-  <!-- Game Over Screen -->
-  <div id="end-screen" class="screen">
-    <h2>Game Over!</h2>
-    <p>നിങ്ങളുടെ സ്കോർ: <b id="final-score">0</b></p>
-    <p id="save-status" style="font-size: 12px; color: #666;"></p>
-    
-    <!-- Hospital Booking Options -->
-    <a id="hospital-wa-btn" class="btn-hospital-wa" href="#" target="_blank">
-      🏥 Book Eye Checkup on WhatsApp
-    </a>
+</section>
 
-    <a id="call-hospital-btn" class="btn-call" href="tel:+919619610807">
-      📞 Call Hospital Directly
-    </a>
+<!-- GAME SCREEN -->
+<section id="gameScreen" class="game-screen hidden">
 
-    <!-- Social Share -->
-    <button class="btn-whatsapp" onclick="shareOnWhatsApp()">
-      📲 Share Score with Friends
-    </button>
-    
-    <button class="btn-main" onclick="resetGame()">Play Again</button>
-  </div>
+    <div class="game-header">
+        <div class="game-top">
+            <div class="player-mini">
+                <div class="player-avatar">👤</div>
+                <div class="player-mini-text">
+                    <strong id="gamePlayerName">Player</strong>
+                    <small id="gamePlayerAge">Age: 0</small>
+                </div>
+            </div>
+            <div class="top-controls">
+                <button class="icon-btn" onclick="toggleMute()" id="gameSoundBtn">🔊</button>
+                <button class="icon-btn" onclick="togglePause()"><span id="pauseBtn">⏸️</span></button>
+            </div>
+        </div>
 
+        <div class="stats">
+            <div class="stat"><span id="scoreLabel">SCORE</span><strong id="score">0</strong></div>
+            <div class="stat"><span id="timeLabel">TIME</span><strong id="time">60</strong></div>
+            <div class="stat"><span id="levelLabel">LEVEL</span><strong id="level">1</strong></div>
+            <div class="stat"><span id="bestLabel">BEST</span><strong id="best">0</strong></div>
+        </div>
+
+        <div class="timer-bg">
+            <div id="timerBar" class="timer-bar"></div>
+        </div>
+    </div>
+
+    <div class="game-body">
+        <div id="board" class="board"></div>
+        <div id="lives" class="lives">❤️ ❤️ ❤️</div>
+    </div>
+
+    <div class="eye-tip-box" id="eyeTipBox">
+        💡 💡 💡
+    </div>
+
+</section>
+
+<!-- PAUSE MODAL -->
+<div id="pauseScreen" class="modal-bg hidden">
+    <div class="modal" style="text-align:center;">
+        <div style="font-size:40px;">⏸️</div>
+        <h2 id="pauseTitle">GAME PAUSED</h2>
+        <button class="primary-btn" onclick="togglePause()"><span id="resumeText">RESUME</span></button>
+        <button class="secondary-btn" onclick="goHome()"><span id="homeText">HOME</span></button>
+    </div>
+</div>
+
+<!-- GAME OVER MODAL -->
+<div id="gameOver" class="modal-bg hidden">
+    <div class="modal">
+        <div class="modal-header">
+            <div style="font-size:40px;">🏆</div>
+            <h2 id="gameOverTitle">GAME OVER</h2>
+            <p>Global Eye Hospital Melattur</p>
+        </div>
+        
+        <div id="finalScore" class="result-score">0</div>
+        
+        <!-- EYE CHECK STATUS BADGE -->
+        <div id="visionBadge" class="vision-status-badge status-good">
+            Eagle Eye Vision
+        </div>
+
+        <div class="result-info">
+            <div class="result-row"><span id="resultPlayerLabel">Player</span><strong id="finalPlayer">-</strong></div>
+            <div class="result-row"><span id="resultLevelLabel">Level</span><strong id="finalLevel">1</strong></div>
+            <div class="result-row"><span id="resultBestLabel">Best</span><strong id="finalBest">0</strong></div>
+        </div>
+
+        <!-- WHATSAPP BOOKING BUTTON -->
+        <a id="whatsappBtn" class="whatsapp-btn" href="#" target="_blank">
+            💬 <span id="whatsappText">BOOK EYE CHECKUP</span>
+        </a>
+
+        <button class="primary-btn" onclick="playAgain()">🔄 <span id="playAgainText">PLAY AGAIN</span></button>
+        <button class="secondary-btn" onclick="goHome()">🏠 <span id="homeText2">HOME</span></button>
+    </div>
+</div>
+
+<!-- LEADERBOARD MODAL -->
+<div id="leaderboardModal" class="modal-bg hidden">
+    <div class="modal">
+        <div class="modal-header">
+            <h2>🏆 TOP SCORES</h2>
+            <p>Global Eye Hospital Melattur</p>
+        </div>
+        <div id="scoreList" class="score-list"></div>
+        <button class="secondary-btn" onclick="closeLeaderboard()">✕ <span id="closeScoreText">CLOSE</span></button>
+    </div>
+</div>
+
+<!-- HOW TO PLAY MODAL -->
+<div id="howModal" class="modal-bg hidden">
+    <div class="modal">
+        <div class="modal-header">
+            <h2>🎮 HOW TO PLAY</h2>
+        </div>
+        <div class="result-info">
+            <div class="result-row"><span>1️⃣</span><strong id="how1">Find the different color.</strong></div>
+            <div class="result-row"><span>2️⃣</span><strong id="how2">Tap it quickly before timer ends.</strong></div>
+            <div class="result-row"><span>3️⃣</span><strong id="how3">Wrong click loses 1 life.</strong></div>
+            <div class="result-row"><span>4️⃣</span><strong id="how4">You have 3 lives total.</strong></div>
+            <div class="result-row"><span>5️⃣</span><strong id="how5">Complete all 50 levels!</strong></div>
+        </div>
+        <button class="secondary-btn" onclick="closeHowToPlay()">✕ <span id="closeHowText">CLOSE</span></button>
+    </div>
 </div>
 
 <script>
-  // ==========================================
-  // CONFIGURATION
-  // ==========================================
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzAq-GKLTT8u6q9Gy3zo-QOGKSO0g3__hb_GHhdqAhjfevP5W8VBQdMViJn8Ci8tAvtwg/exec";
-  const HOSPITAL_WHATSAPP_NUMBER = "919619610807"; 
-  const HOSPITAL_PHONE_NUMBER = "+919619610807";    
+/* =========================================================
+   GAME ENGINE & LOGIC
+========================================================= */
 
-  let score = 0;
-  let timeLeft = 15;
-  let timer = null;
-  let gridSize = 2;
-  let targetIndex = 0;
-  let hintsLeft = 2;
-  
-  let playerName = "";
-  let playerPhone = "";
+let currentLang = 'en';
+let level = 1;
+let score = 0;
+let lives = 3;
+let timeLeft = 60;
+let maxTime = 60;
+let timer = null;
+let isPaused = false;
+let isMuted = false;
+let targetIndex = 0;
+let player = { name: '', age: '', mobile: '' };
 
-  function startGame() {
-    playerName = document.getElementById("player-name").value.trim();
-    playerPhone = document.getElementById("player-phone").value.trim();
+// EYE HEALTH TIPS
+const eyeTipsEn = [
+    "💡 Practice the 20-20-20 rule: Every 20 minutes, look 20 feet away for 20 seconds.",
+    "💡 Blinking frequently helps keep your eyes moist and reduces fatigue.",
+    "💡 Ensure good lighting while reading or working on digital screens.",
+    "💡 Get your eyes checked regularly at Global Eye Hospital Melattur."
+];
 
-    if (!playerName || !playerPhone) {
-      alert("ദയവായി പേരും ഫോൺ നമ്പറും നൽകുക!");
-      return;
+const eyeTipsMl = [
+    "💡 20-20-20 റൂൾ ശീലമാക്കുക: ഓരോ 20 മിനിറ്റിലും 20 അടി അകലേക്ക് 20 സെക്കൻഡ് നോക്കുക.",
+    "💡 ഇടയ്ക്കിടെ കണ്ണുകൾ ചിമ്മുന്നത് കണ്ണിന്റെ ഈർപ്പം നിലനിർത്താൻ സഹായിക്കും.",
+    "💡 ഫോൺ/കമ്പ്യൂട്ടർ ഉപയോഗിക്കുമ്പോൾ ആവശ്യത്തിന് വെളിച്ചമുണ്ടെന്ന് ഉറപ്പാക്കുക.",
+    "💡 ഗ്ലോബൽ ഐ ഹോസ്പിറ്റൽ മേലാറ്റൂരിൽ കൃത്യമായ ഇടവേളകളിൽ കണ്ണ് പരിശോധിക്കുക."
+];
+
+// AUDIO SYNTHESIZER
+const AudioContext = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+
+function initAudio() {
+    if (!audioCtx) audioCtx = new AudioContext();
+}
+
+function playSound(type) {
+    if (isMuted || !audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    const now = audioCtx.currentTime;
+    if (type === 'correct') {
+        osc.frequency.setValueAtTime(587.33, now);
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.1);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+        osc.start(now);
+        osc.stop(now + 0.15);
+    } else if (type === 'wrong') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.exponentialRampToValueAtTime(110, now + 0.2);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+        osc.start(now);
+        osc.stop(now + 0.2);
+    } else if (type === 'win') {
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.3);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+        osc.start(now);
+        osc.stop(now + 0.3);
+    }
+}
+
+function triggerVibration() {
+    if ("vibrate" in navigator) {
+        navigator.vibrate(120);
+    }
+}
+
+function toggleMute() {
+    isMuted = !isMuted;
+    const icon = isMuted ? '🔇' : '🔊';
+    document.getElementById('soundToggleBtn').innerText = icon;
+    document.getElementById('gameSoundBtn').innerText = icon;
+}
+
+// LANGUAGE DATA
+const translations = {
+    en: {
+        langBtn: "മലയാളം",
+        heroBadge: "🎯 50 LEVEL COLOR CHALLENGE",
+        heroTitle: "FIND THE <span>DIFFERENT</span> COLOR",
+        heroDescription: "Find the different color tile before time runs out!",
+        nameLabel: "Name",
+        ageLabel: "Age",
+        mobileLabel: "Mobile Number",
+        startText: "🚀 START GAME",
+        topScoreText: "LEADERBOARD",
+        howText: "HOW TO PLAY",
+        scoreLabel: "SCORE",
+        timeLabel: "TIME",
+        levelLabel: "LEVEL",
+        bestLabel: "BEST",
+        pauseBtn: "Pause",
+        pauseTitle: "GAME PAUSED",
+        resumeText: "RESUME",
+        homeText: "HOME",
+        homeText2: "HOME",
+        gameOverTitle: "GAME OVER",
+        playAgainText: "PLAY AGAIN",
+        closeScoreText: "CLOSE",
+        closeHowText: "CLOSE",
+        whatsappText: "BOOK EYE CHECKUP",
+        how1: "Find the different color tile.",
+        how2: "Tap it quickly.",
+        how3: "Wrong tap loses 1 life.",
+        how4: "You have 3 lives total.",
+        how5: "Complete all 50 levels!"
+    },
+    ml: {
+        langBtn: "English",
+        heroBadge: "🎯 50 ലെവൽ കളർ ചലഞ്ച്",
+        heroTitle: "<span>വ്യത്യസ്തമായ</span> നിറം കണ്ടെത്തുക",
+        heroDescription: "സമയപരിധിക്കുള്ളിൽ വ്യത്യാസമുള്ള കളർ ബോക്സ് കണ്ടെത്തുക!",
+        nameLabel: "പേര്",
+        ageLabel: "വയസ്സ്",
+        mobileLabel: "മൊബൈൽ നമ്പർ",
+        startText: "🚀 ഗെയിം ആരംഭിക്കുക",
+        topScoreText: "ലീഡർബോർഡ്",
+        howText: "കളിക്കേണ്ട വിധം",
+        scoreLabel: "സ്‌കോർ",
+        timeLabel: "സമയം",
+        levelLabel: "ലെവൽ",
+        bestLabel: "മികച്ച സ്കോർ",
+        pauseBtn: "പോസ്",
+        pauseTitle: "ഗെയിം നിർത്തിവെച്ചിരിക്കുന്നു",
+        resumeText: "തുടരുക",
+        homeText: "ഹോം",
+        homeText2: "ഹോം",
+        gameOverTitle: "ഗെയിം ഓവർ",
+        playAgainText: "വീണ്ടും കളിക്കുക",
+        closeScoreText: "അടയ്ക്കുക",
+        closeHowText: "അടയ്ക്കുക",
+        whatsappText: "കണ്ണ് പരിശോധന ബുക്ക് ചെയ്യുക",
+        how1: "വ്യത്യസ്തമായ കളർ ബോക്സ് കണ്ടെത്തുക.",
+        how2: "വേഗത്തിൽ ടാപ്പ് ചെയ്യുക.",
+        how3: "തെറ്റിയാൽ 1 ലൈഫ് നഷ്ടപ്പെടും.",
+        how4: "ആകെ 3 ലൈഫുകൾ ലഭിക്കും.",
+        how5: "50 ലെവലുകൾ പൂർത്തിയാക്കുക!"
+    }
+};
+
+function toggleLanguage() {
+    currentLang = currentLang === 'en' ? 'ml' : 'en';
+    const t = translations[currentLang];
+    for (let key in t) {
+        const el = document.getElementById(key);
+        if (el) {
+            if (key === 'heroTitle') el.innerHTML = t[key];
+            else el.innerText = t[key];
+        }
+    }
+    updateEyeTip();
+}
+
+function updateEyeTip() {
+    const tips = currentLang === 'en' ? eyeTipsEn : eyeTipsMl;
+    const randomTip = tips[Math.floor(Math.random() * tips.length)];
+    document.getElementById('eyeTipBox').innerText = randomTip;
+}
+
+function validateAndStart() {
+    initAudio();
+    const name = document.getElementById('playerName').value.trim();
+    const age = document.getElementById('playerAge').value.trim();
+    const mobile = document.getElementById('playerMobile').value.trim();
+
+    if (!name || !age) {
+        alert(currentLang === 'en' ? 'Please enter Name and Age' : 'ദയവായി പേരും വയസ്സും നൽകുക');
+        return;
     }
 
+    player = { name, age, mobile };
+    document.getElementById('gamePlayerName').innerText = name;
+    document.getElementById('gamePlayerAge').innerText = "Age: " + age;
+
+    document.getElementById('landing').classList.add('hidden');
+    document.getElementById('gameScreen').classList.remove('hidden');
+
+    resetGame();
+}
+
+function resetGame() {
+    level = 1;
     score = 0;
-    timeLeft = 15;
-    gridSize = 2;
-    hintsLeft = 2;
+    lives = 3;
+    updateStats();
+    loadLevel();
+}
 
-    document.getElementById("score-val").innerText = score;
-    document.getElementById("time-val").innerText = timeLeft;
-    document.getElementById("hint-count").innerText = hintsLeft;
-    document.getElementById("hint-btn").disabled = false;
-
-    showScreen("game-screen");
-    nextLevel();
+function updateStats() {
+    document.getElementById('score').innerText = score;
+    document.getElementById('level').innerText = level;
+    document.getElementById('best').innerText = getBestScore();
     
-    clearInterval(timer);
-    timer = setInterval(() => {
-      timeLeft--;
-      document.getElementById("time-val").innerText = timeLeft;
-      if (timeLeft <= 0) {
-        endGame();
-      }
-    }, 1000);
-  }
+    let hearts = '';
+    for (let i = 0; i < 3; i++) {
+        hearts += i < lives ? '❤️ ' : '🖤 ';
+    }
+    document.getElementById('lives').innerText = hearts;
+}
 
-  function nextLevel() {
-    const grid = document.getElementById("grid-container");
-    grid.innerHTML = "";
-    grid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+function getBestScore() {
+    const scores = JSON.parse(localStorage.getItem('color_vision_scores') || '[]');
+    if (scores.length === 0) return 0;
+    return Math.max(...scores.map(s => s.score));
+}
 
-    const totalTiles = gridSize * gridSize;
-    targetIndex = Math.floor(Math.random() * totalTiles);
+function loadLevel() {
+    if (level > 50) {
+        endGame(true);
+        return;
+    }
+
+    updateEyeTip();
+
+    let gridSize = 2;
+    if (level > 3) gridSize = 3;
+    if (level > 8) gridSize = 4;
+    if (level > 15) gridSize = 5;
+    if (level > 25) gridSize = 6;
+    if (level > 38) gridSize = 7;
+
+    maxTime = Math.max(15, 60 - Math.floor(level * 0.8));
+    timeLeft = maxTime;
+    startTimer();
 
     const baseHue = Math.floor(Math.random() * 360);
-    const baseSat = 70;
-    const baseLight = 50;
-    
-    const diff = Math.max(12 - Math.floor(score / 3), 3);
+    const baseSat = Math.floor(Math.random() * 40) + 50;
+    const baseLight = Math.floor(Math.random() * 40) + 30;
 
+    const diff = Math.max(2, 28 - Math.floor(level * 0.5));
+    
     const baseColor = `hsl(${baseHue}, ${baseSat}%, ${baseLight}%)`;
     const targetColor = `hsl(${baseHue}, ${baseSat}%, ${baseLight + diff}%)`;
 
-    for (let i = 0; i < totalTiles; i++) {
-      const tile = document.createElement("div");
-      tile.className = "tile";
-      tile.style.backgroundColor = (i === targetIndex) ? targetColor : baseColor;
+    const board = document.getElementById('board');
+    board.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+    board.innerHTML = '';
 
-      tile.onclick = () => {
-        if (i === targetIndex) {
-          score++;
-          document.getElementById("score-val").innerText = score;
+    const totalCells = gridSize * gridSize;
+    targetIndex = Math.floor(Math.random() * totalCells);
 
-          if (score % 5 === 0) {
-            timeLeft += 2;
-            document.getElementById("time-val").innerText = timeLeft;
-          }
+    for (let i = 0; i < totalCells; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'color-cell';
+        btn.style.backgroundColor = (i === targetIndex) ? targetColor : baseColor;
+        btn.onclick = () => handleCellClick(i === targetIndex);
+        board.appendChild(btn);
+    }
 
-          if (score >= 3 && gridSize === 2) gridSize = 3;
-          if (score >= 8 && gridSize === 3) gridSize = 4;
-          if (score >= 15 && gridSize === 4) gridSize = 5;
+    updateStats();
+}
 
-          nextLevel();
-        } else {
-          timeLeft = Math.max(0, timeLeft - 2);
-          document.getElementById("time-val").innerText = timeLeft;
+function handleCellClick(isTarget) {
+    if (isPaused) return;
+
+    if (isTarget) {
+        playSound('correct');
+        score += 1;
+        level++;
+        clearInterval(timer);
+        loadLevel();
+    } else {
+        playSound('wrong');
+        triggerVibration();
+        lives--;
+        updateStats();
+        if (lives <= 0) {
+            endGame(false);
         }
-      };
-
-      grid.appendChild(tile);
     }
-  }
+}
 
-  function useHint() {
-    if (hintsLeft > 0) {
-      hintsLeft--;
-      document.getElementById("hint-count").innerText = hintsLeft;
-      if (hintsLeft === 0) {
-        document.getElementById("hint-btn").disabled = true;
-      }
-
-      const tiles = document.querySelectorAll(".tile");
-      if (tiles[targetIndex]) {
-        tiles[targetIndex].classList.add("hint-active");
-        setTimeout(() => {
-          tiles[targetIndex].classList.remove("hint-active");
-        }, 1500);
-      }
-    }
-  }
-
-  function endGame() {
+function startTimer() {
     clearInterval(timer);
-    document.getElementById("final-score").innerText = score;
-    showScreen("end-screen");
+    updateTimerBar();
+    timer = setInterval(() => {
+        if (!isPaused) {
+            timeLeft--;
+            document.getElementById('time').innerText = timeLeft;
+            updateTimerBar();
+            if (timeLeft <= 0) {
+                playSound('wrong');
+                triggerVibration();
+                lives--;
+                updateStats();
+                if (lives <= 0) {
+                    endGame(false);
+                } else {
+                    loadLevel();
+                }
+            }
+        }
+    }, 1000);
+}
 
-    saveToGoogleSheet(playerName, playerPhone, score);
+function updateTimerBar() {
+    const pct = (timeLeft / maxTime) * 100;
+    document.getElementById('timerBar').style.width = pct + '%';
+}
 
-    let bookingMsg = `Hello Hospital, ഞാൻ Color Vision Challenge കളിച്ച് *${score}* സ്കോർ നേടി.\n\nപേര്: ${playerName}\nഫോൺ: ${playerPhone}\n\nഎനിക്ക് ഒരു ഐ ചെക്കപ്പ് / അപ്പോയിന്റ്മെന്റ് ബുക്ക് ചെയ്യണം.`;
-    
-    document.getElementById("hospital-wa-btn").href = `https://api.whatsapp.com/send?phone=${HOSPITAL_WHATSAPP_NUMBER}&text=${encodeURIComponent(bookingMsg)}`;
-    document.getElementById("call-hospital-btn").href = `tel:${HOSPITAL_PHONE_NUMBER}`;
-  }
+function togglePause() {
+    isPaused = !isPaused;
+    document.getElementById('pauseScreen').classList.toggle('hidden', !isPaused);
+}
 
-  function saveToGoogleSheet(name, phone, userScore) {
-    if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE") {
-      document.getElementById("save-status").innerText = "Data save warning: Script URL set ചെയ്തിട്ടില്ല.";
-      return;
+function endGame(completed) {
+    clearInterval(timer);
+    playSound('win');
+
+    saveScore(player.name, score, level);
+
+    document.getElementById('finalPlayer').innerText = player.name;
+    document.getElementById('finalLevel').innerText = level;
+    document.getElementById('finalScore').innerText = score;
+    document.getElementById('finalBest').innerText = getBestScore();
+
+    // EYE CHECK STATUS
+    const badge = document.getElementById('visionBadge');
+    if (score >= 35) {
+        badge.className = "vision-status-badge status-excellent";
+        badge.innerText = currentLang === 'en' ? "🦅 Eagle Eye Vision (Excellent)" : "🦅 മികച്ച കണ്ണ് ദൃഷ്ടി (Excellent)";
+    } else if (score >= 18) {
+        badge.className = "vision-status-badge status-good";
+        badge.innerText = currentLang === 'en' ? "👁️ Good Color Sensitivity" : "👁️ നല്ല കളർ ദൃഷ്ടി (Good)";
+    } else {
+        badge.className = "vision-status-badge status-check";
+        badge.innerText = currentLang === 'en' ? "🩺 Eye Checkup Recommended" : "🩺 ഐ ചെക്കപ്പ് ചെയ്യുന്നത് ഉചിതമാണ്";
     }
 
-    document.getElementById("save-status").innerText = "Saving your score...";
+    // WHATSAPP LINK GENERATOR WITH GLOBAL EYE HOSPITAL MELATTUR PHONE NUMBER
+    const phone = "919947554477";
+    const msg = encodeURIComponent(`Hello Global Eye Hospital Melattur, I played the Color Vision Challenge!\nName: ${player.name}\nScore: ${score}\nLevel: ${level}\nI would like to book an eye checkup.`);
+    document.getElementById('whatsappBtn').href = `https://wa.me/${phone}?text=${msg}`;
 
-    const formData = new FormData();
-    formData.append("Name", name);
-    formData.append("Phone", phone);
-    formData.append("Score", userScore);
+    // CONFETTI ANIMATION
+    if (typeof confetti === 'function') {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+    }
 
-    fetch(GOOGLE_SCRIPT_URL, {
-      method: "POST",
-      body: formData
-    })
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById("save-status").innerText = "Score saved successfully! ✅";
-    })
-    .catch(err => {
-      document.getElementById("save-status").innerText = "Error saving score ❌";
-    });
-  }
+    document.getElementById('gameOver').classList.remove('hidden');
+}
 
-  function shareOnWhatsApp() {
-    let gameUrl = window.location.href;
-    let message = `👁️ *Color Vision Challenge!*\n\nഞാൻ ഗെയിമിൽ *${score}* സ്കോർ നേടി! 🔥\nനിങ്ങൾക്ക് എന്നെ തോൽപ്പിക്കാൻ സാധിക്കുമോ?\n\nഇപ്പോൾ തന്നെ കളിച്ച് നോക്കൂ:\n${gameUrl}`;
-    let whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
-  }
+function playAgain() {
+    document.getElementById('gameOver').classList.add('hidden');
+    resetGame();
+}
 
-  function resetGame() {
-    showScreen("start-screen");
-  }
+function goHome() {
+    clearInterval(timer);
+    isPaused = false;
+    document.getElementById('pauseScreen').classList.add('hidden');
+    document.getElementById('gameOver').classList.add('hidden');
+    document.getElementById('gameScreen').classList.add('hidden');
+    document.getElementById('landing').classList.remove('hidden');
+}
 
-  function showScreen(screenId) {
-    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-    document.getElementById(screenId).classList.add("active");
-  }
+function saveScore(name, score, lvl) {
+    const scores = JSON.parse(localStorage.getItem('color_vision_scores') || '[]');
+    scores.push({ name, score, level: lvl, date: new Date().toLocaleDateString() });
+    scores.sort((a, b) => b.score - a.score);
+    localStorage.setItem('color_vision_scores', JSON.stringify(scores.slice(0, 10)));
+}
+
+function openLeaderboard() {
+    const scores = JSON.parse(localStorage.getItem('color_vision_scores') || '[]');
+    const container = document.getElementById('scoreList');
+    container.innerHTML = '';
+
+    if (scores.length === 0) {
+        container.innerHTML = '<div style="text-align:center;color:#819398;padding:20px;">No scores yet!</div>';
+    } else {
+        scores.forEach((s, idx) => {
+            const row = document.createElement('div');
+            row.className = 'score-row';
+            row.innerHTML = `
+                <div><strong>#${idx + 1}</strong></div>
+                <div><strong>${s.name}</strong> <small>(Lvl ${s.level} • ${s.date})</small></div>
+                <div><strong style="color:var(--primary);">${s.score} pts</strong></div>
+            `;
+            container.appendChild(row);
+        });
+    }
+    document.getElementById('leaderboardModal').classList.remove('hidden');
+}
+
+function closeLeaderboard() {
+    document.getElementById('leaderboardModal').classList.add('hidden');
+}
+
+function openHowToPlay() {
+    document.getElementById('howModal').classList.remove('hidden');
+}
+
+function closeHowToPlay() {
+    document.getElementById('howModal').classList.add('hidden');
+}
 </script>
 
 </body>
