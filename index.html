@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<!-- STRICT DISABLE ZOOM -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
 <meta name="theme-color" content="#0788a8">
 
 <title>Global Eye Hospital Melattur - Color Vision Challenge</title>
@@ -11,12 +12,14 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
-*{
+/* PREVENT ZOOM AND TOUCH SELECTION */
+*, *:before, *:after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     -webkit-tap-highlight-color: transparent;
     user-select: none;
+    touch-action: manipulation;
 }
 
 :root{
@@ -42,10 +45,12 @@ html, body {
     background: var(--bg);
     color: var(--dark);
     position: fixed;
+    touch-action: none;
 }
 
 button, input {
     font-family: inherit;
+    touch-action: manipulation;
 }
 
 button {
@@ -74,7 +79,7 @@ button {
     100% { background-position: 0% 50%; }
 }
 
-/* SCREENS - MOBILE OPTIMIZED LAYOUT */
+/* SCREENS */
 .landing, .game-screen {
     position: relative;
     z-index: 1;
@@ -149,7 +154,7 @@ button {
     font-size: 11px;
 }
 
-/* HERO SECTION FIXES FOR MOBILE */
+/* HERO SECTION */
 .hero {
     text-align: center;
     display: flex;
@@ -190,10 +195,9 @@ button {
     margin-top: 2px;
 }
 
-/* CIRCULAR SHOWCASE */
 .color-vision-showcase {
-    width: 90px;
-    height: 90px;
+    width: 85px;
+    height: 85px;
     margin: 6px auto;
     position: relative;
     display: flex;
@@ -223,8 +227,8 @@ button {
 }
 
 .eye-symbol {
-    width: 32px;
-    height: 20px;
+    width: 30px;
+    height: 18px;
     border: 2px solid var(--primary);
     border-radius: 50% / 65%;
     display: flex;
@@ -245,7 +249,7 @@ button {
     to { transform: rotate(360deg); }
 }
 
-/* FORM STYLING */
+/* FORM */
 .register {
     width: 100%;
     max-width: 400px;
@@ -727,9 +731,33 @@ button {
 
 <script>
 /* =========================================================
-   CONFIG & GOOGLE SHEET URL
+   ENCODED GOOGLE SHEET URL (HIDDEN LINK)
 ========================================================= */
-const GOOGLE_SHEET_URL = "YOUR_GOOGLE_SHEET_WEB_APP_URL"; // PASTE YOUR URL HERE
+const _0x1a = "aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6QjdYM2JhZTRxWTFVOVhoRkNOM1liZV9HYVN0cEdpYkVYNUMxREZZdVpCY2hRRVVkTzJoYS1nRU5vTlB2ZUtRZkVBL2V4ZWM="; 
+
+function getSheetURL() {
+    try {
+        return atob(_0x1a);
+    } catch(e) {
+        return "";
+    }
+}
+
+// PREVENT DOUBLE-TAP ZOOM IN MOBILE
+document.addEventListener('touchstart', function(event) {
+    if (event.touches.length > 1) {
+        event.preventDefault();
+    }
+}, { passive: false });
+
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function(event) {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
 
 let currentLang = 'en';
 let level = 1;
@@ -1084,22 +1112,21 @@ function goHome() {
     document.getElementById('landing').classList.remove('hidden');
 }
 
-// SAVE TO GOOGLE SHEET & LOCAL STORAGE
+// RELIABLE GOOGLE SHEET DATA UPLOAD
 function saveScoreToSheet(name, age, mobile, score, lvl) {
-    // Local storage update
     const scores = JSON.parse(localStorage.getItem('color_vision_scores') || '[]');
     scores.push({ name, score, level: lvl, date: new Date().toLocaleDateString() });
     scores.sort((a, b) => b.score - a.score);
     localStorage.setItem('color_vision_scores', JSON.stringify(scores.slice(0, 10)));
 
-    // Send data to Google Sheet
-    if (GOOGLE_SHEET_URL && GOOGLE_SHEET_URL !== "https://script.google.com/macros/s/AKfycbwc8srJDCDeB5yibBCU2QhWsiLmPNuAqWGb-erGgcrEIXhCYD8ZAzXouOAKnpQJnmQqaQ/exec") {
-        fetch(GOOGLE_SHEET_URL, {
+    const sheetURL = getSheetURL();
+    if (sheetURL) {
+        fetch(sheetURL, {
             method: 'POST',
             mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, age, mobile, score, level: lvl })
-        }).catch(err => console.log('Sheet Save Error:', err));
+        }).catch(err => console.log('Upload Error:', err));
     }
 }
 
@@ -1109,14 +1136,14 @@ function openLeaderboard() {
     const container = document.getElementById('scoreList');
     container.innerHTML = '<div style="text-align:center; padding:10px; font-size:12px; color:#666;">Loading Top 10...</div>';
 
-    if (GOOGLE_SHEET_URL && GOOGLE_SHEET_URL !== "YOUR_GOOGLE_SHEET_WEB_APP_URL") {
-        fetch(GOOGLE_SHEET_URL)
+    const sheetURL = getSheetURL();
+    if (sheetURL) {
+        fetch(sheetURL)
             .then(res => res.json())
             .then(data => {
                 displayLeaderboard(data);
             })
             .catch(() => {
-                // Fallback to local storage if network fails
                 const localData = JSON.parse(localStorage.getItem('color_vision_scores') || '[]');
                 displayLeaderboard(localData);
             });
