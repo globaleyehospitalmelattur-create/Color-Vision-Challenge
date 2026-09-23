@@ -41,9 +41,9 @@
             --glass-border: rgba(255, 255, 255, 0.6);
             --text-dark: #0f172a;
             --text-muted: #64748b;
-            --shadow: 0 6px 20px -4px rgba(79, 70, 229, 0.1);
-            --radius-lg: 18px;
-            --radius-md: 12px;
+            --shadow: 0 4px 15px -3px rgba(79, 70, 229, 0.08);
+            --radius-lg: 16px;
+            --radius-md: 10px;
         }
 
         * {
@@ -78,10 +78,10 @@
             max-width: 440px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Changed to start so we can control header spacing cleanly */
-            /* മുകളിൽ കുറച്ചുകൂടി ഗ്യാപ്/സ്പേസ് നൽകിയിരിക്കുന്നു */
-            padding: max(22px, env(safe-area-inset-top)) 12px max(10px, env(safe-area-inset-bottom)) 12px;
-            gap: 10px;
+            justify-content: space-between;
+            /* നോച്ച് ബാക്കി ഉള്ളവ ഒഴിവാക്കി മുകളിലും താഴെയും കൃത്യമായ ചെറിയ പാഡിംഗ് മാത്രം നൽകിയിരിക്കുന്നു */
+            padding: max(16px, env(safe-area-inset-top)) 10px max(8px, env(safe-area-inset-bottom)) 10px;
+            gap: 6px;
         }
 
         /* PWA Install Banner Top Notice */
@@ -89,11 +89,11 @@
             display: none;
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            padding: 6px 10px;
+            padding: 5px 10px;
             border-radius: var(--radius-md);
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
             font-size: 11px;
             font-weight: 700;
             flex-shrink: 0;
@@ -103,12 +103,11 @@
             background: #ffffff;
             color: #059669;
             border: none;
-            padding: 5px 10px;
+            padding: 4px 8px;
             border-radius: 6px;
             font-weight: 800;
             font-size: 10px;
             cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         /* Top Header */
@@ -118,28 +117,29 @@
             align-items: center;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: var(--radius-md);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             box-shadow: var(--shadow);
             flex-shrink: 0;
-            margin-top: 4px; /* ചെറുതായി താഴേക്ക് ഇറക്കി വെച്ചിരിക്കുന്നു */
+            /* ഹെഡർ കുറച്ചുകൂടി താഴേക്ക് വരത്തക്കവണ്ണം മുകളിൽ ചെറിയൊരു മാർജിൻ */
+            margin-top: 10px; 
         }
 
         .brand-title {
-            font-size: 14px;
+            font-size: 13.5px;
             font-weight: 900;
             color: var(--primary-dark);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
             letter-spacing: -0.3px;
         }
 
         .brand-logo {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             object-fit: contain;
             border-radius: 6px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -148,27 +148,27 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
 
         .icon-btn {
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(0, 0, 0, 0.05);
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-dark);
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
         }
 
         .lang-btn {
             font-weight: 800;
             font-size: 11px;
-            padding: 0 6px;
+            padding: 0 5px;
             width: auto;
         }
 
@@ -177,14 +177,14 @@
             background: var(--card-bg);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-lg);
-            padding: 10px;
+            padding: 8px 10px;
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex: 1;
             min-height: 0;
             justify-content: space-between;
@@ -195,15 +195,15 @@
             width: 100%;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 5px;
+            gap: 4px;
             flex-shrink: 0;
         }
 
         .stat-box {
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(0, 0, 0, 0.04);
-            border-radius: 10px;
-            padding: 5px 2px;
+            border-radius: 8px;
+            padding: 4px 2px;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -211,7 +211,7 @@
         }
 
         .stat-label {
-            font-size: 8px;
+            font-size: 7.5px;
             font-weight: 800;
             text-transform: uppercase;
             color: var(--text-muted);
@@ -219,7 +219,7 @@
         }
 
         .stat-value {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 800;
             color: var(--primary-dark);
         }
@@ -228,7 +228,7 @@
             display: flex;
             justify-content: center;
             gap: 2px;
-            font-size: 11px;
+            font-size: 10px;
             margin-top: 1px;
         }
 
@@ -246,7 +246,7 @@
         /* Timer Bar */
         .timer-container {
             width: 100%;
-            height: 5px;
+            height: 4px;
             background: #e2e8f0;
             border-radius: 99px;
             overflow: hidden;
@@ -276,10 +276,10 @@
             max-height: min(100%, 100%);
             aspect-ratio: 1 / 1;
             display: grid;
-            gap: 5px;
-            padding: 5px;
+            gap: 4px;
+            padding: 4px;
             background: rgba(255, 255, 255, 0.5);
-            border-radius: 14px;
+            border-radius: 12px;
             border: 1px solid rgba(0, 0, 0, 0.03);
             box-sizing: border-box;
         }
@@ -287,7 +287,7 @@
         .tile {
             width: 100%;
             height: 100%;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             transition: transform 0.1s ease;
             box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
@@ -302,19 +302,19 @@
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-md);
-            padding: 6px 10px;
-            font-size: 10.5px;
+            padding: 5px 8px;
+            font-size: 10px;
             color: var(--text-muted);
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             box-shadow: var(--shadow);
             flex-shrink: 0;
         }
 
         .tip-icon {
             color: #f59e0b;
-            font-size: 14px;
+            font-size: 13px;
             flex-shrink: 0;
         }
 
@@ -343,16 +343,16 @@
         .modal-card {
             background: #ffffff;
             border-radius: 20px;
-            padding: 18px 14px;
+            padding: 16px 12px;
             width: 100%;
-            max-width: 360px;
+            max-width: 350px;
             text-align: center;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             transform: translateY(20px);
             transition: transform 0.3s ease;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             max-height: 90dvh;
             overflow-y: auto;
         }
@@ -362,25 +362,25 @@
         }
 
         .modal-top-logo {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             object-fit: contain;
             margin: 0 auto;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.15);
         }
 
         .modal-title {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 900;
             color: var(--text-dark);
             letter-spacing: -0.3px;
         }
 
         .modal-desc {
-            font-size: 11.5px;
+            font-size: 11px;
             color: var(--text-muted);
-            line-height: 1.4;
+            line-height: 1.35;
         }
 
         .input-group {
@@ -391,7 +391,7 @@
         }
 
         .input-label {
-            font-size: 10px;
+            font-size: 9.5px;
             font-weight: 800;
             color: var(--text-muted);
             text-transform: uppercase;
@@ -400,10 +400,10 @@
 
         .name-input {
             width: 100%;
-            padding: 10px;
-            border-radius: 9px;
+            padding: 9px;
+            border-radius: 8px;
             border: 1.5px solid #cbd5e1;
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 700;
             outline: none;
             font-family: inherit;
@@ -412,11 +412,11 @@
         .results-summary {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 8px;
+            border-radius: 10px;
+            padding: 7px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 6px;
+            gap: 5px;
             text-align: center;
         }
 
@@ -427,14 +427,14 @@
         }
 
         .result-label {
-            font-size: 8px;
+            font-size: 7.5px;
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
         }
 
         .result-value {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 800;
             color: var(--primary-dark);
         }
@@ -443,53 +443,53 @@
             background: rgba(16, 185, 129, 0.1);
             color: #059669;
             border: 1px solid rgba(16, 185, 129, 0.2);
-            padding: 6px;
-            border-radius: 9px;
+            padding: 5px;
+            border-radius: 8px;
             font-weight: 800;
-            font-size: 12px;
+            font-size: 11.5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 4px;
         }
 
         .whatsapp-box {
             background: linear-gradient(135deg, rgba(37, 211, 102, 0.08) 0%, rgba(18, 140, 126, 0.12) 100%);
             border: 1px solid rgba(37, 211, 102, 0.3);
-            border-radius: 12px;
-            padding: 8px;
+            border-radius: 10px;
+            padding: 7px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 5px;
             text-align: center;
         }
 
         .whatsapp-title {
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 800;
             color: #065f46;
         }
 
         .whatsapp-sub {
-            font-size: 10px;
+            font-size: 9.5px;
             color: #047857;
-            margin-top: -3px;
+            margin-top: -2px;
         }
 
         .btn-whatsapp {
             background: linear-gradient(135deg, var(--whatsapp-color) 0%, var(--whatsapp-dark) 100%);
             color: white;
             border: none;
-            padding: 9px 12px;
-            border-radius: 9px;
+            padding: 8px 10px;
+            border-radius: 8px;
             font-weight: 800;
-            font-size: 12px;
+            font-size: 11.5px;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(37, 211, 102, 0.25);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 4px;
             text-decoration: none;
             width: 100%;
         }
@@ -498,16 +498,16 @@
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
             border: none;
-            padding: 10px 14px;
-            border-radius: 10px;
+            padding: 9px 12px;
+            border-radius: 9px;
             font-weight: 800;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 4px;
             text-decoration: none;
             width: 100%;
         }
@@ -607,7 +607,7 @@
     <!-- GAME OVER MODAL -->
     <div class="overlay" id="gameOver">
         <div class="modal-card">
-            <div style="font-size: 32px; color: #f59e0b;" id="modalTrophyIcon">
+            <div style="font-size: 30px; color: #f59e0b;" id="modalTrophyIcon">
                 <i class="fa-solid fa-trophy"></i>
             </div>
             <h2 class="modal-title" id="modalHeadingTitle" data-key="gameOverTitle">Test Completed!</h2>
@@ -620,7 +620,7 @@
             <div class="results-summary">
                 <div class="result-item">
                     <span class="result-label" data-key="playerLabel">Player</span>
-                    <span class="result-value" id="modalPlayerName" style="font-size: 12px;">Player</span>
+                    <span class="result-value" id="modalPlayerName" style="font-size: 11.5px;">Player</span>
                 </div>
                 <div class="result-item">
                     <span class="result-label" data-key="finalScoreLabel">Final Score</span>
@@ -640,7 +640,7 @@
                 <div class="whatsapp-title" data-key="waHeader">Need a professional checkup?</div>
                 <div class="whatsapp-sub" data-key="waSub">Book eye test on WhatsApp</div>
                 <a href="#" id="waBookBtn" target="_blank" class="btn-whatsapp">
-                    <i class="fa-brands fa-whatsapp" style="font-size: 15px;"></i>
+                    <i class="fa-brands fa-whatsapp" style="font-size: 14px;"></i>
                     <span data-key="waBtnText">Book Eye Checkup</span>
                 </a>
             </div>
