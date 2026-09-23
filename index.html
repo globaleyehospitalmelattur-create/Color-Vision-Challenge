@@ -6,6 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
 <meta name="theme-color" content="#0788a8">
 
+<!-- 1. PWA META TAGS TO HIDE URL BAR WHEN ADDED TO HOME SCREEN -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
 <title>Color Vision Challenge Pro</title>
 
 <!-- Canvas Confetti Library -->
@@ -655,6 +660,25 @@ html, body {
 </div>
 
 <script>
+// 2. AUTO-HIDE URL BAR ON PAGE LOAD VIA SCROLL TRICK
+window.addEventListener("load", function() {
+    setTimeout(function() {
+        window.scrollTo(0, 1);
+    }, 100);
+});
+
+// 3. FULLSCREEN TRIGGER FUNCTION FOR MOBILE BROWSERS
+function requestFullscreenMode() {
+    let elem = document.documentElement;
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen().catch(() => {});
+    } else if (elem.webkitRequestFullscreen) { /* Safari (iOS/Mac) */
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+    }
+}
+
 // PREVENT DOUBLE-TAP ZOOM IN MOBILE
 document.addEventListener('touchstart', function(event) {
     if (event.touches.length > 1) {
@@ -814,6 +838,7 @@ function updateEyeTip() {
 
 function submitPlayerDetails() {
     initAudio();
+    requestFullscreenMode(); // FULLSCREEN TRIGGER ON USER ACTION
     const inputName = document.getElementById('playerName').value.trim();
     if (inputName) {
         playerName = inputName;
@@ -1002,6 +1027,7 @@ function endGame(completed) {
 }
 
 function playAgain() {
+    requestFullscreenMode();
     document.getElementById('gameOver').classList.add('hidden');
     resetGame();
 }
