@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<!-- STRICT DISABLE ZOOM -->
+<!-- STRICT DISABLE ZOOM & TOUCH TARGET OPTIMIZATION -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
 <meta name="theme-color" content="#0788a8">
 
-<title>Global Eye Hospital Melattur - Color Vision Challenge</title>
+<title>Color Vision Challenge Pro</title>
 
 <!-- Canvas Confetti Library -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -22,18 +22,19 @@
     touch-action: manipulation;
 }
 
-:root{
-    --primary:#0788a8;
-    --primary-dark:#05677e;
-    --primary-light:#e8f9fc;
-    --cyan:#12b8d4;
-    --dark:#12343b;
-    --muted:#71888e;
-    --bg:#eef9fb;
-    --white:#ffffff;
-    --glass-bg: rgba(255, 255, 255, 0.85);
-    --glass-border: rgba(255, 255, 255, 0.9);
-    --shadow: 0 8px 32px 0 rgba(7, 136, 168, 0.15);
+:root {
+    --primary: #0788a8;
+    --primary-dark: #05677e;
+    --primary-light: #e8f9fc;
+    --cyan: #12b8d4;
+    --dark: #0f2d33;
+    --muted: #71888e;
+    --bg: #e0f2f6;
+    --white: #ffffff;
+    --glass-bg: rgba(255, 255, 255, 0.88);
+    --glass-border: rgba(255, 255, 255, 0.95);
+    --shadow: 0 12px 36px rgba(7, 136, 168, 0.18);
+    --red-glow: rgba(255, 71, 87, 0.35);
 }
 
 html, body {
@@ -42,25 +43,34 @@ html, body {
     height: 100dvh;
     overflow: hidden !important;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: var(--bg);
+    background: #092026;
     color: var(--dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: fixed;
-    touch-action: none;
 }
 
-button, input {
-    font-family: inherit;
-    touch-action: manipulation;
+/* MOBILE MOCKUP CONTAINER */
+.mobile-wrapper {
+    width: 100%;
+    height: 100%;
+    max-width: 440px;
+    max-height: 920px;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.4);
 }
 
-button {
-    cursor: pointer;
-    border: none;
-    outline: none;
-}
-
-.hidden {
-    display: none !important;
+@media (min-width: 460px) {
+    .mobile-wrapper {
+        border-radius: 36px;
+        border: 10px solid #1c3338;
+        height: 94vh;
+    }
 }
 
 /* BACKGROUND GRADIENT ANIMATION */
@@ -80,7 +90,7 @@ button {
 }
 
 /* SCREENS */
-.landing, .game-screen {
+.screen {
     position: relative;
     z-index: 1;
     width: 100%;
@@ -89,326 +99,110 @@ button {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    padding: 16px 16px 20px 16px;
     overflow-y: auto;
-    padding: 10px 12px;
+}
+
+.hidden {
+    display: none !important;
 }
 
 /* GLASSMORPHISM HEADER */
-.header {
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 12px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 14px;
-    backdrop-filter: blur(12px);
-    box-shadow: var(--shadow);
-    flex-shrink: 0;
-}
-
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.logo {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: linear-gradient(145deg,#08a7c5,#05677e);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-}
-
-.brand-text h1 {
-    color: var(--primary-dark);
-    font-size: 11px;
-    font-weight: 900;
-    line-height: 1.1;
-}
-
-.brand-text p {
-    color: #789096;
-    font-size: 9px;
-}
-
-.header-controls {
-    display: flex;
-    gap: 4px;
-}
-
-.icon-btn, .lang-btn {
-    border: 1px solid #bcdfe6;
-    background: rgba(255,255,255,0.9);
-    color: var(--primary-dark);
-    padding: 5px 8px;
-    border-radius: 8px;
-    font-weight: 800;
-    font-size: 11px;
-}
-
-/* HERO SECTION */
-.hero {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 600px;
-    margin: 6px 0;
-}
-
-.hero-badge {
-    display: inline-flex;
-    align-items: center;
-    background: var(--primary-light);
-    color: #05738b;
-    padding: 3px 10px;
-    border-radius: 16px;
-    font-size: 10px;
-    font-weight: 800;
-    margin-bottom: 4px;
-    border: 1px solid #cceff4;
-}
-
-.hero h2 {
-    font-size: 18px;
-    line-height: 1.2;
-    font-weight: 900;
-}
-
-.hero h2 span {
-    color: var(--primary);
-}
-
-.hero p {
-    color: #6e858b;
-    font-size: 11px;
-    margin-top: 2px;
-}
-
-.color-vision-showcase {
-    width: 85px;
-    height: 85px;
-    margin: 6px auto;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.color-orbit {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: conic-gradient(#ff3b30, #ff9500, #ffd60a, #34c759, #12b8d4, #007aff, #af52de, #ff3b30);
-    padding: 4px;
-    animation: rotateVision 16s linear infinite;
-}
-
-.color-orbit-inner {
-    position: absolute;
-    inset: 8px;
-    border-radius: 50%;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 3;
-}
-
-.eye-symbol {
-    width: 30px;
-    height: 18px;
-    border: 2px solid var(--primary);
-    border-radius: 50% / 65%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.eye-symbol:before {
-    content: "";
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #12343b 0 38%, #0788a8 39%);
-}
-
-@keyframes rotateVision {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* FORM */
-.register {
-    width: 100%;
-    max-width: 400px;
-    padding: 12px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(16px);
-    border-radius: 16px;
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.field label {
-    display: block;
-    font-size: 10px;
-    font-weight: 800;
-    color: #617b81;
-    margin-bottom: 2px;
-}
-
-.field input {
-    width: 100%;
-    height: 36px;
-    border: 1px solid #cfe4e8;
-    border-radius: 8px;
-    padding: 0 10px;
-    font-size: 13px;
-    outline: none;
-    background: rgba(255,255,255,0.9);
-}
-
-.primary-btn, .secondary-btn, .whatsapp-btn {
-    width: 100%;
-    height: 38px;
-    border-radius: 10px;
-    font-weight: 900;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    text-decoration: none;
-}
-
-.primary-btn {
-    background: linear-gradient(135deg, #0788a8, #05677e);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(7,136,168,.25);
-}
-
-.secondary-btn {
-    background: rgba(255,255,255,0.95);
-    border: 1px solid #cbe4e9;
-    color: #05677e;
-}
-
-.whatsapp-btn {
-    background: #25D366;
-    color: #fff;
-}
-
-.btn-group {
-    display: flex;
-    gap: 6px;
-}
-
-.footer {
-    font-size: 9px;
-    color: #8aa0a5;
-    text-align: center;
-    margin-top: 4px;
-}
-
-/* GAME SCREEN */
 .game-header {
     width: 100%;
-    max-width: 500px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 10px;
 }
 
 .game-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 10px 14px;
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    box-shadow: var(--shadow);
 }
 
-.player-mini {
+.brand-title {
+    font-size: 15px;
+    font-weight: 900;
+    color: var(--primary-dark);
     display: flex;
     align-items: center;
+    gap: 8px;
+    letter-spacing: -0.3px;
+}
+
+.header-controls {
+    display: flex;
     gap: 6px;
 }
 
-.player-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--primary);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.icon-btn, .lang-btn {
+    border: 1px solid #c0e2ea;
+    background: rgba(255,255,255,0.95);
+    color: var(--primary-dark);
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-weight: 800;
     font-size: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
 
-.player-mini-text strong {
-    font-size: 11px;
-    display: block;
+.icon-btn:active, .lang-btn:active {
+    transform: scale(0.95);
 }
 
-.player-mini-text small {
-    color: #829398;
-    font-size: 9px;
-}
-
+/* STATS BAR */
 .stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 4px;
+    gap: 6px;
 }
 
 .stat {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 8px;
+    border-radius: 12px;
     text-align: center;
-    padding: 3px;
+    padding: 6px 2px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
 
 .stat span {
     display: block;
-    color: #81959a;
-    font-size: 8px;
+    color: #7b949a;
+    font-size: 9px;
     font-weight: 800;
+    letter-spacing: 0.5px;
 }
 
 .stat strong {
-    font-size: 13px;
+    font-size: 16px;
     color: var(--primary-dark);
+    font-weight: 900;
 }
 
 .timer-bg {
     width: 100%;
-    height: 5px;
-    background: #e2eef0;
-    border-radius: 8px;
+    height: 8px;
+    background: rgba(7, 136, 168, 0.12);
+    border-radius: 10px;
     overflow: hidden;
 }
 
 .timer-bar {
     height: 100%;
     width: 100%;
-    background: linear-gradient(90deg, #12b8d4, #0788a8);
+    background: linear-gradient(90deg, #ff4757, #12b8d4, #0788a8);
     transition: width 0.2s linear;
 }
 
+/* GAME BODY & BOARD */
 .game-body {
     flex: 1;
     display: flex;
@@ -416,97 +210,176 @@ button {
     align-items: center;
     justify-content: center;
     width: 100%;
+    margin: 10px 0;
 }
 
 .board {
-    width: min(75vw, 42vh);
-    height: min(75vw, 42vh);
+    width: min(84vw, 42vh);
+    height: min(84vw, 42vh);
     max-width: 360px;
     max-height: 360px;
     display: grid;
-    gap: 5px;
-    padding: 6px;
+    gap: 6px;
+    padding: 10px;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 14px;
+    border-radius: 22px;
     box-shadow: var(--shadow);
 }
 
 .color-cell {
-    border-radius: 6px;
+    border-radius: 10px;
     width: 100%;
     height: 100%;
+    transition: transform 0.08s ease;
 }
 
-.lives {
-    margin-top: 4px;
-    font-size: 14px;
-    letter-spacing: 2px;
+.color-cell:active {
+    transform: scale(0.91);
 }
 
+/* LIVES UI */
+.lives-pill-container {
+    margin-top: 14px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 8px 18px;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.lives-label {
+    font-size: 10px;
+    font-weight: 900;
+    color: #05677e;
+    letter-spacing: 0.8px;
+}
+
+.lives-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.heart-icon {
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.heart-icon.active {
+    filter: drop-shadow(0 2px 6px rgba(255, 71, 87, 0.45));
+    animation: pulseHeart 1.6s infinite ease-in-out;
+}
+
+.heart-icon.lost {
+    opacity: 0.2;
+    transform: scale(0.75);
+    filter: grayscale(100%);
+}
+
+@keyframes pulseHeart {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+/* EYE TIP BOX */
 .eye-tip-box {
     width: 100%;
-    max-width: 500px;
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid #d0e8ed;
-    border-radius: 8px;
-    padding: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #cbe4ea;
+    border-radius: 14px;
+    padding: 10px 14px;
     text-align: center;
-    font-size: 10px;
+    font-size: 11px;
     color: #05677e;
     font-weight: 700;
-    margin-top: 4px;
+    line-height: 1.35;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.02);
 }
 
 /* MODALS */
 .modal-bg {
-    position: fixed;
+    position: absolute;
     inset: 0;
     z-index: 100;
-    background: rgba(0, 35, 43, 0.65);
-    backdrop-filter: blur(4px);
+    background: rgba(5, 32, 38, 0.72);
+    backdrop-filter: blur(6px);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 12px;
+    padding: 16px;
 }
 
 .modal {
-    width: min(92vw, 380px);
-    max-height: 85vh;
-    background: #fff;
-    border-radius: 16px;
-    padding: 14px;
+    width: 100%;
+    max-width: 360px;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 22px 20px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    overflow-y: auto;
+    gap: 14px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalPop {
+    from { opacity: 0; transform: scale(0.88); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .modal-header h2 {
-    font-size: 16px;
+    font-size: 20px;
     text-align: center;
+    color: var(--dark);
+    font-weight: 900;
 }
 
-.modal-header p {
-    font-size: 10px;
-    color: #789096;
-    text-align: center;
+.field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    color: #537077;
+    margin-bottom: 4px;
+}
+
+.field input {
+    width: 100%;
+    height: 44px;
+    border: 1.5px solid #cae4e9;
+    border-radius: 12px;
+    padding: 0 12px;
+    font-size: 14px;
+    outline: none;
+    background: #f7fcfe;
+    color: var(--dark);
+    font-weight: 600;
+}
+
+.field input:focus {
+    border-color: var(--primary);
+    background: #fff;
 }
 
 .result-score {
     color: var(--primary);
     text-align: center;
-    font-size: 32px;
+    font-size: 42px;
     font-weight: 900;
+    line-height: 1;
 }
 
 .vision-status-badge {
     text-align: center;
-    padding: 4px 8px;
-    border-radius: 8px;
+    padding: 8px 14px;
+    border-radius: 12px;
     font-weight: 900;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .status-excellent { background: #e3fcef; color: #00875a; }
@@ -515,234 +388,273 @@ button {
 
 .result-info {
     background: #f2fafc;
-    border-radius: 8px;
-    padding: 8px;
+    border-radius: 14px;
+    padding: 12px;
+    border: 1px solid #e0f0f3;
 }
 
 .result-row {
     display: flex;
     justify-content: space-between;
-    padding: 4px 0;
+    padding: 6px 0;
     border-bottom: 1px solid #dcecef;
-    font-size: 11px;
+    font-size: 13px;
 }
 
-.score-list {
+.result-row:last-child {
+    border-bottom: none;
+}
+
+/* PREMIUM WHATSAPP BOOKING CARD UI/UX */
+.booking-card {
+    background: linear-gradient(135deg, #e8fafd 0%, #f4fbfd 100%);
+    border: 1.5px solid #b8ebf5;
+    border-radius: 18px;
+    padding: 14px 12px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(7, 136, 168, 0.08);
 }
 
-.score-row {
-    display: grid;
-    grid-template-columns: 20px 1fr auto;
+.booking-header {
+    display: flex;
     align-items: center;
-    gap: 6px;
-    background: #f8fcfd;
-    border: 1px solid #e4eff1;
-    border-radius: 8px;
-    padding: 5px 8px;
+    gap: 8px;
+}
+
+.booking-icon-wrapper {
+    width: 32px;
+    height: 32px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+}
+
+.booking-title-text {
+    font-size: 13px;
+    font-weight: 900;
+    color: #05677e;
+    letter-spacing: -0.2px;
+}
+
+.booking-subtitle-text {
     font-size: 11px;
+    color: #587981;
+    line-height: 1.3;
+    font-weight: 600;
+}
+
+.whatsapp-btn-glow {
+    position: relative;
+    width: 100%;
+    height: 48px;
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: #ffffff;
+    border-radius: 14px;
+    font-weight: 900;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    animation: pulseWhatsapp 2.2s infinite ease-in-out;
+}
+
+.whatsapp-btn-glow:active {
+    transform: scale(0.96);
+    box-shadow: 0 3px 10px rgba(37, 211, 102, 0.2);
+}
+
+@keyframes pulseWhatsapp {
+    0%, 100% {
+        box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+    }
+    50% {
+        box-shadow: 0 8px 28px rgba(37, 211, 102, 0.65);
+    }
+}
+
+.primary-btn, .secondary-btn {
+    width: 100%;
+    height: 46px;
+    border-radius: 14px;
+    font-weight: 900;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.1s ease;
+}
+
+.primary-btn:active, .secondary-btn:active {
+    transform: scale(0.97);
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, #0788a8, #05677e);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(7,136,168,.3);
+}
+
+.secondary-btn {
+    background: rgba(255,255,255,0.95);
+    border: 1.5px solid #cbe4e9;
+    color: #05677e;
 }
 </style>
 </head>
 
 <body>
 
-<div class="bg-animated"></div>
+<div class="mobile-wrapper">
+    <div class="bg-animated"></div>
 
-<!-- LANDING PAGE -->
-<section id="landing" class="landing">
+    <!-- MAIN GAME SCREEN -->
+    <section id="gameScreen" class="screen">
 
-    <header class="header">
-        <div class="brand">
-            <div class="logo">👁️</div>
-            <div class="brand-text">
-                <h1>GLOBAL EYE HOSPITAL MELATTUR</h1>
-                <p>Color Vision Challenge</p>
-            </div>
-        </div>
-        <div class="header-controls">
-            <button class="icon-btn" onclick="toggleMute()" id="soundToggleBtn">🔊</button>
-            <button class="lang-btn" onclick="toggleLanguage()">
-                <span id="langBtn">മലയാളം</span>
-            </button>
-        </div>
-    </header>
-
-    <div class="hero">
-        <div class="hero-badge" id="heroBadge">🎯 50 LEVEL COLOR CHALLENGE</div>
-        <h2 id="heroTitle">FIND THE <span>DIFFERENT</span> COLOR</h2>
-        <p id="heroDescription">Find the different color tile before time runs out!</p>
-
-        <div class="color-vision-showcase">
-            <div class="color-orbit"></div>
-            <div class="color-orbit-inner">
-                <div class="eye-symbol"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="register">
-        <div class="field">
-            <label id="nameLabel">Name</label>
-            <input id="playerName" type="text" maxlength="20" placeholder="Enter name">
-        </div>
-        <div class="field">
-            <label id="ageLabel">Age</label>
-            <input id="playerAge" type="number" min="1" max="120" placeholder="Enter age">
-        </div>
-        <div class="field">
-            <label id="mobileLabel">Mobile Number</label>
-            <input id="playerMobile" type="tel" maxlength="15" placeholder="Enter mobile">
-        </div>
-
-        <button class="primary-btn" onclick="validateAndStart()">
-            <span id="startText">🚀 START GAME</span>
-        </button>
-
-        <div class="btn-group">
-            <button class="secondary-btn" onclick="openLeaderboard()">
-                🏆 <span id="topScoreText">LEADERBOARD</span>
-            </button>
-            <button class="secondary-btn" onclick="openHowToPlay()">
-                ❓ <span id="howText">HOW TO PLAY</span>
-            </button>
-        </div>
-    </div>
-
-    <div class="footer">
-        © Global Eye Hospital Melattur
-    </div>
-
-</section>
-
-<!-- GAME SCREEN -->
-<section id="gameScreen" class="game-screen hidden">
-
-    <div class="game-header">
-        <div class="game-top">
-            <div class="player-mini">
-                <div class="player-avatar">👤</div>
-                <div class="player-mini-text">
-                    <strong id="gamePlayerName">Player</strong>
-                    <small id="gamePlayerAge">Age: 0</small>
+        <div class="game-header">
+            <div class="game-top">
+                <div class="brand-title">
+                    <span>👁️</span> <span id="appTitle">Color Vision Pro</span>
+                </div>
+                <div class="header-controls">
+                    <button class="icon-btn" onclick="toggleMute()" id="soundToggleBtn">🔊</button>
+                    <button class="lang-btn" onclick="toggleLanguage()"><span id="langBtn">മലയാളം</span></button>
+                    <button class="icon-btn" onclick="togglePause()"><span id="pauseBtn">⏸️</span></button>
                 </div>
             </div>
-            <div class="header-controls">
-                <button class="icon-btn" onclick="toggleMute()" id="gameSoundBtn">🔊</button>
-                <button class="icon-btn" onclick="togglePause()"><span id="pauseBtn">⏸️</span></button>
+
+            <div class="stats">
+                <div class="stat"><span id="scoreLabel">SCORE</span><strong id="score">0</strong></div>
+                <div class="stat"><span id="timeLabel">TIME</span><strong id="time">30</strong></div>
+                <div class="stat"><span id="levelLabel">LEVEL</span><strong id="level">1</strong></div>
+                <div class="stat"><span id="bestLabel">BEST</span><strong id="best">0</strong></div>
+            </div>
+
+            <div class="timer-bg">
+                <div id="timerBar" class="timer-bar"></div>
             </div>
         </div>
 
-        <div class="stats">
-            <div class="stat"><span id="scoreLabel">SCORE</span><strong id="score">0</strong></div>
-            <div class="stat"><span id="timeLabel">TIME</span><strong id="time">60</strong></div>
-            <div class="stat"><span id="levelLabel">LEVEL</span><strong id="level">1</strong></div>
-            <div class="stat"><span id="bestLabel">BEST</span><strong id="best">0</strong></div>
+        <div class="game-body">
+            <div id="board" class="board"></div>
+
+            <!-- ANIMATED LIVES CONTAINER -->
+            <div class="lives-pill-container">
+                <span class="lives-label" id="livesTextLabel">LIVES</span>
+                <div class="lives-icons">
+                    <svg class="heart-icon active" id="heart1" viewBox="0 0 24 24" fill="#ff4757">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <svg class="heart-icon active" id="heart2" viewBox="0 0 24 24" fill="#ff4757">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <svg class="heart-icon active" id="heart3" viewBox="0 0 24 24" fill="#ff4757">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+            </div>
         </div>
 
-        <div class="timer-bg">
-            <div id="timerBar" class="timer-bar"></div>
+        <div class="eye-tip-box" id="eyeTipBox">
+            💡 💡 💡
+        </div>
+
+    </section>
+
+    <!-- START USER NAME MODAL -->
+    <div id="startModal" class="modal-bg">
+        <div class="modal">
+            <div class="modal-header">
+                <div style="font-size:36px;text-align:center;">🎮</div>
+                <h2 id="startTitle">ENTER DETAILS</h2>
+            </div>
+            
+            <div class="field">
+                <label id="nameLabel">YOUR NAME</label>
+                <input id="playerName" type="text" maxlength="25" placeholder="Enter your name">
+            </div>
+
+            <button class="primary-btn" onclick="submitPlayerDetails()">
+                <span id="startBtnText">🚀 START GAME</span>
+            </button>
         </div>
     </div>
 
-    <div class="game-body">
-        <div id="board" class="board"></div>
-        <div id="lives" class="lives">❤️ ❤️ ❤️</div>
+    <!-- PAUSE MODAL -->
+    <div id="pauseScreen" class="modal-bg hidden">
+        <div class="modal" style="text-align:center;">
+            <div style="font-size:40px;">⏸️</div>
+            <h2 id="pauseTitle">GAME PAUSED</h2>
+            <button class="primary-btn" onclick="togglePause()"><span id="resumeText">RESUME</span></button>
+            <button class="secondary-btn" onclick="resetGame(); togglePause();"><span id="restartText">RESTART</span></button>
+        </div>
     </div>
 
-    <div class="eye-tip-box" id="eyeTipBox">
-        💡 💡 💡
-    </div>
+    <!-- GAME OVER MODAL -->
+    <div id="gameOver" class="modal-bg hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <div style="font-size:36px;text-align:center;">🏆</div>
+                <h2 id="gameOverTitle">GAME OVER</h2>
+            </div>
+            
+            <div id="finalScore" class="result-score">0</div>
+            
+            <div id="visionBadge" class="vision-status-badge status-good">
+                Eagle Eye Vision
+            </div>
 
-</section>
+            <div class="result-info">
+                <div class="result-row"><span id="resultPlayerLabel">Player</span><strong id="finalPlayerName">User</strong></div>
+                <div class="result-row"><span id="resultLevelLabel">Level</span><strong id="finalLevel">1</strong></div>
+                <div class="result-row"><span id="resultBestLabel">Best</span><strong id="finalBest">0</strong></div>
+            </div>
 
-<!-- PAUSE MODAL -->
-<div id="pauseScreen" class="modal-bg hidden">
-    <div class="modal" style="text-align:center;">
-        <div style="font-size:30px;">⏸️</div>
-        <h2 id="pauseTitle">GAME PAUSED</h2>
-        <button class="primary-btn" onclick="togglePause()"><span id="resumeText">RESUME</span></button>
-        <button class="secondary-btn" onclick="goHome()"><span id="homeText">HOME</span></button>
-    </div>
-</div>
+            <!-- ENHANCED WHATSAPP BOOKING CARD -->
+            <div class="booking-card">
+                <div class="booking-header">
+                    <div class="booking-icon-wrapper">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.762.459 3.48 1.332 5.001L2 22l5.129-1.333c1.468.801 3.125 1.222 4.881 1.223h.004c5.505 0 9.988-4.478 9.989-9.984.001-2.667-1.034-5.174-2.92-7.062C17.199 3.033 14.68 2 12.012 2zm5.836 14.28c-.244.688-1.218 1.26-1.701 1.338-.456.074-1.05.105-1.693-.102-.389-.126-.889-.289-1.543-.573-2.73-1.185-4.512-3.95-4.65-4.133-.135-.183-1.11-1.48-1.11-2.822 0-1.343.702-2.002.952-2.27.243-.261.53-.326.708-.326.177 0 .355.001.508.009.162.007.38-.062.593.448.22.529.749 1.83.814 1.963.066.133.11.289.022.464-.088.176-.133.287-.264.441-.132.155-.278.347-.397.466-.133.133-.272.278-.117.544.155.266.69 1.14 1.482 1.846 1.018.908 1.877 1.19 2.143 1.323.266.133.421.111.576-.067.155-.177.665-.775.842-1.041.177-.266.355-.222.598-.133.244.089 1.55.731 1.816.864.266.133.443.199.509.31.066.111.066.643-.178 1.331z"/>
+                        </svg>
+                    </div>
+                    <span class="booking-title-text" id="bookingTitle">Professional Eye Care</span>
+                </div>
 
-<!-- GAME OVER MODAL -->
-<div id="gameOver" class="modal-bg hidden">
-    <div class="modal">
-        <div class="modal-header">
-            <div style="font-size:30px;text-align:center;">🏆</div>
-            <h2 id="gameOverTitle">GAME OVER</h2>
-            <p>Global Eye Hospital Melattur</p>
+                <div class="booking-subtitle-text" id="bookingSubtitle">
+                    Consult our eye specialist for a comprehensive visual test.
+                </div>
+
+                <a id="whatsappBtn" class="whatsapp-btn-glow" href="#" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.762.459 3.48 1.332 5.001L2 22l5.129-1.333c1.468.801 3.125 1.222 4.881 1.223h.004c5.505 0 9.988-4.478 9.989-9.984.001-2.667-1.034-5.174-2.92-7.062C17.199 3.033 14.68 2 12.012 2zm5.836 14.28c-.244.688-1.218 1.26-1.701 1.338-.456.074-1.05.105-1.693-.102-.389-.126-.889-.289-1.543-.573-2.73-1.185-4.512-3.95-4.65-4.133-.135-.183-1.11-1.48-1.11-2.822 0-1.343.702-2.002.952-2.27.243-.261.53-.326.708-.326.177 0 .355.001.508.009.162.007.38-.062.593.448.22.529.749 1.83.814 1.963.066.133.11.289.022.464-.088.176-.133.287-.264.441-.132.155-.278.347-.397.466-.133.133-.272.278-.117.544.155.266.69 1.14 1.482 1.846 1.018.908 1.877 1.19 2.143 1.323.266.133.421.111.576-.067.155-.177.665-.775.842-1.041.177-.266.355-.222.598-.133.244.089 1.55.731 1.816.864.266.133.443.199.509.31.066.111.066.643-.178 1.331z"/>
+                    </svg>
+                    <span id="whatsappText">BOOK EYE CHECKUP</span>
+                </a>
+            </div>
+
+            <button class="primary-btn" onclick="playAgain()">🔄 <span id="playAgainText">PLAY AGAIN</span></button>
         </div>
-        
-        <div id="finalScore" class="result-score">0</div>
-        
-        <div id="visionBadge" class="vision-status-badge status-good">
-            Eagle Eye Vision
-        </div>
-
-        <div class="result-info">
-            <div class="result-row"><span id="resultPlayerLabel">Player</span><strong id="finalPlayer">-</strong></div>
-            <div class="result-row"><span id="resultLevelLabel">Level</span><strong id="finalLevel">1</strong></div>
-            <div class="result-row"><span id="resultBestLabel">Best</span><strong id="finalBest">0</strong></div>
-        </div>
-
-        <a id="whatsappBtn" class="whatsapp-btn" href="#" target="_blank">
-            💬 <span id="whatsappText">BOOK EYE CHECKUP</span>
-        </a>
-
-        <button class="primary-btn" onclick="playAgain()">🔄 <span id="playAgainText">PLAY AGAIN</span></button>
-        <button class="secondary-btn" onclick="goHome()">🏠 <span id="homeText2">HOME</span></button>
-    </div>
-</div>
-
-<!-- LEADERBOARD MODAL -->
-<div id="leaderboardModal" class="modal-bg hidden">
-    <div class="modal">
-        <div class="modal-header">
-            <h2>🏆 TOP 10 LEADERBOARD</h2>
-            <p>Global Eye Hospital Melattur</p>
-        </div>
-        <div id="scoreList" class="score-list">
-            <div style="text-align:center; padding:10px; font-size:12px; color:#666;">Loading scores...</div>
-        </div>
-        <button class="secondary-btn" onclick="closeLeaderboard()">✕ <span id="closeScoreText">CLOSE</span></button>
-    </div>
-</div>
-
-<!-- HOW TO PLAY MODAL -->
-<div id="howModal" class="modal-bg hidden">
-    <div class="modal">
-        <div class="modal-header">
-            <h2>🎮 HOW TO PLAY</h2>
-        </div>
-        <div class="result-info">
-            <div class="result-row"><span>1️⃣</span><strong id="how1">Find the different color.</strong></div>
-            <div class="result-row"><span>2️⃣</span><strong id="how2">Tap it quickly before timer ends.</strong></div>
-            <div class="result-row"><span>3️⃣</span><strong id="how3">Wrong click loses 1 life.</strong></div>
-            <div class="result-row"><span>4️⃣</span><strong id="how4">You have 3 lives total.</strong></div>
-            <div class="result-row"><span>5️⃣</span><strong id="how5">Complete all 50 levels!</strong></div>
-        </div>
-        <button class="secondary-btn" onclick="closeHowToPlay()">✕ <span id="closeHowText">CLOSE</span></button>
     </div>
 </div>
 
 <script>
-/* =========================================================
-   ENCODED GOOGLE SHEET URL
-========================================================= */
-const _0x1a = "aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6Q3Jpc0hBa3dHM1kwNWQtcGtaV2FDeE5xMVhuRTBQVS15SVlfV08yM0tKQ0M0M1FteUNjejZZVE42eUk5RmtlYjlQUS9leGVj"; 
-
-function getSheetURL() {
-    try {
-        return atob(_0x1a);
-    } catch(e) {
-        return "";
-    }
-}
-
 // PREVENT DOUBLE-TAP ZOOM IN MOBILE
 document.addEventListener('touchstart', function(event) {
     if (event.touches.length > 1) {
@@ -761,28 +673,28 @@ document.addEventListener('touchend', function(event) {
 
 let currentLang = 'en';
 let level = 1;
-let score = 0;
+let score = 0; // Exactly 1 point per level
 let lives = 3;
-let timeLeft = 60;
-let maxTime = 60;
+let timeLeft = 30;
+let maxTime = 30;
 let timer = null;
 let isPaused = false;
 let isMuted = false;
 let targetIndex = 0;
-let player = { name: '', age: '', mobile: '' };
+let playerName = "Player";
 
 const eyeTipsEn = [
+    "💡 Extreme Mode: Focus closely to spot subtle color differences!",
     "💡 Practice the 20-20-20 rule: Every 20 minutes, look 20 feet away for 20 seconds.",
     "💡 Blinking frequently helps keep your eyes moist and reduces fatigue.",
-    "💡 Ensure good lighting while reading or working on digital screens.",
-    "💡 Get your eyes checked regularly at Global Eye Hospital Melattur."
+    "💡 Ensure good lighting while reading or working on digital screens."
 ];
 
 const eyeTipsMl = [
+    "💡 ഹാർഡ് മോഡ്: കളർ വ്യത്യാസം തിരിച്ചറിയാൻ ശ്രദ്ധിച്ചു നോക്കുക!",
     "💡 20-20-20 റൂൾ ശീലമാക്കുക: ഓരോ 20 മിനിറ്റിലും 20 അടി അകലേക്ക് 20 സെക്കൻഡ് നോക്കുക.",
     "💡 ഇടയ്ക്കിടെ കണ്ണുകൾ ചിമ്മുന്നത് കണ്ണിന്റെ ഈർപ്പം നിലനിർത്താൻ സഹായിക്കും.",
-    "💡 ഫോൺ/കമ്പ്യൂട്ടർ ഉപയോഗിക്കുമ്പോൾ ആവശ്യത്തിന് വെളിച്ചമുണ്ടെന്ന് ഉറപ്പാക്കുക.",
-    "💡 ഗ്ലോബൽ ഐ ഹോസ്പിറ്റൽ മേലാറ്റൂരിൽ കൃത്യമായ ഇടവേളകളിൽ കണ്ണ് പരിശോധിക്കുക."
+    "💡 സ്ക്രീൻ ഉപയോഗത്തിനിടയിൽ ചെറിയ ഇടവേളകൾ എടുക്കുക."
 ];
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -801,27 +713,27 @@ function playSound(type) {
 
     const now = audioCtx.currentTime;
     if (type === 'correct') {
-        osc.frequency.setValueAtTime(587.33, now);
-        osc.frequency.exponentialRampToValueAtTime(880, now + 0.1);
-        gain.gain.setValueAtTime(0.15, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+        osc.frequency.setValueAtTime(600, now);
+        osc.frequency.exponentialRampToValueAtTime(900, now + 0.08);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
         osc.start(now);
-        osc.stop(now + 0.15);
+        osc.stop(now + 0.1);
     } else if (type === 'wrong') {
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(220, now);
-        osc.frequency.exponentialRampToValueAtTime(110, now + 0.2);
+        osc.frequency.setValueAtTime(200, now);
+        osc.frequency.exponentialRampToValueAtTime(100, now + 0.18);
         gain.gain.setValueAtTime(0.2, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.18);
         osc.start(now);
-        osc.stop(now + 0.2);
+        osc.stop(now + 0.18);
     } else if (type === 'win') {
-        osc.frequency.setValueAtTime(440, now);
-        osc.frequency.exponentialRampToValueAtTime(880, now + 0.3);
-        gain.gain.setValueAtTime(0.25, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+        osc.frequency.setValueAtTime(500, now);
+        osc.frequency.exponentialRampToValueAtTime(1000, now + 0.25);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
         osc.start(now);
-        osc.stop(now + 0.3);
+        osc.stop(now + 0.25);
     }
 }
 
@@ -833,71 +745,54 @@ function toggleMute() {
     isMuted = !isMuted;
     const icon = isMuted ? '🔇' : '🔊';
     document.getElementById('soundToggleBtn').innerText = icon;
-    document.getElementById('gameSoundBtn').innerText = icon;
 }
 
 const translations = {
     en: {
+        appTitle: "Color Vision Pro",
         langBtn: "മലയാളം",
-        heroBadge: "🎯 50 LEVEL COLOR CHALLENGE",
-        heroTitle: "FIND THE <span>DIFFERENT</span> COLOR",
-        heroDescription: "Find the different color tile before time runs out!",
-        nameLabel: "Name",
-        ageLabel: "Age",
-        mobileLabel: "Mobile Number",
-        startText: "🚀 START GAME",
-        topScoreText: "LEADERBOARD",
-        howText: "HOW TO PLAY",
         scoreLabel: "SCORE",
         timeLabel: "TIME",
         levelLabel: "LEVEL",
         bestLabel: "BEST",
-        pauseBtn: "Pause",
+        livesTextLabel: "LIVES",
+        startTitle: "ENTER DETAILS",
+        nameLabel: "YOUR NAME",
+        startBtnText: "🚀 START GAME",
         pauseTitle: "GAME PAUSED",
         resumeText: "RESUME",
-        homeText: "HOME",
-        homeText2: "HOME",
+        restartText: "RESTART",
         gameOverTitle: "GAME OVER",
         playAgainText: "PLAY AGAIN",
-        closeScoreText: "CLOSE",
-        closeHowText: "CLOSE",
-        whatsappText: "BOOK EYE CHECKUP",
-        how1: "Find the different color tile.",
-        how2: "Tap it quickly.",
-        how3: "Wrong tap loses 1 life.",
-        how4: "You have 3 lives total.",
-        how5: "Complete all 50 levels!"
+        resultPlayerLabel: "Player Name",
+        resultLevelLabel: "Level Reached",
+        resultBestLabel: "Personal Best",
+        bookingTitle: "Professional Eye Care",
+        bookingSubtitle: "Consult our eye specialist for a comprehensive visual test.",
+        whatsappText: "BOOK EYE CHECKUP"
     },
     ml: {
+        appTitle: "കളർ വിഷൻ പ്രോ",
         langBtn: "English",
-        heroBadge: "🎯 50 ലെവൽ കളർ ചലഞ്ച്",
-        heroTitle: "<span>വ്യത്യസ്തമായ</span> നിറം കണ്ടെത്തുക",
-        heroDescription: "സമയപരിധിക്കുള്ളിൽ വ്യത്യാസമുള്ള കളർ ബോക്സ് കണ്ടെത്തുക!",
-        nameLabel: "പേര്",
-        ageLabel: "വയസ്സ്",
-        mobileLabel: "മൊബൈൽ നമ്പർ",
-        startText: "🚀 ഗെയിം ആരംഭിക്കുക",
-        topScoreText: "ലീഡർബോർഡ്",
-        howText: "കളിക്കേണ്ട വിധം",
         scoreLabel: "സ്‌കോർ",
         timeLabel: "സമയം",
         levelLabel: "ലെവൽ",
         bestLabel: "മികച്ച സ്കോർ",
-        pauseBtn: "പോസ്",
+        livesTextLabel: "ലൈഫുകൾ",
+        startTitle: "വിവരങ്ങൾ നൽകുക",
+        nameLabel: "നിങ്ങളുടെ പേര്",
+        startBtnText: "🚀 ഗെയിം തുടങ്ങുക",
         pauseTitle: "ഗെയിം നിർത്തിവെച്ചിരിക്കുന്നു",
         resumeText: "തുടരുക",
-        homeText: "ഹോം",
-        homeText2: "ഹോം",
+        restartText: "വീണ്ടും തുടങ്ങുക",
         gameOverTitle: "ഗെയിം ഓവർ",
         playAgainText: "വീണ്ടും കളിക്കുക",
-        closeScoreText: "അടയ്ക്കുക",
-        closeHowText: "അടയ്ക്കുക",
-        whatsappText: "കണ്ണ് പരിശോധന ബുക്ക് ചെയ്യുക",
-        how1: "വ്യത്യസ്തമായ കളർ ബോക്സ് കണ്ടെത്തുക.",
-        how2: "വേഗത്തിൽ ടാപ്പ് ചെയ്യുക.",
-        how3: "തെറ്റിയാൽ 1 ലൈഫ് നഷ്ടപ്പെടും.",
-        how4: "ആകെ 3 ലൈഫുകൾ ലഭിക്കും.",
-        how5: "50 ലെവലുകൾ പൂർത്തിയാക്കുക!"
+        resultPlayerLabel: "കളിക്കാരന്റെ പേര്",
+        resultLevelLabel: "എത്തിയ ലെവൽ",
+        resultBestLabel: "മികച്ച സ്കോർ",
+        bookingTitle: "പ്രൊഫഷണൽ കണ്ണ് പരിശോധന",
+        bookingSubtitle: "നിങ്ങളുടെ കണ്ണിന്റെ കാഴ്ച പരിശോധിക്കാൻ ഉടൻ ബന്ധപ്പെടുക.",
+        whatsappText: "കണ്ണ് പരിശോധന ബുക്ക് ചെയ്യുക"
     }
 };
 
@@ -906,10 +801,7 @@ function toggleLanguage() {
     const t = translations[currentLang];
     for (let key in t) {
         const el = document.getElementById(key);
-        if (el) {
-            if (key === 'heroTitle') el.innerHTML = t[key];
-            else el.innerText = t[key];
-        }
+        if (el) el.innerText = t[key];
     }
     updateEyeTip();
 }
@@ -920,30 +812,21 @@ function updateEyeTip() {
     document.getElementById('eyeTipBox').innerText = randomTip;
 }
 
-function validateAndStart() {
+function submitPlayerDetails() {
     initAudio();
-    const name = document.getElementById('playerName').value.trim();
-    const age = document.getElementById('playerAge').value.trim();
-    const mobile = document.getElementById('playerMobile').value.trim();
-
-    if (!name || !age) {
-        alert(currentLang === 'en' ? 'Please enter Name and Age' : 'ദയവായി പേരും വയസ്സും നൽകുക');
-        return;
+    const inputName = document.getElementById('playerName').value.trim();
+    if (inputName) {
+        playerName = inputName;
+    } else {
+        playerName = "Player";
     }
-
-    player = { name, age, mobile };
-    document.getElementById('gamePlayerName').innerText = name;
-    document.getElementById('gamePlayerAge').innerText = "Age: " + age;
-
-    document.getElementById('landing').classList.add('hidden');
-    document.getElementById('gameScreen').classList.remove('hidden');
-
+    document.getElementById('startModal').classList.add('hidden');
     resetGame();
 }
 
 function resetGame() {
     level = 1;
-    score = 0;
+    score = 0; // Reset score
     lives = 3;
     updateStats();
     loadLevel();
@@ -954,46 +837,61 @@ function updateStats() {
     document.getElementById('level').innerText = level;
     document.getElementById('best').innerText = getBestScore();
     
-    let hearts = '';
-    for (let i = 0; i < 3; i++) {
-        hearts += i < lives ? '❤️ ' : '🖤 ';
+    // UPDATE ANIMATED LIVES
+    for (let i = 1; i <= 3; i++) {
+        const heart = document.getElementById('heart' + i);
+        if (i <= lives) {
+            heart.classList.remove('lost');
+            heart.classList.add('active');
+        } else {
+            heart.classList.remove('active');
+            heart.classList.add('lost');
+        }
     }
-    document.getElementById('lives').innerText = hearts;
 }
 
 function getBestScore() {
-    const scores = JSON.parse(localStorage.getItem('color_vision_scores') || '[]');
-    if (scores.length === 0) return 0;
-    return Math.max(...scores.map(s => s.score));
+    return parseInt(localStorage.getItem('color_vision_hard_best') || '0');
+}
+
+function saveBestScore(newScore) {
+    const currentBest = getBestScore();
+    if (newScore > currentBest) {
+        localStorage.setItem('color_vision_hard_best', newScore.toString());
+    }
 }
 
 function loadLevel() {
-    if (level > 50) {
+    if (level > 80) {
         endGame(true);
         return;
     }
 
     updateEyeTip();
 
+    // GRID SCALING
     let gridSize = 2;
-    if (level > 3) gridSize = 3;
-    if (level > 8) gridSize = 4;
-    if (level > 15) gridSize = 5;
-    if (level > 25) gridSize = 6;
-    if (level > 38) gridSize = 7;
+    if (level > 2) gridSize = 3;
+    if (level > 5) gridSize = 4;
+    if (level > 10) gridSize = 5;
+    if (level > 18) gridSize = 6;
+    if (level > 28) gridSize = 7;
+    if (level > 40) gridSize = 8;
 
-    maxTime = Math.max(12, 60 - Math.floor(level * 0.8));
+    // TIMER SCALING
+    maxTime = Math.max(6, 30 - Math.floor(level * 0.4));
     timeLeft = maxTime;
     startTimer();
 
     const baseHue = Math.floor(Math.random() * 360);
-    const baseSat = Math.floor(Math.random() * 40) + 50;
+    const baseSat = Math.floor(Math.random() * 50) + 40;
     const baseLight = Math.floor(Math.random() * 40) + 30;
 
-    const diff = Math.max(2, 28 - Math.floor(level * 0.5));
+    // COLOR DIFFERENCE
+    let diff = Math.max(0.8, 14 - (level * 0.3));
     
     const baseColor = `hsl(${baseHue}, ${baseSat}%, ${baseLight}%)`;
-    const targetColor = `hsl(${baseHue}, ${baseSat}%, ${baseLight + diff}%)`;
+    const targetColor = `hsl(${baseHue}, ${baseSat}%, ${(baseLight + diff).toFixed(2)}%)`;
 
     const board = document.getElementById('board');
     board.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
@@ -1006,7 +904,10 @@ function loadLevel() {
         const btn = document.createElement('button');
         btn.className = 'color-cell';
         btn.style.backgroundColor = (i === targetIndex) ? targetColor : baseColor;
-        btn.onclick = () => handleCellClick(i === targetIndex);
+        btn.onclick = () => {
+            initAudio();
+            handleCellClick(i === targetIndex);
+        };
         board.appendChild(btn);
     }
 
@@ -1018,7 +919,7 @@ function handleCellClick(isTarget) {
 
     if (isTarget) {
         playSound('correct');
-        score += 1;
+        score += 1; // EXACTLY 1 POINT PER LEVEL
         level++;
         clearInterval(timer);
         loadLevel();
@@ -1068,28 +969,30 @@ function endGame(completed) {
     clearInterval(timer);
     playSound('win');
 
-    saveScoreToSheet(player.name, player.age, player.mobile, score, level);
+    saveBestScore(score);
 
-    document.getElementById('finalPlayer').innerText = player.name;
+    document.getElementById('finalPlayerName').innerText = playerName;
     document.getElementById('finalLevel').innerText = level;
     document.getElementById('finalScore').innerText = score;
     document.getElementById('finalBest').innerText = getBestScore();
 
     const badge = document.getElementById('visionBadge');
-    if (score >= 35) {
+    if (score >= 30) {
         badge.className = "vision-status-badge status-excellent";
-        badge.innerText = currentLang === 'en' ? "🦅 Eagle Eye Vision (Excellent)" : "🦅 മികച്ച കണ്ണ് ദൃഷ്ടി (Excellent)";
-    } else if (score >= 18) {
+        badge.innerText = currentLang === 'en' ? "🦅 God-like Vision (Master)" : "🦅 അമാനുഷിക ദൃഷ്ടി (Master)";
+    } else if (score >= 15) {
         badge.className = "vision-status-badge status-good";
-        badge.innerText = currentLang === 'en' ? "👁️ Good Color Sensitivity" : "👁️ നല്ല കളർ ദൃഷ്ടി (Good)";
+        badge.innerText = currentLang === 'en' ? "👁️ Sharp Color Perception" : "👁️ മികച്ച കളർ വിഷൻ (Sharp)";
     } else {
         badge.className = "vision-status-badge status-check";
-        badge.innerText = currentLang === 'en' ? "🩺 Eye Checkup Recommended" : "🩺 ഐ ചെക്കപ്പ് ചെയ്യുന്നത് ഉചിതമാണ്";
+        badge.innerText = currentLang === 'en' ? "🔍 Needs More Practice" : "🔍 കൂടുതൽ പരിശീലനം ആവശ്യമാണ്";
     }
 
+    // WHATSAPP DIRECT LINK WITH NAME & SCORE
     const phone = "919947554477";
-    const msg = encodeURIComponent(`Hello Global Eye Hospital Melattur, I played the Color Vision Challenge!\nName: ${player.name}\nScore: ${score}\nLevel: ${level}\nI would like to book an eye checkup.`);
-    document.getElementById('whatsappBtn').href = `https://wa.me/${phone}?text=${msg}`;
+    const messageText = `Hello! I completed the Color Vision Challenge.\nName: ${playerName}\nScore: ${score}\nLevel: ${level}\nI would like to book an Eye Checkup.`;
+    const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(messageText)}`;
+    document.getElementById('whatsappBtn').href = whatsappUrl;
 
     if (typeof confetti === 'function') {
         confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
@@ -1102,90 +1005,6 @@ function playAgain() {
     document.getElementById('gameOver').classList.add('hidden');
     resetGame();
 }
-
-function goHome() {
-    clearInterval(timer);
-    isPaused = false;
-    document.getElementById('pauseScreen').classList.add('hidden');
-    document.getElementById('gameOver').classList.add('hidden');
-    document.getElementById('gameScreen').classList.add('hidden');
-    document.getElementById('landing').classList.remove('hidden');
-}
-
-// RELIABLE GOOGLE SHEET DATA UPLOAD
-function saveScoreToSheet(name, age, mobile, score, lvl) {
-    const scores = JSON.parse(localStorage.getItem('color_vision_scores') || '[]');
-    scores.push({ name, score, level: lvl, date: new Date().toLocaleDateString() });
-    scores.sort((a, b) => b.score - a.score);
-    localStorage.setItem('color_vision_scores', JSON.stringify(scores.slice(0, 10)));
-
-    const sheetURL = getSheetURL();
-    if (sheetURL) {
-        fetch(sheetURL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, age, mobile, score, level: lvl })
-        }).catch(err => console.log('Upload Error:', err));
-    }
-}
-
-// FETCH TOP 10 FROM GOOGLE SHEET
-function openLeaderboard() {
-    document.getElementById('leaderboardModal').classList.remove('hidden');
-    const container = document.getElementById('scoreList');
-    container.innerHTML = '<div style="text-align:center; padding:10px; font-size:12px; color:#666;">Loading Top 10...</div>';
-
-    const sheetURL = getSheetURL();
-    if (sheetURL) {
-        fetch(sheetURL)
-            .then(res => res.json())
-            .then(data => {
-                displayLeaderboard(data);
-            })
-            .catch(() => {
-                const localData = JSON.parse(localStorage.getItem('color_vision_scores') || '[]');
-                displayLeaderboard(localData);
-            });
-    } else {
-        const localData = JSON.parse(localStorage.getItem('color_vision_scores') || '[]');
-        displayLeaderboard(localData);
-    }
-}
-
-function displayLeaderboard(data) {
-    const container = document.getElementById('scoreList');
-    container.innerHTML = '';
-
-    if (!data || data.length === 0) {
-        container.innerHTML = '<div style="text-align:center;color:#819398;padding:15px;">No scores recorded yet!</div>';
-        return;
-    }
-
-    data.slice(0, 10).forEach((s, idx) => {
-        const row = document.createElement('div');
-        row.className = 'score-row';
-        row.innerHTML = `
-            <div><strong>#${idx + 1}</strong></div>
-            <div><strong>${s.name}</strong> <small>(Lvl ${s.level})</small></div>
-            <div><strong style="color:var(--primary);">${s.score} pts</strong></div>
-        `;
-        container.appendChild(row);
-    });
-}
-
-function closeLeaderboard() {
-    document.getElementById('leaderboardModal').classList.add('hidden');
-}
-
-function openHowToPlay() {
-    document.getElementById('howModal').classList.remove('hidden');
-}
-
-function closeHowToPlay() {
-    document.getElementById('howModal').classList.add('hidden');
-}
 </script>
-
 </body>
 </html>
