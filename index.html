@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
 <meta name="theme-color" content="#0788a8">
 
-<!-- 1. PWA META TAGS TO HIDE URL BAR WHEN ADDED TO HOME SCREEN -->
+<!-- PWA META TAGS TO HIDE URL BAR WHEN ADDED TO HOME SCREEN -->
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -142,6 +142,14 @@ html, body {
     letter-spacing: -0.3px;
 }
 
+/* LOGO STYLING */
+.brand-logo {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    border-radius: 6px;
+}
+
 .header-controls {
     display: flex;
     gap: 6px;
@@ -237,6 +245,8 @@ html, body {
     width: 100%;
     height: 100%;
     transition: transform 0.08s ease;
+    border: none;
+    cursor: pointer;
 }
 
 .color-cell:active {
@@ -410,7 +420,7 @@ html, body {
     border-bottom: none;
 }
 
-/* PREMIUM WHATSAPP BOOKING CARD UI/UX */
+/* WHATSAPP BOOKING CARD */
 .booking-card {
     background: linear-gradient(135deg, #e8fafd 0%, #f4fbfd 100%);
     border: 1.5px solid #b8ebf5;
@@ -535,7 +545,8 @@ html, body {
         <div class="game-header">
             <div class="game-top">
                 <div class="brand-title">
-                    <span>👁️</span> <span id="appTitle">Color Vision Pro</span>
+                    <img src="https://lh3.googleusercontent.com/d/1VnfVgxaqlJzrxoJDkJTCmLfxopsi9AQF" alt="Logo" class="brand-logo">
+                    <span id="appTitle">Color Vision Pro</span>
                 </div>
                 <div class="header-controls">
                     <button class="icon-btn" onclick="toggleMute()" id="soundToggleBtn">🔊</button>
@@ -660,14 +671,14 @@ html, body {
 </div>
 
 <script>
-// 2. AUTO-HIDE URL BAR ON PAGE LOAD VIA SCROLL TRICK
+// AUTO-HIDE URL BAR ON PAGE LOAD VIA SCROLL TRICK
 window.addEventListener("load", function() {
     setTimeout(function() {
         window.scrollTo(0, 1);
     }, 100);
 });
 
-// 3. FULLSCREEN TRIGGER FUNCTION FOR MOBILE BROWSERS
+// FULLSCREEN TRIGGER FUNCTION FOR MOBILE BROWSERS
 function requestFullscreenMode() {
     let elem = document.documentElement;
     if (elem.requestFullscreen) {
@@ -697,7 +708,7 @@ document.addEventListener('touchend', function(event) {
 
 let currentLang = 'en';
 let level = 1;
-let score = 0; // Exactly 1 point per level
+let score = 0;
 let lives = 3;
 let timeLeft = 30;
 let maxTime = 30;
@@ -708,14 +719,14 @@ let targetIndex = 0;
 let playerName = "Player";
 
 const eyeTipsEn = [
-    "💡 Extreme Mode: Focus closely to spot subtle color differences!",
+    "💡 Focus closely to spot subtle color differences!",
     "💡 Practice the 20-20-20 rule: Every 20 minutes, look 20 feet away for 20 seconds.",
     "💡 Blinking frequently helps keep your eyes moist and reduces fatigue.",
     "💡 Ensure good lighting while reading or working on digital screens."
 ];
 
 const eyeTipsMl = [
-    "💡 ഹാർഡ് മോഡ്: കളർ വ്യത്യാസം തിരിച്ചറിയാൻ ശ്രദ്ധിച്ചു നോക്കുക!",
+    "💡 കളർ വ്യത്യാസം തിരിച്ചറിയാൻ ശ്രദ്ധിച്ചു നോക്കുക!",
     "💡 20-20-20 റൂൾ ശീലമാക്കുക: ഓരോ 20 മിനിറ്റിലും 20 അടി അകലേക്ക് 20 സെക്കൻഡ് നോക്കുക.",
     "💡 ഇടയ്ക്കിടെ കണ്ണുകൾ ചിമ്മുന്നത് കണ്ണിന്റെ ഈർപ്പം നിലനിർത്താൻ സഹായിക്കും.",
     "💡 സ്ക്രീൻ ഉപയോഗത്തിനിടയിൽ ചെറിയ ഇടവേളകൾ എടുക്കുക."
@@ -838,7 +849,7 @@ function updateEyeTip() {
 
 function submitPlayerDetails() {
     initAudio();
-    requestFullscreenMode(); // FULLSCREEN TRIGGER ON USER ACTION
+    requestFullscreenMode();
     const inputName = document.getElementById('playerName').value.trim();
     if (inputName) {
         playerName = inputName;
@@ -851,7 +862,7 @@ function submitPlayerDetails() {
 
 function resetGame() {
     level = 1;
-    score = 0; // Reset score
+    score = 0;
     lives = 3;
     updateStats();
     loadLevel();
@@ -862,7 +873,6 @@ function updateStats() {
     document.getElementById('level').innerText = level;
     document.getElementById('best').innerText = getBestScore();
     
-    // UPDATE ANIMATED LIVES
     for (let i = 1; i <= 3; i++) {
         const heart = document.getElementById('heart' + i);
         if (i <= lives) {
@@ -894,7 +904,6 @@ function loadLevel() {
 
     updateEyeTip();
 
-    // GRID SCALING
     let gridSize = 2;
     if (level > 2) gridSize = 3;
     if (level > 5) gridSize = 4;
@@ -903,7 +912,6 @@ function loadLevel() {
     if (level > 28) gridSize = 7;
     if (level > 40) gridSize = 8;
 
-    // TIMER SCALING
     maxTime = Math.max(6, 30 - Math.floor(level * 0.4));
     timeLeft = maxTime;
     startTimer();
@@ -912,7 +920,6 @@ function loadLevel() {
     const baseSat = Math.floor(Math.random() * 50) + 40;
     const baseLight = Math.floor(Math.random() * 40) + 30;
 
-    // COLOR DIFFERENCE
     let diff = Math.max(0.8, 14 - (level * 0.3));
     
     const baseColor = `hsl(${baseHue}, ${baseSat}%, ${baseLight}%)`;
@@ -944,7 +951,7 @@ function handleCellClick(isTarget) {
 
     if (isTarget) {
         playSound('correct');
-        score += 1; // EXACTLY 1 POINT PER LEVEL
+        score += 1;
         level++;
         clearInterval(timer);
         loadLevel();
@@ -1013,7 +1020,6 @@ function endGame(completed) {
         badge.innerText = currentLang === 'en' ? "🔍 Needs More Practice" : "🔍 കൂടുതൽ പരിശീലനം ആവശ്യമാണ്";
     }
 
-    // WHATSAPP DIRECT LINK WITH NAME & SCORE
     const phone = "919947554477";
     const messageText = `Hello! I completed the Color Vision Challenge.\nName: ${playerName}\nScore: ${score}\nLevel: ${level}\nI would like to book an Eye Checkup.`;
     const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(messageText)}`;
