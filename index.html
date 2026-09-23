@@ -3,8 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Color Vision Challenge Pro</title>
+    <title>Color Vision Pro - Global Eye Hospital</title>
     
+    <!-- PWA & Mobile Fullscreen Settings -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Color Vision">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#4f46e5">
+
+    <!-- App Icon for iOS (iPhone) -->
+    <link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1VnfVgxaqlJzrxoJDkJTCmLfxopsi9AQF">
+    
+    <!-- Embedded PWA Web Manifest (Android App Icon & Fullscreen mode without URL) -->
+    <link rel="manifest" href='data:application/manifest+json,{"name":"Color Vision Challenge","short_name":"ColorVision","start_url":".","display":"standalone","background_color":"#f8fafc","theme_color":"#4f46e5","icons":[{"src":"https://lh3.googleusercontent.com/d/1VnfVgxaqlJzrxoJDkJTCmLfxopsi9AQF","sizes":"192x192","type":"image/png"},{"src":"https://lh3.googleusercontent.com/d/1VnfVgxaqlJzrxoJDkJTCmLfxopsi9AQF","sizes":"512x512","type":"image/png"}]}'>
+
     <!-- Google Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -926,7 +939,6 @@
             const trophyIcon = document.getElementById('modalTrophyIcon');
             const modal = document.querySelector('#gameOver .modal-card');
 
-            // SCORE 10 OR MORE: Padakkam / Confetti celebration!
             if (score >= 10) {
                 modalHeading.textContent = i18n[currentLang].congratsTitle;
                 evalBadgeText.textContent = i18n[currentLang].evalSuperior;
@@ -955,13 +967,12 @@
                     }, 250);
                 }
             } else {
-                // SCORE < 10: Practice More + Shake Animation
                 modalHeading.textContent = i18n[currentLang].gameOverTitle;
                 evalBadgeText.textContent = i18n[currentLang].evalFair;
                 trophyIcon.style.color = '#64748b';
 
                 modal.style.animation = 'none';
-                modal.offsetHeight; // Reflow
+                modal.offsetHeight; 
                 modal.style.animation = 'shake 0.5s ease';
             }
 
@@ -970,7 +981,6 @@
             document.getElementById('modalLevelReached').textContent = level;
             document.getElementById('modalBestScore').textContent = bestScore;
 
-            // WhatsApp link with updated number and custom message
             const waMsg = encodeURIComponent(
                 `Hello Global Eye Hospital Melattur, I played the Color Vision Challenge!\nName: ${playerName}\nScore: ${score}\nLevel: ${level}\nI would like to book an eye checkup.`
             );
