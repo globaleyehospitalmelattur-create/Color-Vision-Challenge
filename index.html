@@ -317,13 +317,20 @@
             transform: translateY(0);
         }
 
-        /* Animation: Sad Shake Drop for Score < 20 */
+        /* Animation: Disappointed Sad Shake Drop for Score < 10 */
         @keyframes sadShakeDrop {
             0% { transform: translateY(-25px) scale(0.92); opacity: 0; }
-            30% { transform: translateY(8px) rotate(-3deg); opacity: 1; }
-            50% { transform: translateY(-4px) rotate(3deg); }
-            70% { transform: translateY(2px) rotate(-1deg); }
+            30% { transform: translateY(8px) rotate(-4deg); opacity: 1; }
+            50% { transform: translateY(-4px) rotate(4deg); }
+            70% { transform: translateY(2px) rotate(-2deg); }
             100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        /* Celebration Pulse Animation for Score >= 10 */
+        @keyframes celebPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+            100% { transform: scale(1); }
         }
 
         @keyframes pulseWarning {
@@ -334,6 +341,11 @@
         .modal-card.low-score-anim {
             animation: sadShakeDrop 0.6s ease-out forwards;
             border: 2px solid rgba(239, 68, 68, 0.4);
+        }
+
+        .modal-card.high-score-anim {
+            animation: celebPulse 0.6s ease-out;
+            border: 2px solid rgba(16, 185, 129, 0.5);
         }
 
         .modal-card.low-score-anim .trophy-icon {
@@ -638,16 +650,16 @@
             <div style="font-size: 38px; color: #f59e0b;" class="trophy-icon" id="trophyIcon">
                 <i class="fa-solid fa-trophy"></i>
             </div>
-            <h2 class="modal-title" data-key="gameOverTitle">Test Completed!</h2>
+            <h2 class="modal-title" id="gameOverTitleText" data-key="gameOverTitle">Test Completed!</h2>
             
             <div class="vision-badge badge-needs-attention" id="modalVisionBadge">
                 <i class="fa-solid fa-award" id="badgeIcon"></i>
-                <span id="modalEvaluationText">Need Practice</span>
+                <span id="modalEvaluationText">Practice More</span>
             </div>
 
             <div class="encouragement-box" id="encouragementBox">
                 <i class="fa-solid fa-circle-info"></i>
-                <span id="encouragementText" data-key="aimTargetNote">Score 50+ to unlock Sharp Vision Badge! 🎯</span>
+                <span id="encouragementText" data-key="aimTargetNote">Score 10+ to unlock Congratulations Badge! 🎯</span>
             </div>
 
             <div class="results-summary">
@@ -694,6 +706,9 @@
             init() {
                 if (!this.ctx) {
                     this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
                 }
             }
 
@@ -745,11 +760,57 @@
                     osc.stop(this.ctx.currentTime + i * 0.1 + 0.12);
                 });
             }
+
+            /* Synthesize realistic clapping / applause sound using filtered noise bursts */
+            playApplause() {
+                if (this.muted) return;
+                this.init();
+                const duration = 2.5; // duration in seconds
+                const bufferSize = this.ctx.sampleRate * duration;
+                const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+
+                // Create white noise
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                const noise = this.ctx.createBufferSource();
+                noise.buffer = buffer;
+
+                // Bandpass filter to simulate hand claps frequencies
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.value = 1200;
+                filter.Q.value = 1.0;
+
+                // Gain envelope for applause rhythm bursts
+                const gain = this.ctx.createGain();
+                const now = this.ctx.currentTime;
+                gain.gain.setValueAtTime(0.01, now);
+
+                // Random bursts simulate crowd clapping (kaikottu)
+                const clapCount = 35;
+                for (let i = 0; i < clapCount; i++) {
+                    const time = now + (Math.random() * 2.2);
+                    const vol = 0.15 + Math.random() * 0.25;
+                    gain.gain.setValueAtTime(vol, time);
+                    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.08);
+                }
+
+                gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                noise.start(now);
+                noise.stop(now + duration);
+            }
         }
 
         const soundEngine = new SoundEngine();
 
-        // Bilingual Translations
         const i18n = {
             en: {
                 scoreLabel: "Score",
@@ -761,14 +822,15 @@
                 startModalDesc: "Test your color perception sharpness by identifying the odd-colored tile in each grid!",
                 tipText: "20-20-20 Rule: Every 20 minutes, look at something 20 feet away for 20 seconds.",
                 gameOverTitle: "Test Completed!",
+                congratsTitle: "🎉 Congratulations!",
                 playAgainText: "PLAY AGAIN",
                 playerLabel: "Player",
                 finalScoreLabel: "Final Score",
                 levelReachedLabel: "Level Reached",
-                evalSharp: "Eagle Eye Vision 🦅 (50+ Score!)",
-                evalNeedsCheckup: "Practice More 🔍 (Score under 50)",
-                aimTargetNote: "Score 50+ to unlock Sharp Vision Badge! 🎯",
-                keepTryingNote: "Keep practicing! Try again to hit 50+! 💪",
+                evalSharp: "Congratulations! 🏆 (Score 10+)",
+                evalNeedsCheckup: "Practice More 🔍 (Score under 10)",
+                aimTargetNote: "Score 10+ to trigger Padakkam Fireworks & Clapping! 🎆",
+                keepTryingNote: "Keep practicing! Try again to hit 10+! 💪",
                 waHeader: "Need a professional checkup?",
                 waSub: "Book eye test on WhatsApp",
                 waBtnText: "Book Eye Checkup"
@@ -783,14 +845,15 @@
                 startModalDesc: "വ്യത്യസ്തമായ നിറമുള്ള കള്ളി കൃത്യമായി കണ്ടെത്തി നിങ്ങളുടെ കാഴ്ചശക്തി പരിശോധിക്കൂ!",
                 tipText: "20-20-20 നിയമം: ഓരോ 20 മിനിറ്റിലും 20 അടി അകലെയുള്ള വസ്തുവിലേക്ക് 20 സെക്കൻഡ് നോക്കുക.",
                 gameOverTitle: "പരിശോധന പൂർത്തിയായി!",
+                congratsTitle: "🎉 ആശംസകൾ!",
                 playAgainText: "വീണ്ടും കളിക്കുക",
                 playerLabel: "കളിക്കാരൻ",
                 finalScoreLabel: "ഫൈനൽ സ്‌കോർ",
                 levelReachedLabel: "ലെവൽ",
-                evalSharp: "അതിശക്തമായ കാഴ്ച്ചശക്തി! 🦅 (50+ Score!)",
-                evalNeedsCheckup: "കൂടുതൽ പരിശീലിക്കുക 🔍 (50-ൽ താഴെ)",
-                aimTargetNote: "ഷാർപ്പ് വിഷൻ ലഭിക്കാൻ 50+ സ്‌കോർ നേടൂ! 🎯",
-                keepTryingNote: "വീണ്ടും ശ്രമിക്കൂ! 50+ എളുപ്പത്തിൽ നേടാം! 💪",
+                evalSharp: "അഭിനന്ദനങ്ങൾ! 🏆 (Score 10+)",
+                evalNeedsCheckup: "കൂടുതൽ പരിശീലിക്കുക 🔍 (Score 10-ൽ താഴെ)",
+                aimTargetNote: "പടക്കം പോലെ ആഘോഷിക്കാൻ 10+ സ്‌കോർ നേടൂ! 🎆",
+                keepTryingNote: "വീണ്ടും ശ്രമിക്കൂ! 10+ എളുപ്പത്തിൽ നേടാം! 💪",
                 waHeader: "കണ്ണ് പരിശോധിക്കണമെന്നുണ്ടോ?",
                 waSub: "വാട്ട്‌സ്ആപ്പ് വഴി അപ്പോയിന്റ്മെന്റ് ബുക്ക് ചെയ്യാം",
                 waBtnText: "ബുക്കിംഗിനായി മെസ്സേജ് അയക്കുക"
@@ -828,6 +891,7 @@
         const playerNameInput = document.getElementById('playerNameInput');
         const pauseBtn = document.getElementById('pauseBtn');
         const waBookBtn = document.getElementById('waBookBtn');
+        const gameOverTitleText = document.getElementById('gameOverTitleText');
 
         bestValEl.textContent = bestScore;
 
@@ -889,10 +953,10 @@
         function renderGrid() {
             colorGridEl.innerHTML = '';
             
-            if (score < 5) { gridDimension = 2; level = 1; }
-            else if (score < 15) { gridDimension = 3; level = 2; }
-            else if (score < 30) { gridDimension = 4; level = 3; }
-            else if (score < 50) { gridDimension = 5; level = 4; }
+            if (score < 3) { gridDimension = 2; level = 1; }
+            else if (score < 7) { gridDimension = 3; level = 2; }
+            else if (score < 12) { gridDimension = 4; level = 3; }
+            else if (score < 18) { gridDimension = 5; level = 4; }
             else { gridDimension = 6; level = 5; }
 
             levelValEl.textContent = level;
@@ -902,7 +966,7 @@
             targetIndex = Math.floor(Math.random() * totalTiles);
 
             const baseColor = generateRandomColor();
-            const delta = Math.max(1.5, 20 - Math.floor(score * 0.35));
+            const delta = Math.max(1.5, 22 - Math.floor(score * 0.8));
             const targetLightness = Math.min(96, baseColor.l + delta);
 
             const baseCSS = `hsl(${baseColor.h}, ${baseColor.s}%, ${baseColor.l}%)`;
@@ -956,7 +1020,7 @@
             timeLeft = 100;
             timerBarEl.style.width = '100%';
 
-            const duration = Math.max(2400, 8000 - (score * 120)); 
+            const duration = Math.max(2200, 7500 - (score * 150)); 
             const intervalTime = 50;
             const step = (intervalTime / duration) * 100;
 
@@ -1004,7 +1068,6 @@
         function endGame() {
             gameActive = false;
             clearInterval(timerInterval);
-            soundEngine.playGameOver();
 
             // High Score Update
             if (score > bestScore) {
@@ -1014,54 +1077,65 @@
             }
 
             // Reset Animation Classes
-            gameOverModalCard.classList.remove('low-score-anim');
+            gameOverModalCard.classList.remove('low-score-anim', 'high-score-anim');
 
-            // 🎯 CONDITION 1: SCORE 50 OR ABOVE (Eagle Eye Vision + Confetti Fireworks)
-            if (score >= 50) {
+            // 🎯 CONDITION 1: SCORE 10 OR ABOVE (Padakkam Fireworks + Clapping Applause + Congratulations)
+            if (score >= 10) {
+                gameOverModalCard.classList.add('high-score-anim');
                 modalVisionBadge.className = "vision-badge badge-sharp";
                 badgeIcon.className = "fa-solid fa-circle-check";
                 modalEvaluationText.textContent = i18n[currentLang].evalSharp;
-                encouragementText.textContent = "Outstanding Vision! Score 50+ achieved! 🎉";
-                trophyIcon.style.color = "#f59e0b";
+                gameOverTitleText.textContent = i18n[currentLang].congratsTitle;
+                encouragementText.textContent = "Awesome job! Score 10+ reached! 🎉";
+                trophyIcon.style.color = "#10b981";
 
+                // Play Applause Clapping Sound Synthesizer
+                soundEngine.playApplause();
+
+                // Padakkam / Fireworks Canvas Confetti Explosion
                 if (window.confetti) {
+                    // Initial center burst
                     confetti({
-                        particleCount: 160,
-                        spread: 100,
+                        particleCount: 180,
+                        spread: 120,
                         origin: { y: 0.6 }
                     });
+
+                    // Side bursts for firecracker effect
+                    setTimeout(() => {
+                        confetti({
+                            particleCount: 120,
+                            angle: 60,
+                            spread: 70,
+                            origin: { x: 0 }
+                        });
+                        confetti({
+                            particleCount: 120,
+                            angle: 120,
+                            spread: 70,
+                            origin: { x: 1 }
+                        });
+                    }, 250);
 
                     setTimeout(() => {
                         confetti({
                             particleCount: 100,
-                            angle: 60,
-                            spread: 60,
-                            origin: { x: 0 }
+                            spread: 100,
+                            origin: { y: 0.4 }
                         });
-                        confetti({
-                            particleCount: 100,
-                            angle: 120,
-                            spread: 60,
-                            origin: { x: 1 }
-                        });
-                    }, 250);
+                    }, 500);
                 }
             } 
-            // 🎯 CONDITION 2: SCORE BELOW 50 (Needs Practice / Checkup)
+            // 🎯 CONDITION 2: SCORE BELOW 10 (Practice More + Sad Shake Drop Animation)
             else {
+                soundEngine.playGameOver();
+                gameOverModalCard.classList.add('low-score-anim');
                 modalVisionBadge.className = "vision-badge badge-needs-attention";
                 badgeIcon.className = "fa-solid fa-triangle-exclamation";
                 modalEvaluationText.textContent = i18n[currentLang].evalNeedsCheckup;
-                
-                if (score < 20) {
-                    // Score under 20: Trigger Sad Shake Drop Animation & Red Warning Glow
-                    gameOverModalCard.classList.add('low-score-anim');
-                    trophyIcon.style.color = "#ef4444";
-                    encouragementText.textContent = i18n[currentLang].keepTryingNote;
-                } else {
-                    trophyIcon.style.color = "#f59e0b";
-                    encouragementText.textContent = i18n[currentLang].aimTargetNote;
-                }
+                gameOverTitleText.textContent = i18n[currentLang].gameOverTitle;
+                trophyIcon.style.color = "#ef4444";
+                encouragementText.textContent = i18n[currentLang].keepTryingNote;
             }
 
             document.getElementById('modalPlayerName').textContent = playerName;
