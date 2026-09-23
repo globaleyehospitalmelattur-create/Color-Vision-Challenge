@@ -5,35 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Color Vision Challenge Pro</title>
     
-    <!-- Google Fonts & FontAwesome Icons -->
+    <!-- Google Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Canvas Confetti Library -->
+    <!-- Canvas Confetti Engine -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
-    <!-- Web Manifest -->
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkNvbG9yIFZpc2lvbiBQcm8iLAogICJzaG9ydF9uYW1lIjogIkNvbG9yVmlzaW9uIiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmOGZhZmM3IiwKICAidGhlbWV_Y29sb3IiOiAiIzRmNDZlNSIsCiAgImljb25zIjogFsCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2QvMVZuZlZneGFxbEp6cnhvSkRqVENtTGZ4b3BzaTFBUUYiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
 
     <style>
         :root {
             --primary: #4f46e5;
             --primary-dark: #3730a3;
             --accent: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
             --whatsapp-color: #25d366;
             --whatsapp-dark: #128c7e;
             --bg-grad-1: #f8fafc;
             --bg-grad-2: #e0e7ff;
-            --card-bg: rgba(255, 255, 255, 0.88);
-            --glass-bg: rgba(255, 255, 255, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.5);
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(255, 255, 255, 0.6);
             --text-dark: #0f172a;
             --text-muted: #64748b;
-            --shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.12);
+            --shadow: 0 8px 25px -5px rgba(79, 70, 229, 0.12);
             --radius-lg: 20px;
             --radius-md: 14px;
         }
@@ -55,33 +50,27 @@
             overflow: hidden;
             position: fixed;
             inset: 0;
-        }
-
-        body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: linear-gradient(135deg, var(--bg-grad-1) 0%, var(--bg-grad-2) 100%);
+            color: var(--text-dark);
             display: flex;
             justify-content: center;
             align-items: center;
-            color: var(--text-dark);
-            padding: 8px;
         }
 
-        /* Responsive container strictly contained within viewport */
         .app-container {
             width: 100%;
+            height: 100dvh;
             max-width: 440px;
-            height: 100%;
-            max-height: 100dvh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            padding: 10px 12px;
             gap: 8px;
-            overflow: hidden;
         }
 
+        /* Top Header */
         .game-top {
-            flex-shrink: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -92,6 +81,7 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             box-shadow: var(--shadow);
+            flex-shrink: 0;
         }
 
         .brand-title {
@@ -100,13 +90,13 @@
             color: var(--primary-dark);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             letter-spacing: -0.3px;
         }
 
         .brand-logo {
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
             object-fit: contain;
             border-radius: 8px;
             box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -119,7 +109,7 @@
         }
 
         .icon-btn {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(0, 0, 0, 0.05);
             width: 34px;
             height: 34px;
@@ -128,7 +118,7 @@
             align-items: center;
             justify-content: center;
             color: var(--text-dark);
-            font-size: 13px;
+            font-size: 14px;
             cursor: pointer;
             transition: all 0.2s ease;
         }
@@ -144,38 +134,37 @@
             width: auto;
         }
 
+        /* Main Game Card */
         .main-card {
-            flex: 1;
-            min-height: 0;
             background: var(--card-bg);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-lg);
-            padding: 10px;
+            padding: 12px;
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            position: relative;
-            overflow: hidden;
+            gap: 10px;
+            flex: 1;
+            min-height: 0;
+            justify-content: space-evenly;
         }
 
         /* Stats Dashboard */
         .stats-dashboard {
             width: 100%;
-            flex-shrink: 0;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 6px;
+            flex-shrink: 0;
         }
 
         .stat-box {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             border: 1px solid rgba(0, 0, 0, 0.04);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 6px 2px;
             text-align: center;
             display: flex;
@@ -206,7 +195,7 @@
         }
 
         .heart {
-            color: var(--danger);
+            color: #ef4444;
             transition: transform 0.2s ease, opacity 0.2s ease;
         }
 
@@ -220,10 +209,10 @@
         .timer-container {
             width: 100%;
             height: 6px;
-            flex-shrink: 0;
             background: #e2e8f0;
             border-radius: 99px;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .timer-bar {
@@ -234,28 +223,24 @@
             transition: width 0.08s linear;
         }
 
-        /* Dynamic aspect-ratio wrapper for standard auto-scaling */
+        /* Auto-Sizing Responsive Grid Wrapper */
         .grid-wrapper {
+            width: 100%;
             flex: 1;
             min-height: 0;
-            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
         }
 
-        /* Responsive Color Grid scaling down dynamically on small screens */
         .color-grid {
-            width: min(100%, calc(100dvh - 210px));
-            height: min(100%, calc(100dvh - 210px));
-            max-width: 100%;
-            max-height: 100%;
+            width: min(100%, calc(100dvh - 220px));
+            height: min(100%, calc(100dvh - 220px));
             aspect-ratio: 1 / 1;
             display: grid;
             gap: 6px;
             padding: 6px;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 16px;
             border: 1px solid rgba(0, 0, 0, 0.04);
             box-sizing: border-box;
@@ -266,7 +251,7 @@
             height: 100%;
             border-radius: 10px;
             cursor: pointer;
-            transition: transform 0.12s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.1s ease;
             box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
         }
 
@@ -274,17 +259,39 @@
             transform: scale(0.92);
         }
 
+        /* Tip Banner Footer */
+        .tip-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 8px 12px;
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            flex-shrink: 0;
+        }
+
+        .tip-icon {
+            color: #f59e0b;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        /* Modals & Overlays */
         .overlay {
             position: fixed;
             inset: 0;
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(15, 23, 42, 0.65);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 100;
-            padding: 12px;
+            padding: 16px;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
@@ -298,59 +305,28 @@
         .modal-card {
             background: #ffffff;
             border-radius: 20px;
-            padding: 18px 16px;
+            padding: 20px 16px;
             width: 100%;
             max-width: 380px;
             text-align: center;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.25);
-            transform: translateY(15px);
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
             display: flex;
             flex-direction: column;
             gap: 12px;
-            max-height: calc(100dvh - 24px);
+            max-height: 90dvh;
             overflow-y: auto;
-            position: relative;
         }
 
         .overlay.active .modal-card {
             transform: translateY(0);
         }
 
-        /* Animation: Disappointed Sad Shake Drop for Score < 10 */
-        @keyframes sadShakeDrop {
-            0% { transform: translateY(-25px) scale(0.92); opacity: 0; }
-            30% { transform: translateY(8px) rotate(-4deg); opacity: 1; }
-            50% { transform: translateY(-4px) rotate(4deg); }
-            70% { transform: translateY(2px) rotate(-2deg); }
-            100% { transform: translateY(0) rotate(0deg); }
-        }
-
-        /* Celebration Pulse Animation for Score >= 10 */
-        @keyframes celebPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.06); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes pulseWarning {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            50% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-        }
-
-        .modal-card.low-score-anim {
-            animation: sadShakeDrop 0.6s ease-out forwards;
-            border: 2px solid rgba(239, 68, 68, 0.4);
-        }
-
-        .modal-card.high-score-anim {
-            animation: celebPulse 0.6s ease-out;
-            border: 2px solid rgba(16, 185, 129, 0.5);
-        }
-
-        .modal-card.low-score-anim .trophy-icon {
-            animation: pulseWarning 1.5s infinite;
-            border-radius: 50%;
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
         }
 
         .modal-top-logo {
@@ -359,7 +335,7 @@
             object-fit: contain;
             margin: 0 auto;
             border-radius: 14px;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.18);
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.15);
         }
 
         .modal-title {
@@ -372,7 +348,7 @@
         .modal-desc {
             font-size: 12px;
             color: var(--text-muted);
-            line-height: 1.45;
+            line-height: 1.4;
         }
 
         .input-group {
@@ -392,7 +368,7 @@
 
         .name-input {
             width: 100%;
-            padding: 11px;
+            padding: 12px;
             border-radius: 10px;
             border: 1.5px solid #cbd5e1;
             font-size: 14px;
@@ -431,40 +407,14 @@
             color: var(--primary-dark);
         }
 
-        /* Vision Badges */
         .vision-badge {
-            padding: 8px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 8px;
             border-radius: 10px;
             font-weight: 800;
             font-size: 13px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .vision-badge.badge-sharp {
-            background: rgba(16, 185, 129, 0.12);
-            color: #059669;
-            border: 1.5px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .vision-badge.badge-needs-attention {
-            background: rgba(239, 68, 68, 0.12);
-            color: #dc2626;
-            border: 1.5px solid rgba(239, 68, 68, 0.3);
-        }
-
-        /* Encouragement Banner */
-        .encouragement-box {
-            background: #fffbebfb;
-            border: 1px solid #fde68a;
-            color: #b45309;
-            padding: 8px 10px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -521,7 +471,7 @@
             font-weight: 800;
             font-size: 14px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -532,26 +482,6 @@
 
         .btn-primary:active, .btn-whatsapp:active {
             transform: scale(0.96);
-        }
-
-        .tip-card {
-            flex-shrink: 0;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-md);
-            padding: 8px 12px;
-            font-size: 11px;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: var(--shadow);
-        }
-
-        .tip-icon {
-            color: #f59e0b;
-            font-size: 15px;
-            flex-shrink: 0;
         }
     </style>
 </head>
@@ -574,9 +504,6 @@
                 </button>
                 <button class="icon-btn" id="pauseBtn" onclick="togglePause()" title="Pause/Resume">
                     <i class="fa-solid fa-pause"></i>
-                </button>
-                <button class="icon-btn" id="fullscreenBtn" onclick="toggleFullscreen()" title="Fullscreen">
-                    <i class="fa-solid fa-expand"></i>
                 </button>
             </div>
         </header>
@@ -609,7 +536,6 @@
                 <div class="timer-bar" id="timerBar"></div>
             </div>
 
-            <!-- Dynamic flexible wrapper prevents grid overflow -->
             <div class="grid-wrapper">
                 <div class="color-grid" id="colorGrid"></div>
             </div>
@@ -646,20 +572,15 @@
 
     <!-- GAME OVER MODAL -->
     <div class="overlay" id="gameOver">
-        <div class="modal-card" id="gameOverModalCard">
-            <div style="font-size: 38px; color: #f59e0b;" class="trophy-icon" id="trophyIcon">
+        <div class="modal-card">
+            <div style="font-size: 36px; color: #f59e0b;" id="modalTrophyIcon">
                 <i class="fa-solid fa-trophy"></i>
             </div>
-            <h2 class="modal-title" id="gameOverTitleText" data-key="gameOverTitle">Test Completed!</h2>
+            <h2 class="modal-title" id="modalHeadingTitle" data-key="gameOverTitle">Test Completed!</h2>
             
-            <div class="vision-badge badge-needs-attention" id="modalVisionBadge">
-                <i class="fa-solid fa-award" id="badgeIcon"></i>
-                <span id="modalEvaluationText">Practice More</span>
-            </div>
-
-            <div class="encouragement-box" id="encouragementBox">
-                <i class="fa-solid fa-circle-info"></i>
-                <span id="encouragementText" data-key="aimTargetNote">Score 10+ to unlock Congratulations Badge! 🎯</span>
+            <div class="vision-badge" id="modalVisionBadge">
+                <i class="fa-solid fa-award"></i>
+                <span id="modalEvaluationText">Practice More 🔍</span>
             </div>
 
             <div class="results-summary">
@@ -706,9 +627,6 @@
             init() {
                 if (!this.ctx) {
                     this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                if (this.ctx.state === 'suspended') {
-                    this.ctx.resume();
                 }
             }
 
@@ -760,53 +678,6 @@
                     osc.stop(this.ctx.currentTime + i * 0.1 + 0.12);
                 });
             }
-
-            /* Synthesize realistic clapping / applause sound using filtered noise bursts */
-            playApplause() {
-                if (this.muted) return;
-                this.init();
-                const duration = 2.5; // duration in seconds
-                const bufferSize = this.ctx.sampleRate * duration;
-                const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-                const data = buffer.getChannelData(0);
-
-                // Create white noise
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = Math.random() * 2 - 1;
-                }
-
-                const noise = this.ctx.createBufferSource();
-                noise.buffer = buffer;
-
-                // Bandpass filter to simulate hand claps frequencies
-                const filter = this.ctx.createBiquadFilter();
-                filter.type = 'bandpass';
-                filter.frequency.value = 1200;
-                filter.Q.value = 1.0;
-
-                // Gain envelope for applause rhythm bursts
-                const gain = this.ctx.createGain();
-                const now = this.ctx.currentTime;
-                gain.gain.setValueAtTime(0.01, now);
-
-                // Random bursts simulate crowd clapping (kaikottu)
-                const clapCount = 35;
-                for (let i = 0; i < clapCount; i++) {
-                    const time = now + (Math.random() * 2.2);
-                    const vol = 0.15 + Math.random() * 0.25;
-                    gain.gain.setValueAtTime(vol, time);
-                    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.08);
-                }
-
-                gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-
-                noise.connect(filter);
-                filter.connect(gain);
-                gain.connect(this.ctx.destination);
-
-                noise.start(now);
-                noise.stop(now + duration);
-            }
         }
 
         const soundEngine = new SoundEngine();
@@ -822,15 +693,13 @@
                 startModalDesc: "Test your color perception sharpness by identifying the odd-colored tile in each grid!",
                 tipText: "20-20-20 Rule: Every 20 minutes, look at something 20 feet away for 20 seconds.",
                 gameOverTitle: "Test Completed!",
-                congratsTitle: "🎉 Congratulations!",
+                congratsTitle: "Congratulations! 🎉",
                 playAgainText: "PLAY AGAIN",
                 playerLabel: "Player",
                 finalScoreLabel: "Final Score",
                 levelReachedLabel: "Level Reached",
-                evalSharp: "Congratulations! 🏆 (Score 10+)",
-                evalNeedsCheckup: "Practice More 🔍 (Score under 10)",
-                aimTargetNote: "Score 10+ to trigger Padakkam Fireworks & Clapping! 🎆",
-                keepTryingNote: "Keep practicing! Try again to hit 10+! 💪",
+                evalSuperior: "Eagle Eye Vision 🦅",
+                evalFair: "Practice More 🔍",
                 waHeader: "Need a professional checkup?",
                 waSub: "Book eye test on WhatsApp",
                 waBtnText: "Book Eye Checkup"
@@ -845,15 +714,13 @@
                 startModalDesc: "വ്യത്യസ്തമായ നിറമുള്ള കള്ളി കൃത്യമായി കണ്ടെത്തി നിങ്ങളുടെ കാഴ്ചശക്തി പരിശോധിക്കൂ!",
                 tipText: "20-20-20 നിയമം: ഓരോ 20 മിനിറ്റിലും 20 അടി അകലെയുള്ള വസ്തുവിലേക്ക് 20 സെക്കൻഡ് നോക്കുക.",
                 gameOverTitle: "പരിശോധന പൂർത്തിയായി!",
-                congratsTitle: "🎉 ആശംസകൾ!",
+                congratsTitle: "അഭിനന്ദനങ്ങൾ! 🎉",
                 playAgainText: "വീണ്ടും കളിക്കുക",
                 playerLabel: "കളിക്കാരൻ",
                 finalScoreLabel: "ഫൈനൽ സ്‌കോർ",
                 levelReachedLabel: "ലെവൽ",
-                evalSharp: "അഭിനന്ദനങ്ങൾ! 🏆 (Score 10+)",
-                evalNeedsCheckup: "കൂടുതൽ പരിശീലിക്കുക 🔍 (Score 10-ൽ താഴെ)",
-                aimTargetNote: "പടക്കം പോലെ ആഘോഷിക്കാൻ 10+ സ്‌കോർ നേടൂ! 🎆",
-                keepTryingNote: "വീണ്ടും ശ്രമിക്കൂ! 10+ എളുപ്പത്തിൽ നേടാം! 💪",
+                evalSuperior: "അതിശക്തമായ കാഴ്ച്ചശക്തി! 🦅",
+                evalFair: "കൂടുതൽ പ്രാക്ടീസ് ചെയ്യുക 🔍",
                 waHeader: "കണ്ണ് പരിശോധിക്കണമെന്നുണ്ടോ?",
                 waSub: "വാട്ട്‌സ്ആപ്പ് വഴി അപ്പോയിന്റ്മെന്റ് ബുക്ക് ചെയ്യാം",
                 waBtnText: "ബുക്കിംഗിനായി മെസ്സേജ് അയക്കുക"
@@ -882,25 +749,11 @@
         const colorGridEl = document.getElementById('colorGrid');
         const startModal = document.getElementById('startModal');
         const gameOverModal = document.getElementById('gameOver');
-        const gameOverModalCard = document.getElementById('gameOverModalCard');
-        const trophyIcon = document.getElementById('trophyIcon');
-        const modalVisionBadge = document.getElementById('modalVisionBadge');
-        const modalEvaluationText = document.getElementById('modalEvaluationText');
-        const encouragementText = document.getElementById('encouragementText');
-        const badgeIcon = document.getElementById('badgeIcon');
         const playerNameInput = document.getElementById('playerNameInput');
         const pauseBtn = document.getElementById('pauseBtn');
         const waBookBtn = document.getElementById('waBookBtn');
-        const gameOverTitleText = document.getElementById('gameOverTitleText');
 
         bestValEl.textContent = bestScore;
-
-        // Prevent unwanted gesture zoom on touch devices
-        document.addEventListener('touchstart', function(event) {
-            if (event.touches.length > 1) {
-                event.preventDefault();
-            }
-        }, { passive: false });
 
         function triggerVibration(pattern) {
             if ('vibrate' in navigator) {
@@ -935,14 +788,6 @@
             icon.className = isPaused ? 'fa-solid fa-play' : 'fa-solid fa-pause';
         }
 
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(() => {});
-            } else if (document.exitFullscreen) {
-                document.exitFullscreen();
-            }
-        }
-
         function generateRandomColor() {
             const h = Math.floor(Math.random() * 360);
             const s = Math.floor(Math.random() * 40) + 50; 
@@ -954,9 +799,9 @@
             colorGridEl.innerHTML = '';
             
             if (score < 3) { gridDimension = 2; level = 1; }
-            else if (score < 7) { gridDimension = 3; level = 2; }
-            else if (score < 12) { gridDimension = 4; level = 3; }
-            else if (score < 18) { gridDimension = 5; level = 4; }
+            else if (score < 8) { gridDimension = 3; level = 2; }
+            else if (score < 15) { gridDimension = 4; level = 3; }
+            else if (score < 25) { gridDimension = 5; level = 4; }
             else { gridDimension = 6; level = 5; }
 
             levelValEl.textContent = level;
@@ -966,8 +811,8 @@
             targetIndex = Math.floor(Math.random() * totalTiles);
 
             const baseColor = generateRandomColor();
-            const delta = Math.max(1.5, 22 - Math.floor(score * 0.8));
-            const targetLightness = Math.min(96, baseColor.l + delta);
+            const delta = Math.max(2, 20 - Math.floor(score * 0.55));
+            const targetLightness = Math.min(95, baseColor.l + delta);
 
             const baseCSS = `hsl(${baseColor.h}, ${baseColor.s}%, ${baseColor.l}%)`;
             const targetCSS = `hsl(${baseColor.h}, ${baseColor.s}%, ${targetLightness}%)`;
@@ -1020,7 +865,7 @@
             timeLeft = 100;
             timerBarEl.style.width = '100%';
 
-            const duration = Math.max(2200, 7500 - (score * 150)); 
+            const duration = Math.max(2800, 8000 - (score * 160)); 
             const intervalTime = 50;
             const step = (intervalTime / duration) * 100;
 
@@ -1068,74 +913,56 @@
         function endGame() {
             gameActive = false;
             clearInterval(timerInterval);
+            soundEngine.playGameOver();
 
-            // High Score Update
             if (score > bestScore) {
                 bestScore = score;
                 localStorage.setItem('color_vision_best', bestScore);
                 bestValEl.textContent = bestScore;
             }
 
-            // Reset Animation Classes
-            gameOverModalCard.classList.remove('low-score-anim', 'high-score-anim');
+            const modalHeading = document.getElementById('modalHeadingTitle');
+            const evalBadgeText = document.getElementById('modalEvaluationText');
+            const trophyIcon = document.getElementById('modalTrophyIcon');
+            const modal = document.querySelector('#gameOver .modal-card');
 
-            // 🎯 CONDITION 1: SCORE 10 OR ABOVE (Padakkam Fireworks + Clapping Applause + Congratulations)
+            // SCORE 10 OR MORE: Padakkam / Confetti celebration!
             if (score >= 10) {
-                gameOverModalCard.classList.add('high-score-anim');
-                modalVisionBadge.className = "vision-badge badge-sharp";
-                badgeIcon.className = "fa-solid fa-circle-check";
-                modalEvaluationText.textContent = i18n[currentLang].evalSharp;
-                gameOverTitleText.textContent = i18n[currentLang].congratsTitle;
-                encouragementText.textContent = "Awesome job! Score 10+ reached! 🎉";
-                trophyIcon.style.color = "#10b981";
+                modalHeading.textContent = i18n[currentLang].congratsTitle;
+                evalBadgeText.textContent = i18n[currentLang].evalSuperior;
+                trophyIcon.style.color = '#f59e0b';
 
-                // Play Applause Clapping Sound Synthesizer
-                soundEngine.playApplause();
-
-                // Padakkam / Fireworks Canvas Confetti Explosion
                 if (window.confetti) {
-                    // Initial center burst
                     confetti({
-                        particleCount: 180,
-                        spread: 120,
+                        particleCount: 150,
+                        spread: 100,
                         origin: { y: 0.6 }
                     });
 
-                    // Side bursts for firecracker effect
                     setTimeout(() => {
                         confetti({
-                            particleCount: 120,
+                            particleCount: 90,
                             angle: 60,
-                            spread: 70,
+                            spread: 60,
                             origin: { x: 0 }
                         });
                         confetti({
-                            particleCount: 120,
+                            particleCount: 90,
                             angle: 120,
-                            spread: 70,
+                            spread: 60,
                             origin: { x: 1 }
                         });
                     }, 250);
-
-                    setTimeout(() => {
-                        confetti({
-                            particleCount: 100,
-                            spread: 100,
-                            origin: { y: 0.4 }
-                        });
-                    }, 500);
                 }
-            } 
-            // 🎯 CONDITION 2: SCORE BELOW 10 (Practice More + Sad Shake Drop Animation)
-            else {
-                soundEngine.playGameOver();
-                gameOverModalCard.classList.add('low-score-anim');
-                modalVisionBadge.className = "vision-badge badge-needs-attention";
-                badgeIcon.className = "fa-solid fa-triangle-exclamation";
-                modalEvaluationText.textContent = i18n[currentLang].evalNeedsCheckup;
-                gameOverTitleText.textContent = i18n[currentLang].gameOverTitle;
-                trophyIcon.style.color = "#ef4444";
-                encouragementText.textContent = i18n[currentLang].keepTryingNote;
+            } else {
+                // SCORE < 10: Practice More + Shake Animation
+                modalHeading.textContent = i18n[currentLang].gameOverTitle;
+                evalBadgeText.textContent = i18n[currentLang].evalFair;
+                trophyIcon.style.color = '#64748b';
+
+                modal.style.animation = 'none';
+                modal.offsetHeight; // Reflow
+                modal.style.animation = 'shake 0.5s ease';
             }
 
             document.getElementById('modalPlayerName').textContent = playerName;
@@ -1143,11 +970,11 @@
             document.getElementById('modalLevelReached').textContent = level;
             document.getElementById('modalBestScore').textContent = bestScore;
 
-            // Dynamically generated WhatsApp pre-filled booking message
+            // WhatsApp link with updated number and custom message
             const waMsg = encodeURIComponent(
-                `Hello! I completed the Color Vision Test.\nName: ${playerName}\nScore: ${score}\nLevel: ${level}\nI would like to book an eye checkup consultation.`
+                `Hello Global Eye Hospital Melattur, I played the Color Vision Challenge!\nName: ${playerName}\nScore: ${score}\nLevel: ${level}\nI would like to book an eye checkup.`
             );
-            waBookBtn.href = `https://wa.me/?text=${waMsg}`;
+            waBookBtn.href = `https://wa.me/919947554477?text=${waMsg}`;
 
             gameOverModal.classList.add('active');
         }
