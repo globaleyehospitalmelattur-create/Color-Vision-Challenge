@@ -15,7 +15,7 @@
     <!-- App Icon for iOS -->
     <link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1VnfVgxaqlJzrxoJDkJTCmLfxopsi9AQF">
     
-    <!-- Embedded PWA Web Manifest (Android & iOS PWA Install Support) -->
+    <!-- Embedded PWA Web Manifest -->
     <link rel="manifest" href='data:application/manifest+json,{"name":"Color Vision Challenge","short_name":"ColorVision","start_url":".","display":"standalone","background_color":"#f8fafc","theme_color":"#4f46e5","icons":[{"src":"https://lh3.googleusercontent.com/d/1VnfVgxaqlJzrxoJDkJTCmLfxopsi9AQF","sizes":"192x192","type":"image/png"},{"src":"https://lh3.googleusercontent.com/d/1VnfVgxaqlJzrxoJDkJTCmLfxopsi9AQF","sizes":"512x512","type":"image/png"}]}'>
 
     <!-- Google Fonts & Icons -->
@@ -94,12 +94,6 @@
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
             font-size: 12px;
             font-weight: 700;
-            animation: slideDown 0.4s ease;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
 
         .pwa-install-btn {
@@ -166,10 +160,6 @@
             font-size: 14px;
             cursor: pointer;
             transition: all 0.2s ease;
-        }
-
-        .icon-btn:active {
-            transform: scale(0.92);
         }
 
         .lang-btn {
@@ -518,17 +508,13 @@
             text-decoration: none;
             width: 100%;
         }
-
-        .btn-primary:active, .btn-whatsapp:active, .pwa-install-btn:active {
-            transform: scale(0.96);
-        }
     </style>
 </head>
 <body>
 
     <div class="app-container">
         
-        <!-- PWA Install Prompt Banner -->
+        <!-- PWA Install Banner Top Notice -->
         <div class="pwa-install-banner" id="pwaBanner">
             <span>📲 Install App on Your Phone!</span>
             <button class="pwa-install-btn" onclick="installPWA()">INSTALL</button>
@@ -662,12 +648,11 @@
         </div>
     </div>
 
-    <!-- PWA Service Worker & Dynamic Prompt Script -->
+    <!-- Vercel PWA Install & Service Worker Script -->
     <script>
         let deferredPrompt;
         const pwaBanner = document.getElementById('pwaBanner');
 
-        // Capture PWA Install Event (Android Chrome)
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
@@ -686,7 +671,6 @@
             }
         }
 
-        // Register Inline Service Worker for PWA Offline & Download Capabilities
         if ('serviceWorker' in navigator) {
             const swCode = `
                 self.addEventListener('install', (e) => self.skipWaiting());
@@ -695,8 +679,7 @@
             `;
             const blob = new Blob([swCode], { type: 'application/javascript' });
             const swUrl = URL.createObjectURL(blob);
-
-            navigator.serviceWorker.register(swUrl).catch(err => console.log('SW Reg Error:', err));
+            navigator.serviceWorker.register(swUrl).catch(err => console.log('SW Error:', err));
         }
     </script>
 
