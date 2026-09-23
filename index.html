@@ -83,7 +83,6 @@
             gap: 8px;
         }
 
-        /* PWA Install Banner Top Notice */
         .pwa-install-banner {
             display: none;
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
@@ -109,7 +108,6 @@
             cursor: pointer;
         }
 
-        /* Top Header */
         .game-top {
             display: flex;
             justify-content: space-between;
@@ -171,7 +169,6 @@
             width: auto;
         }
 
-        /* Main Game Card */
         .main-card {
             background: var(--card-bg);
             border: 1px solid var(--glass-border);
@@ -189,7 +186,6 @@
             justify-content: space-between;
         }
 
-        /* Stats Dashboard */
         .stats-dashboard {
             width: 100%;
             display: grid;
@@ -242,7 +238,6 @@
             opacity: 0.4;
         }
 
-        /* Timer Bar */
         .timer-container {
             width: 100%;
             height: 6px;
@@ -260,7 +255,6 @@
             transition: width 0.08s linear;
         }
 
-        /* Auto-Sizing Responsive Grid Wrapper */
         .grid-wrapper {
             width: 100%;
             flex: 1;
@@ -297,7 +291,6 @@
             transform: scale(0.90);
         }
 
-        /* Tip Banner Footer */
         .tip-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
@@ -319,7 +312,6 @@
             flex-shrink: 0;
         }
 
-        /* Modals & Overlays */
         .overlay {
             position: fixed;
             inset: 0;
@@ -523,7 +515,6 @@
 
     <div class="app-container">
         
-        <!-- PWA Install Banner Top Notice -->
         <div class="pwa-install-banner" id="pwaBanner">
             <span>📲 Install App on Your Phone!</span>
             <button class="pwa-install-btn" onclick="installPWA()">INSTALL</button>
@@ -657,7 +648,6 @@
         </div>
     </div>
 
-    <!-- PWA Service Worker Script -->
     <script>
         let deferredPrompt;
         const pwaBanner = document.getElementById('pwaBanner');
@@ -1018,7 +1008,8 @@
                 ? `Hello Global Eye Hospital, I completed the Color Vision Pro challenge with a score of ${score} (Level ${level}). I would like to book a professional eye checkup.`
                 : `ഹലോ ഗ്ലോബൽ ഐ ഹോസ്പിറ്റൽ, കളർ വിഷൻ പ്രോ ഗെയിമിൽ എന്റെ സ്‌കോർ ${score} (ലെവൽ ${level}) ആണ്. ഞാൻ ഒരു കണ്ണ് പരിശോധന ബുക്ക് ചെയ്യാൻ ആഗ്രഹിക്കുന്നു.`;
             
-            waBookBtn.href = `https://wa.me/?text=${encodeURIComponent(waMessage)}`;
+            // Updated with WhatsApp number: 919947554477
+            waBookBtn.href = `https://wa.me/919947554477?text=${encodeURIComponent(waMessage)}`;
             gameOverModal.classList.add('active');
         }
 
