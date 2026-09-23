@@ -78,10 +78,10 @@
             max-width: 440px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            /* Safe area padding handling for iPhone/Android notches and home bars */
-            padding: max(8px, env(safe-area-inset-top)) 12px max(8px, env(safe-area-inset-bottom)) 12px;
-            gap: 6px;
+            justify-content: flex-start; /* Changed to start so we can control header spacing cleanly */
+            /* മുകളിൽ കുറച്ചുകൂടി ഗ്യാപ്/സ്പേസ് നൽകിയിരിക്കുന്നു */
+            padding: max(22px, env(safe-area-inset-top)) 12px max(10px, env(safe-area-inset-bottom)) 12px;
+            gap: 10px;
         }
 
         /* PWA Install Banner Top Notice */
@@ -118,12 +118,13 @@
             align-items: center;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            padding: 6px 10px;
+            padding: 8px 12px;
             border-radius: var(--radius-md);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             box-shadow: var(--shadow);
             flex-shrink: 0;
+            margin-top: 4px; /* ചെറുതായി താഴേക്ക് ഇറക്കി വെച്ചിരിക്കുന്നു */
         }
 
         .brand-title {
