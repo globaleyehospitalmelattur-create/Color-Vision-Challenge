@@ -59,6 +59,7 @@
         html, body {
             width: 100%;
             height: 100%;
+            height: 100vh;
             height: 100dvh;
             overflow: hidden;
             position: fixed;
@@ -74,14 +75,15 @@
         .app-container {
             width: 100%;
             height: 100%;
+            height: 100vh;
             height: 100dvh;
             max-width: 440px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            /* നോച്ച് ബാക്കി ഉള്ളവ ഒഴിവാക്കി മുകളിലും താഴെയും കൃത്യമായ ചെറിയ പാഡിംഗ് മാത്രം നൽകിയിരിക്കുന്നു */
-            padding: max(16px, env(safe-area-inset-top)) 10px max(8px, env(safe-area-inset-bottom)) 10px;
-            gap: 6px;
+            /* ഇൻസ്റ്റാൾ ചെയ്ത ആപ്പുകളിൽ താഴെയുള്ള അധിക സ്പേസ് ഒഴിവാക്കാൻ പാഡിംഗ് ഒപ്പിച്ചു ക്രമീകരിച്ചു */
+            padding: 8px 10px max(10px, env(safe-area-inset-bottom)) 10px;
+            gap: 5px;
         }
 
         /* PWA Install Banner Top Notice */
@@ -89,7 +91,7 @@
             display: none;
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            padding: 5px 10px;
+            padding: 4px 10px;
             border-radius: var(--radius-md);
             align-items: center;
             justify-content: space-between;
@@ -103,7 +105,7 @@
             background: #ffffff;
             color: #059669;
             border: none;
-            padding: 4px 8px;
+            padding: 3px 8px;
             border-radius: 6px;
             font-weight: 800;
             font-size: 10px;
@@ -117,29 +119,28 @@
             align-items: center;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            padding: 6px 10px;
+            padding: 5px 10px;
             border-radius: var(--radius-md);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             box-shadow: var(--shadow);
             flex-shrink: 0;
-            /* ഹെഡർ കുറച്ചുകൂടി താഴേക്ക് വരത്തക്കവണ്ണം മുകളിൽ ചെറിയൊരു മാർജിൻ */
-            margin-top: 10px; 
+            margin-top: 2px; 
         }
 
         .brand-title {
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 900;
             color: var(--primary-dark);
             display: flex;
             align-items: center;
-            gap: 7px;
+            gap: 6px;
             letter-spacing: -0.3px;
         }
 
         .brand-logo {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             object-fit: contain;
             border-radius: 6px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -154,20 +155,20 @@
         .icon-btn {
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(0, 0, 0, 0.05);
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: 7px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-dark);
-            font-size: 12px;
+            font-size: 11px;
             cursor: pointer;
         }
 
         .lang-btn {
             font-weight: 800;
-            font-size: 11px;
+            font-size: 10px;
             padding: 0 5px;
             width: auto;
         }
@@ -177,14 +178,14 @@
             background: var(--card-bg);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-lg);
-            padding: 8px 10px;
+            padding: 6px 10px;
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             flex: 1;
             min-height: 0;
             justify-content: space-between;
@@ -202,8 +203,8 @@
         .stat-box {
             background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(0, 0, 0, 0.04);
-            border-radius: 8px;
-            padding: 4px 2px;
+            border-radius: 7px;
+            padding: 3px 2px;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -219,7 +220,7 @@
         }
 
         .stat-value {
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 800;
             color: var(--primary-dark);
         }
@@ -228,7 +229,7 @@
             display: flex;
             justify-content: center;
             gap: 2px;
-            font-size: 10px;
+            font-size: 9.5px;
             margin-top: 1px;
         }
 
@@ -246,7 +247,7 @@
         /* Timer Bar */
         .timer-container {
             width: 100%;
-            height: 4px;
+            height: 3.5px;
             background: #e2e8f0;
             border-radius: 99px;
             overflow: hidden;
@@ -302,8 +303,8 @@
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-md);
-            padding: 5px 8px;
-            font-size: 10px;
+            padding: 4px 8px;
+            font-size: 9.5px;
             color: var(--text-muted);
             display: flex;
             align-items: center;
@@ -314,7 +315,7 @@
 
         .tip-icon {
             color: #f59e0b;
-            font-size: 13px;
+            font-size: 12px;
             flex-shrink: 0;
         }
 
@@ -353,6 +354,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            max-height: 90vh;
             max-height: 90dvh;
             overflow-y: auto;
         }
@@ -362,8 +364,8 @@
         }
 
         .modal-top-logo {
-            width: 45px;
-            height: 45px;
+            width: 42px;
+            height: 42px;
             object-fit: contain;
             margin: 0 auto;
             border-radius: 10px;
@@ -371,7 +373,7 @@
         }
 
         .modal-title {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 900;
             color: var(--text-dark);
             letter-spacing: -0.3px;
@@ -391,7 +393,7 @@
         }
 
         .input-label {
-            font-size: 9.5px;
+            font-size: 9px;
             font-weight: 800;
             color: var(--text-muted);
             text-transform: uppercase;
@@ -400,10 +402,10 @@
 
         .name-input {
             width: 100%;
-            padding: 9px;
+            padding: 8px;
             border-radius: 8px;
             border: 1.5px solid #cbd5e1;
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 700;
             outline: none;
             font-family: inherit;
@@ -413,7 +415,7 @@
             background: #f8fafc;
             border: 1px solid #e2e8f0;
             border-radius: 10px;
-            padding: 7px;
+            padding: 6px;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 5px;
@@ -434,7 +436,7 @@
         }
 
         .result-value {
-            font-size: 13px;
+            font-size: 12.5px;
             font-weight: 800;
             color: var(--primary-dark);
         }
@@ -443,10 +445,10 @@
             background: rgba(16, 185, 129, 0.1);
             color: #059669;
             border: 1px solid rgba(16, 185, 129, 0.2);
-            padding: 5px;
+            padding: 4px;
             border-radius: 8px;
             font-weight: 800;
-            font-size: 11.5px;
+            font-size: 11px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -457,21 +459,21 @@
             background: linear-gradient(135deg, rgba(37, 211, 102, 0.08) 0%, rgba(18, 140, 126, 0.12) 100%);
             border: 1px solid rgba(37, 211, 102, 0.3);
             border-radius: 10px;
-            padding: 7px;
+            padding: 6px;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
             text-align: center;
         }
 
         .whatsapp-title {
-            font-size: 11.5px;
+            font-size: 11px;
             font-weight: 800;
             color: #065f46;
         }
 
         .whatsapp-sub {
-            font-size: 9.5px;
+            font-size: 9px;
             color: #047857;
             margin-top: -2px;
         }
@@ -480,10 +482,10 @@
             background: linear-gradient(135deg, var(--whatsapp-color) 0%, var(--whatsapp-dark) 100%);
             color: white;
             border: none;
-            padding: 8px 10px;
+            padding: 7px 10px;
             border-radius: 8px;
             font-weight: 800;
-            font-size: 11.5px;
+            font-size: 11px;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(37, 211, 102, 0.25);
             display: flex;
@@ -498,10 +500,10 @@
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
             border: none;
-            padding: 9px 12px;
+            padding: 8px 12px;
             border-radius: 9px;
             font-weight: 800;
-            font-size: 12px;
+            font-size: 11.5px;
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
             display: flex;
@@ -607,7 +609,7 @@
     <!-- GAME OVER MODAL -->
     <div class="overlay" id="gameOver">
         <div class="modal-card">
-            <div style="font-size: 30px; color: #f59e0b;" id="modalTrophyIcon">
+            <div style="font-size: 28px; color: #f59e0b;" id="modalTrophyIcon">
                 <i class="fa-solid fa-trophy"></i>
             </div>
             <h2 class="modal-title" id="modalHeadingTitle" data-key="gameOverTitle">Test Completed!</h2>
@@ -620,7 +622,7 @@
             <div class="results-summary">
                 <div class="result-item">
                     <span class="result-label" data-key="playerLabel">Player</span>
-                    <span class="result-value" id="modalPlayerName" style="font-size: 11.5px;">Player</span>
+                    <span class="result-value" id="modalPlayerName" style="font-size: 11px;">Player</span>
                 </div>
                 <div class="result-item">
                     <span class="result-label" data-key="finalScoreLabel">Final Score</span>
@@ -640,7 +642,7 @@
                 <div class="whatsapp-title" data-key="waHeader">Need a professional checkup?</div>
                 <div class="whatsapp-sub" data-key="waSub">Book eye test on WhatsApp</div>
                 <a href="#" id="waBookBtn" target="_blank" class="btn-whatsapp">
-                    <i class="fa-brands fa-whatsapp" style="font-size: 14px;"></i>
+                    <i class="fa-brands fa-whatsapp" style="font-size: 13px;"></i>
                     <span data-key="waBtnText">Book Eye Checkup</span>
                 </a>
             </div>
