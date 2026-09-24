@@ -27,6 +27,9 @@
     <!-- Canvas Confetti Engine -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+    <!-- Vercel Analytics Script -->
+    <script defer src="/_vercel/insights/script.js"></script>
+
     <style>
         :root {
             --primary: #4f46e5;
@@ -894,7 +897,7 @@
             for (let i = 0; i < totalTiles; i++) {
                 const tile = document.createElement('div');
                 tile.className = 'tile';
-                tile.style.background = (i === targetIndex) ? targetCSS : baseCSS;
+                tile.style.backgroundColor = (i === targetIndex) ? targetCSS : baseCSS;
                 tile.addEventListener('click', () => handleTileClick(i));
                 colorGridEl.appendChild(tile);
             }
@@ -904,34 +907,34 @@
             if (!gameActive || isPaused) return;
 
             if (index === targetIndex) {
+                soundEngine.playCorrect();
+                triggerVibration(40);
                 score++;
                 scoreValEl.textContent = score;
-                soundEngine.playCorrect();
-                triggerVibration(30);
-                timeLeft = 100;
+                resetTimer();
                 renderGrid();
             } else {
-                handleWrongChoice();
+                soundEngine.playWrong();
+                triggerVibration([80, 80, 80]);
+                loseLife();
             }
         }
 
-        function handleWrongChoice() {
+        function loseLife() {
             lives--;
             updateHearts();
-            soundEngine.playWrong();
-            triggerVibration([50, 50, 50]);
-
             if (lives <= 0) {
                 endGame();
             } else {
-                timeLeft = Math.max(20, timeLeft - 25);
+                resetTimer();
+                renderGrid();
             }
         }
 
         function updateHearts() {
-            const heartElements = heartsValEl.querySelectorAll('.heart');
-            heartElements.forEach((heart, idx) => {
-                if (idx < lives) {
+            const heartEls = heartsValEl.querySelectorAll('.heart');
+            heartEls.forEach((heart, i) => {
+                if (i < lives) {
                     heart.classList.remove('lost');
                 } else {
                     heart.classList.add('lost');
@@ -940,46 +943,48 @@
         }
 
         function startTimer() {
-            if (timerInterval) clearInterval(timerInterval);
-
-            const tickRate = 50; 
-            const totalDuration = 5500; 
-            const decrementPerTick = (tickRate / totalDuration) * 100;
+            clearInterval(timerInterval);
+            timeLeft = 100;
+            const totalDuration = Math.max(3000, 10000 - (score * 150));
+            const intervalTime = 50;
+            const decrementStep = (intervalTime / totalDuration) * 100;
 
             timerInterval = setInterval(() => {
                 if (!gameActive || isPaused) return;
-
-                timeLeft -= decrementPerTick;
-                timerBarEl.style.width = Math.max(0, timeLeft) + '%';
+                timeLeft -= decrementStep;
+                timerBarEl.style.width = timeLeft + '%';
 
                 if (timeLeft <= 0) {
-                    handleWrongChoice();
-                    if (lives > 0) {
-                        timeLeft = 100;
-                        renderGrid();
-                    }
+                    soundEngine.playWrong();
+                    triggerVibration([100, 100]);
+                    loseLife();
                 }
-            }, tickRate);
+            }, intervalTime);
+        }
+
+        function resetTimer() {
+            startTimer();
         }
 
         function confirmStartGame() {
-            const inputVal = playerNameInput.value.trim();
-            if (inputVal) {
-                playerName = inputVal;
+            const val = playerNameInput.value.trim();
+            if (val) {
+                playerName = val;
             }
             startModal.classList.remove('active');
-            soundEngine.init();
-            initGame();
+            startGame();
         }
 
-        function initGame() {
+        function startGame() {
             score = 0;
+            level = 1;
             lives = 3;
-            timeLeft = 100;
+            scoreValEl.textContent = '0';
+            levelValEl.textContent = '1';
+            updateHearts();
             gameActive = true;
             isPaused = false;
-            scoreValEl.textContent = '0';
-            updateHearts();
+            pauseBtn.querySelector('i').className = 'fa-solid fa-pause';
             renderGrid();
             startTimer();
         }
@@ -988,7 +993,6 @@
             gameActive = false;
             clearInterval(timerInterval);
             soundEngine.playGameOver();
-            triggerVibration([100, 50, 100, 50, 150]);
 
             if (score > bestScore) {
                 bestScore = score;
@@ -1003,27 +1007,20 @@
 
             const evalTextEl = document.getElementById('modalEvaluationText');
             if (score >= 15) {
-                evalTextEl.textContent = currentLang === 'en' ? "Eagle Eye Vision 🦅" : "അതിശക്തമായ കാഴ്ച്ചശക്തി! 🦅";
-                confetti({
-                    particleCount: 100,
-                    spread: 70,
-                    origin: { y: 0.6 }
-                });
+                evalTextEl.textContent = i18n[currentLang].evalSuperior;
             } else {
-                evalTextEl.textContent = currentLang === 'en' ? "Practice More 🔍" : "കൂടുതൽ പ്രാക്ടീസ് ചെയ്യുക 🔍";
+                evalTextEl.textContent = i18n[currentLang].evalFair;
             }
 
-            const waMessage = currentLang === 'en' 
-                ? `👁️ *Color Vision Pro - Eye Checkup Booking*\n\n👤 *Name:* ${playerName}\n🏆 *Score:* ${score}\n📊 *Level:* ${level}\n\n_Hello Global Eye Hospital, I completed the challenge and would like to book a professional eye checkup!_`
-                : `👁️ *കണ്ണ് പരിശോധന അപ്പോയിന്റ്മെന്റ് - Color Vision Pro*\n\n👤 *പേര്:* ${playerName}\n🏆 *സ്‌കോർ:* ${score}\n📊 *ലെവൽ:* ${level}\n\n_ഹലോ ഗ്ലോബൽ ഐ ഹോസ്പിറ്റൽ, ഞാൻ കളർ വിഷൻ ടെസ്റ്റ് പൂർത്തിയാക്കിയതാണ്. കണ്ണ് പരിശോധിക്കുന്നതിനായി ഒരു അപ്പോയിന്റ്മെന്റ് ബുക്ക് ചെയ്യാൻ ആഗ്രഹിക്കുന്നു._`;
-            
-            waBookBtn.href = `https://wa.me/919947554477?text=${encodeURIComponent(waMessage)}`;
+            const waMsg = encodeURIComponent(`Hi Global Eye Hospital, I completed the Color Vision Challenge! Player: ${playerName}, Score: ${score}, Level: ${level}. I'd like to book an eye checkup.`);
+            waBookBtn.href = `https://wa.me/919495000000?text=${waMsg}`;
+
             gameOverModal.classList.add('active');
         }
 
         function restartGame() {
             gameOverModal.classList.remove('active');
-            initGame();
+            startGame();
         }
     </script>
 </body>
