@@ -594,7 +594,7 @@
             <p class="modal-desc" data-key="startModalDesc">Test your color perception sharpness by identifying the odd-colored tile in each grid!</p>
             
             <div class="input-group">
-                <label class="input-label" data-key="startModalHeading">ENTER YOUR NAME</label>
+                <label class="input-label" data-key="startModalHeading"></label>
                 <input type="text" class="name-input" id="playerNameInput" placeholder="Enter your name" maxlength="20">
             </div>
 
@@ -838,6 +838,16 @@
             }
         }
 
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
         function toggleLanguage() {
             currentLang = currentLang === 'en' ? 'ml' : 'en';
             document.getElementById('langToggleBtn').textContent = currentLang.toUpperCase();
@@ -993,6 +1003,7 @@
             gameActive = false;
             clearInterval(timerInterval);
             soundEngine.playGameOver();
+            triggerConfetti();
 
             if (score > bestScore) {
                 bestScore = score;
