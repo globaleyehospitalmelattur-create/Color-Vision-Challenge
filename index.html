@@ -594,7 +594,7 @@
             <p class="modal-desc" data-key="startModalDesc">Test your color perception sharpness by identifying the odd-colored tile in each grid!</p>
             
             <div class="input-group">
-                <label class="input-label" data-key="startModalHeading"></label>
+                <label class="input-label" data-key="startModalHeading">ENTER YOUR NAME</label>
                 <input type="text" class="name-input" id="playerNameInput" placeholder="Enter your name" maxlength="20">
             </div>
 
@@ -1012,7 +1012,7 @@
                 evalTextEl.textContent = i18n[currentLang].evalFair;
             }
 
-            const waMsg = encodeURIComponent(`Hi Global Eye Hospital, I completed the Color Vision Challenge! Player: ${playerName}, Score: ${score}, Level: ${level}. I'd like to book an eye checkup.`);
+            const waMsg = encodeURIComponent(`👁️ Color Vision Pro - Eye Checkup Booking\n\n👤 Name: ${playerName}\n🏆 Score: ${score}\n📊 Level: ${level}\n\nHello Global Eye Hospital, I completed the challenge and would like to book a professional eye checkup!`);
             waBookBtn.href = `https://wa.me/919619610807?text=${waMsg}`;
 
             gameOverModal.classList.add('active');
